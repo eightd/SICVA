@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<h:form>
+		<img src="images/logo-sicva.png" align="middle" width="80"
+			height="130" />
+		<br> </br>
+		<p:menubar>
+			<p:menuitem value="Inicio" url="secretaria.xhtml" icon="ui-icon-home" />
+
+			<f:facet name="options">
+				<p:commandButton value="Cerrar Sesión" icon="ui-icon-closethick"
+					action="#{ControladorLogin.cerrarSesion}" />
+			</f:facet>
+		</p:menubar>
+
+
+		<p:spacer height="50"></p:spacer>
+
+		<center>
+
+
+			<p:dataTable var="ver" value=" " emptyMessage="No Hay Registros"
+				style="font-size:11px;">
+
+
+				<f:facet name="header">
+					<p:outputPanel>
+
+						<h:outputText value="Buscar Docente:  " />
+						<p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()"
+							style="width:150px" placeholder="Ingrese Nombre" />
+						<p:spacer width="40"></p:spacer>
+						<p:spacer width="40"></p:spacer>
+						<p:spacer width="40"></p:spacer>
+						<p:spacer width="40"></p:spacer>
+						<p:commandButton value="Descargar Todo"
+							icon="ui-icon-circle-arrow-s" />
+
+					</p:outputPanel>
+				</f:facet>
+				<p:column headerText="Nombre" width="500">
+					<h:outputText value=" " />
+				</p:column>
+
+			
+				<p:column headerText="Modificar C.V" style="text-align:center;">
+					<p:commandButton value="Actualizar" icon="ui-icon-info" actionListener="index.jsf"></p:commandButton>
+				</p:column>
+
+				<p:column headerText="Descarga Zip " style="text-align:center;">
+					<p:commandButton icon="ui-icon-circle-arrow-s"></p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+
+
+
+		</center>
+
+	</h:form>
+
+
+
+
+
+</h:body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<h:form>
+		<img src="images/logo-sicva.png" align="middle" width="80"
+			height="130" />
+		<br> </br>
+
+		<p:menubar>
+
+
+
+
+
+			<f:facet name="options">
+				<h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();"
+					title="login">
+					<p:commandButton type="button" value="Iniciar Sesión"
+						icon="ui-icon-extlink" />
+				</h:outputLink>
+			</f:facet>
+		</p:menubar>
+
+		<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+
+		<p:dialog header="Iniciar Sesión" widgetVar="dlg" resizable="false"
+			modal="true" visible="false" showEffect="explode" hideEffect="explode" >
+			<h:panelGrid columns="2" cellpadding="5">
+
+				<h:outputLabel for="username" value="Usuario:" />
+				<p:inputText id="username" value="#{ControladorLogin.user}"
+					required="true" label="Usuario" />
+
+				<h:outputLabel for="password" value="Contraseña:" />
+				<p:password id="password" value="#{ControladorLogin.pwd}"
+					required="true" label="Contraseña:" />
+
+				<f:facet name="footer">
+					<p:commandButton value="Entrar" update="growl"
+						action="#{ControladorLogin.validate}" />
+				</f:facet>
+			</h:panelGrid>
+		</p:dialog>
+
+		<br></br>
+		<p:panel id="basic"
+			header="Bienvenido al Sistema Integrador de Currículum Vitae Académico"
+			footer="Direccion: Av. Ignacio Zaragoza #1, Centro, Calpulalpan, Tlax" style="margin-bottom:20px">
+			<h:panelGrid columns="1" cellpadding="10">
+
+
+				<img src="images/uamcc.jpg" width="1250" height="400" />
+
+				<p>
+				A pesar de la existencia en la Unidad Académica Multidisciplinaria Campus Calpulalpan de un servicio dotado de tecnologías de la información y un sistema integral de información administrativa; no se cuenta con un sistema que tenga como principal funcionalidad gestionar los Curriculum Vitae de los docentes.
+				</p>
+				<br/>
+				<p>
+				Aquí se podrá administrar, gestionar y generar un reporte en PDF con un formato específico de esta institución, haciendo estos procesos más fáciles tanto para docentes como personal administrativo.
+				</p>
+				<br/>
+				<p>
+				Para un mejor entendimiento del funcionamiento de este software en los diferentes módulos se contara con una breve explicación de lo que se puede hacer en dicho modulo. 
+				</p>
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+
+	<script type="text/javascript">
+		function handleLoginRequest(xhr, status, args) {
+			if (args.validationFailed || !args.loggedIn) {
+				PF('dlg' || 'dgl1').jq.effect("shake", {
+					times : 5
+				}, 100);
+			} else {
+				PF('dlg' || 'dgl1').hide();
+				$('#loginLink').fadeOut();
+			}
+
+		}
+	</script>
+</h:body>
+</html>

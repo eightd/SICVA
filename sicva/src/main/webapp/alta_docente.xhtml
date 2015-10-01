@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+
+
+	<h:form>
+		<img src="images/logo-sicva.png" align="middle" width="80"
+			height="130" />
+		<br> </br>
+		<p:menubar>
+			<p:menuitem value="Inicio" url="secretaria.xhtml"
+				icon="ui-icon-home" />
+
+			<f:facet name="options">
+				<p:commandButton value="Cerrar Sesión" icon="ui-icon-closethick"
+					 action="#{ControladorLogin.cerrarSesion}" />
+			</f:facet>
+		</p:menubar>
+
+
+		<p:spacer height="50"></p:spacer>
+		<center>
+		<p:panel>
+
+		<p:panelGrid id="matchGrid" columns="2" columnClasses="center">
+			<f:facet name="header">Registrar Docente
+				
+					</f:facet>
+
+            <p:outputLabel value="* Usuario:"></p:outputLabel>
+			<p:inputText maxlength="20"></p:inputText>
+
+			<p:outputLabel value="* Nombre:"></p:outputLabel>
+			<p:inputText maxlength="20"></p:inputText>
+
+            <p:outputLabel value="* Apellido Paterno:"></p:outputLabel>
+			<p:inputText maxlength="20"></p:inputText>
+            
+            <p:outputLabel value="* Apellido Materno:"></p:outputLabel>
+			<p:inputText maxlength="20"></p:inputText>
+           
+           
+            <p:outputLabel value="* Contraseña:"></p:outputLabel>
+			<p:password></p:password>
+			
+			<p:commandButton value="Cancelar" action="index.xhtml" process="@this"></p:commandButton>
+			<p:commandButton value="Aceptar"></p:commandButton>
+
+		</p:panelGrid>
+</p:panel>
+
+</center>
+
+
+
+	</h:form>
+
+</h:body>
+</html>
