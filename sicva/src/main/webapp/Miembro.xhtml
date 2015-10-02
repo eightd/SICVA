@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<h:form id="form">
+		<p:growl id="msj" showDetail="true" sticky="true" />
+		<img src="images/logo-sicva.png" align="middle" width="80"
+			height="130" />
+		<br> </br>
+
+		<p:menubar>
+
+			<p:menuitem value="Inicio" url="Principal.xhtml"
+				icon="ui-icon-home" />
+
+			<p:submenu label="Registro Curriculum Vitae" icon="ui-icon-document">
+				<p:submenu label="Sección" icon="ui-icon-contact">
+					<p:menuitem value="Datos Personales" url="DatosPersonales.xhtml" />
+					<p:menuitem value="Escolaridad" url="Escolaridad.xhtml" />
+					<p:menuitem value="Experiencia Laboral"
+						url="ExperienciaLaboral.xhtml" />
+					<p:menuitem value="Ponencias Impartidas" url="Ponencias.xhtml" />
+					<p:menuitem value="Asistencia a Cursos"
+						url="AsistenciaCursos.xhtml" />
+					<p:menuitem value="Comisiones" url="Comisiones.xhtml" />
+					<p:menuitem value="Publicaciones" url="Publicaciones.xhtml" />
+					<p:menuitem value="Miembro de Organización" url="Miembro.xhtml" />
+					<p:menuitem value="Asesoría de Tesis" url="Tesis.xhtml" />
+					<p:menuitem value="Sinodal" url="Sinodal.xhtml" />
+
+				</p:submenu>
+
+			</p:submenu>
+
+			
+			<p:menuitem value="Anterior" url="Publicaciones.xhtml"
+				icon="ui-icon-arrowreturnthick-1-w" />
+			<p:menuitem value="Siguiente" url="Tesis.xhtml"
+				icon="ui-icon-arrowreturnthick-1-e" />
+
+
+			<f:facet name="options">
+				<p:commandButton value="Cerrar Sesión" icon="ui-icon-closethick"
+					action="#{ControladorLogin.cerrarSesion}" />
+			</f:facet>
+
+		</p:menubar>
+
+
+		<br />
+
+
+		<!-- FORMULARIO -->
+
+		<p:panel id="basic" header="Miembro de organización" style="margin-bottom:20px">
+
+			<p:commandButton value="Agregar" onclick="PF('dlg').show();"
+				type="button" icon="ui-icon-pencil"
+				style="float:right; font-size:12px;" />
+			<br />
+			<br />
+
+			<!-- TABLA -->
+
+			<p:dataTable var="datos" value="#{Miembro.lista}" id="tb"
+				emptyMessage="No hay registros...">
+
+				<p:column headerText="ID"
+					style="width:0px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.id}" />
+				</p:column>
+
+				<p:column headerText="Periodo"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.periodo}" />
+				</p:column>
+
+				<p:column headerText="Organización"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.organizacion}" />
+				</p:column>
+
+				<p:column headerText="Nombramiento"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.nombramiento}" />
+				</p:column>
+
+
+				<p:column headerText="Modificar"
+					style="width:5px;text-align: center;font-size:12px"
+					exportable="false">
+					<p:commandButton oncomplete="PF('d').show();" update=":form:d"
+						action="#{Miembro.actualizarDemo(datos)}" icon="ui-icon-pencil">
+					</p:commandButton>
+				</p:column>
+
+				<p:column headerText="Eliminar"
+					style="width:5px;text-align: center;font-size:12px"
+					exportable="false">
+					<p:commandButton update=":form" icon="ui-icon-trash"
+						action="#{Miembro.eliminar}">
+						<f:setPropertyActionListener
+							target="#{Miembro.licSeleccionada}" value="#{datos}" />
+						<p:confirm header="Confirmación" message="¿Estas seguro?"
+							icon="ui-icon-alert" />
+
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+		</p:panel>
+
+		<!-- AGREGAR NUEVA LICENCIATURA (Pantalla emergente)-->
+
+		<p:dialog header="MIEMBRO DE ORGANIZACIÓN" showEffect="explode" modal="true"
+			hideEffect="explode" widgetVar="dlg">
+
+			<h:panelGrid columns="2" cellpadding="5">
+
+				<h:outputLabel value="* Periodo" />
+				<p:inputText requiered="true"
+					value="#{Miembro.miembroDTO.periodo}" />
+
+				<h:outputLabel value="* Organización" />
+				<p:inputText requiered="true"
+					value="#{Miembro.miembroDTO.organizacion}" />
+
+
+				<h:outputLabel value="* Nombramiento" />
+				<p:inputText requiered="true"
+					value="#{Miembro.miembroDTO.nombramiento}" />
+
+				<p:commandButton value="Guardar" icon="ui-icon-disk"
+					update="msj,@form" action="#{Miembro.guardar}" />
+
+
+			</h:panelGrid>
+		</p:dialog>
+		<!-- ACTUALIZAR LICENCIATURA (Pantalla emergente)-->
+
+		<p:dialog header="Actualizar MIEMBRO DE ORGANIZACIÓN" showEffect="explode"
+			modal="true" hideEffect="explode" widgetVar="d" id="d">
+
+			<h:panelGrid columns="2" cellpadding="5">
+
+				<h:outputLabel value="* Periodo" />
+				<p:inputText value="#{Miembro.licSeleccionada.periodo}" />
+
+				<h:outputLabel value="* Organización" />
+				<p:inputText value="#{Miembro.licSeleccionada.organizacion}" />
+
+				<h:outputLabel value="* Nombramiento" />
+				<p:inputText value="#{Miembro.licSeleccionada.nombramiento}" />
+
+
+
+				<p:commandButton value="Guardar" icon="ui-icon-disk"
+					update="msj,@form" action="#{Miembro.actualizar}" />
+			</h:panelGrid>
+		</p:dialog>
+
+		<!-- ELIMINAR LICENCIATURA (Pantalla emergente)-->
+
+		<p:confirmDialog global="true" showEffect="explode" modal="true"
+			hideEffect="explode">
+
+			<p:commandButton value="Si" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="No" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+
+
+
+	</h:form>
+
+
+</h:body>
+</html>
