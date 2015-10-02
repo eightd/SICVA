@@ -5,6 +5,7 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 <script type="text/javascript" src="js/validaciones.js"></script>
+<script type="text/javascript" src="js/GenerarUsuarios.js"></script>
 </h:head>
 <h:body>
 	<h:form id="form">
@@ -117,11 +118,11 @@
 
 					<h:outputLabel for="usua" value=" * Usuario: " />
 					<p:inputText id="usua" label="usua" value="#{Usuarios.usu.usuario}" onkeypress="return numYletras(event)"
-						maxlength="15" />
+						maxlength="15"/>
 
 					<h:outputLabel for="cont" value="* Contraseña: " />
 					<p:inputText id="cont" label="cont" value="#{Usuarios.usu.contra}" onkeypress="return numYletras(event)"
-						maxlength="15" />
+						maxlength="15"  />
 
 					<h:outputLabel for="lic" value="* Licenciatura: " />
 					<p:selectOneMenu id="lic" value="#{Usuarios.usu.idlic}">
@@ -137,6 +138,8 @@
 
 					<p:commandButton value="Guardar" icon="ui-icon-disk"
 						update="msj,@form" action="#{Usuarios.guardar}" />
+						
+						<p:commandButton value="Generar Usuario" icon="ui-icon-disk" onclick="valid(this.form)"/>
 
 				</h:panelGrid>
 			</p:dialog>
