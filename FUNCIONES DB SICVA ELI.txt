@@ -63,29 +63,26 @@ SELECT COUNT(*) INTO contador FROM licenciaturas
 /////////////////////////////////////////////////////////////////
 
 DROP FUNCTION IF EXISTS sicva.insertar_usuario;
-CREATE FUNCTION sicva.`insertar_usuario`(Nombre VARCHAR(45),AP VARCHAR(45), AM VARCHAR(45),Usuario VARCHAR(45),
-contra VARCHAR(45), Id_lic int(11),RolId int(11)) 
+CREATE FUNCTION sicva.`insertar_usuario`(MiNombre VARCHAR(45),AP VARCHAR(45), AM VARCHAR(45),MiUsuario VARCHAR(45),
+contra VARCHAR(45), MiIdlic int(11),MiRolId int(11)) 
 RETURNS int(11)
 BEGIN
   DECLARE contador INT;
   
     SELECT COUNT(*) INTO contador FROM usuarios
-    WHERE nombre=Nombre AND apellido_paterno=AP AND apellido_materno=AM AND usuario=Usuario 
-    AND contrasenia=contra AND contrasenia_estado=0 AND estado=1  AND id_lic=Id_lic AND roles_id_rol=RolId;
+    WHERE nombre=MiNombre AND apellido_paterno=AP AND apellido_materno=AM AND usuario=MiUsuario 
+    AND contrasenia=contra AND contrasenia_estado=0 AND estado=1  AND id_lic=MiIdlic AND roles_id_rol=MiRolId;
     IF(contador>0)THEN
     RETURN 0;
     ELSE
     
     INSERT INTO usuarios(nombre,apellido_paterno,apellido_materno,usuario,contrasenia,
     contrasenia_estado, estado,id_lic,roles_id_rol)
-    VALUES(UPPER (Nombre),UPPER (AP),UPPER (AM),UPPER (Usuario),UPPER (contra),0,
-           1,Id_lic,RolId);
+    VALUES(UPPER (MiNombre),UPPER (AP),UPPER (AM),UPPER (MiUsuario),UPPER (contra),0,
+           1,MiIdlic,MiRolId);
     RETURN 1;
     END IF;
 END;
-
-select insertar_usuario('elizabeth','espinoza','garcia','eespinozag','eespinozag',1,2);
-select insertar_usuario('esbeidi','rodriguez','ramirez','erodriguezr','erodriguezr',1,3);
 
 /////////////////////////////////////////////////////////////////
 /*Funcion para eliminar datos de la tabla de usuario*/
