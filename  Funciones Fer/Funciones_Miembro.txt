@@ -1,0 +1,121 @@
+------------------------------------------------------------------
+--  FERNANDO TORRES COVA
+------------------------------------------------------------------
+
+
+------------------------------------------------------------------
+--  FUNCTION insertar_miembro
+------------------------------------------------------------------
+
+CREATE DEFINER = `root` @`localhost`
+FUNCTION `insertar_miembro`(MiPeriodo         VARCHAR(45),
+                            MiOrganizacion    VARCHAR(80),
+                            MiNombramiento    VARCHAR(45),
+                            MiEvidencia       LONGBLOB,
+                            IdModifica        INT(11),
+                            IdLicenciatura    INT(11),
+                            MiIdUsuario       INT(11))
+   RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM miembros_de_organizaciones
+          WHERE     periodo = MiPeriodo
+          AND organizacion = MiOrganizacion
+          AND nombramiento = MiNombramiento
+          AND id_lic_inscrita = IdLicenciatura
+          AND usuarios_id_usuarios = MiIdUsuario;
+
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+      INSERT INTO miembros_de_organizaciones(periodo,
+                                             organizacion,
+                                             nombramiento,
+                                             evidencia,
+                                             id_usuario_modificacion,
+                                             id_lic_inscrita,
+                                             usuarios_id_usuarios)
+           VALUES (UPPER(MiPeriodo),
+                   UPPER(MiOrganizacion),
+                   UPPER(MiNombramiento),
+                   MiEvidencia,
+                   IdModifica,
+                   IdLicenciatura,
+                   MiIdUsuario);
+
+      RETURN 1;
+   END IF;
+END
+
+
+------------------------------------------------------------------
+--  FUNCTION eliminar_miembro
+------------------------------------------------------------------
+
+CREATE DEFINER = `root` @`localhost`
+FUNCTION `eliminar_miembro`(MiId int(11))
+   RETURNS int(11)
+BEGIN
+   DELETE FROM miembros_de_organizaciones
+         WHERE id_miembro = MiId;
+
+   RETURN 1;
+END
+
+
+------------------------------------------------------------------
+--  FUNCTION actualizar_miembro
+------------------------------------------------------------------
+
+CREATE DEFINER = `root` @`localhost`
+FUNCTION `actualizar_miembro`(MiId              int(11),
+                              MiPeriodo         VARCHAR(45),
+                              MiOrganizacion    VARCHAR(80),
+                              MiNombramiento    VARCHAR(45),
+                              MiEvidencia       LONGBLOB,
+                              IdModifica        INT(11),
+                              IdLicenciatura    INT(11),
+                              MiIdUsuario       INT(11))
+   RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM miembros_de_organizaciones
+          WHERE     periodo = MiPeriodo
+          AND organizacion = MiOrganizacion
+          AND nombramiento = MiNombramiento
+          AND id_lic_inscrita = IdLicenciatura
+          AND usuarios_id_usuarios = MiIdUsuario;
+
+
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+      UPDATE miembros_de_organizaciones
+         SET periodo = UPPER(MiPeriodo),
+             organizacion = UPPER(MiOrganizacion),
+             nombramiento = UPPER(MiNombramiento),
+             evidencia = MiEvidencia,
+             id_usuario_modificacion = IdModifica,
+             id_lic_inscrita = IdLicenciatura,
+             usuarios_id_usuarios = MiIdUsuario
+       WHERE id_miembro = MiId;
+
+
+
+      RETURN 1;
+   END IF;
+END
+
+
+
+

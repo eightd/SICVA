@@ -1,0 +1,133 @@
+------------------------------------------------------------------
+--  FERNANDO TORRES COVA
+------------------------------------------------------------------
+
+
+------------------------------------------------------------------
+--  FUNCTION insertar_comisiones
+------------------------------------------------------------------
+
+CREATE DEFINER = `root` @`localhost`
+FUNCTION `insertar_comisiones`(MiFecha            DATE,
+                               MiEvento           VARCHAR(80),
+                               MiInstitucion      VARCHAR(80),
+                               MiLugar            VARCHAR(50),
+                               MiParticipacion    VARCHAR(150),
+                               MiEvidencia        LONGBLOB,
+                               IdModifica         INT(11),
+                               IdLicenciatura     INT(11),
+                               MiIdUsuario        INT(11))
+   RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM comisiones
+          WHERE     fecha = MiFecha
+          AND evento = MiEvento
+          AND institucion = MiInstitucion
+          AND lugar = MiLugar
+          AND participacion = MiParticipacion
+          AND id_lic_inscrita = IdLicenciatura
+          AND usuarios_id_usuarios = MiIdUsuario;
+
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+      INSERT INTO comisiones(fecha,
+                             evento,
+                             institucion,
+                             lugar,
+                             participacion,
+                             evidencia,
+                             id_usuario_modificacion,
+                             id_lic_inscrita,
+                             usuarios_id_usuarios)
+           VALUES (MiFecha,
+                   UPPER(MiEvento),
+                   UPPER(MiInstitucion),
+                   UPPER(MiLugar),
+                   UPPER(MiParticipacion),
+                   MiEvidencia,
+                   IdModifica,
+                   IdLicenciatura,
+                   MiIdUsuario);
+
+      RETURN 1;
+   END IF;
+END
+
+
+------------------------------------------------------------------
+--  FUNCTION eliminar_comisiones
+------------------------------------------------------------------
+
+CREATE DEFINER = `root` @`localhost`
+FUNCTION `eliminar_comisiones`(MiId int(11))
+   RETURNS int(11)
+BEGIN
+   DELETE FROM comisiones
+         WHERE id_comision = MiId;
+
+   RETURN 1;
+END
+
+
+------------------------------------------------------------------
+--  FUNCTION actualizar_comisiones
+------------------------------------------------------------------
+
+CREATE DEFINER = `root` @`localhost`
+FUNCTION `actualizar_comisiones`(MiId               int(11),
+                                 MiFecha            DATE,
+                                 MiEvento           VARCHAR(80),
+                                 MiInstitucion      VARCHAR(80),
+                                 MiLugar            VARCHAR(50),
+                                 MiParticipacion    VARCHAR(150),
+                                 MiEvidencia        LONGBLOB,
+                                 IdModifica         INT(11),
+                                 IdLicenciatura     INT(11),
+                                 MiIdUsuario        INT(11))
+   RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM comisiones
+          WHERE     fecha = MiFecha
+          AND evento = MiEvento
+          AND institucion = MiInstitucion
+          AND lugar = MiLugar
+          AND participacion = MiParticipacion
+          AND id_lic_inscrita = IdLicenciatura
+          AND usuarios_id_usuarios = MiIdUsuario;
+
+
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+      UPDATE comisiones
+         SET fecha = MiFecha,
+             evento = UPPER(MiEvento),
+             institucion = UPPER(MiInstitucion),
+             lugar = UPPER(MiLugar),
+             participacion = UPPER(MiParticipacion),
+             evidencia = MiEvidencia,
+             id_usuario_modificacion = IdModifica,
+             id_lic_inscrita = IdLicenciatura,
+             usuarios_id_usuarios = MiIdUsuario
+       WHERE id_comision = MiId;
+
+
+
+      RETURN 1;
+   END IF;
+END
+
+
