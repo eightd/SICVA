@@ -3,13 +3,13 @@ package com.eightdevelopers.sicva.dto;
 import java.io.Serializable;
 
 /**
- * DTO correspondiente a la tabla 'licenciaturas' de la Base de Datos 'SICVA'
+ * DTO correspondiente a la tabla 'roles' de la Base de Datos 'SICVA'
  * 
  * @author Toxik
  *
  */
 
-public class LicenciaturaDTO implements Serializable {
+public class RolesDTO implements Serializable {
 
 	/**
 	 * 

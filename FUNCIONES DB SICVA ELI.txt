@@ -1,0 +1,197 @@
+/////////////////////////////////////////////////////////////////
+/*Función para insertar una licenciatura*/
+/////////////////////////////////////////////////////////////////
+DROP FUNCTION IF EXISTS sicva.insertar_licenciatura;
+CREATE FUNCTION sicva.`insertar_licenciatura`(MiDescripcion VARCHAR(45)) RETURNS int(11)
+BEGIN
+  DECLARE contador INT;
+ 
+  
+    SELECT COUNT(*) INTO contador FROM licenciaturas 
+    WHERE descripcion = MiDescripcion AND estado=1;
+    IF(contador>0)THEN
+    RETURN 0;ELSE
+    
+    INSERT INTO licenciaturas(descripcion,estado)
+    VALUES(UPPER (MiDescripcion),1);
+    RETURN 1;
+    END IF;
+END;
+
+select insertar_licenciatura('derecho');
+select * FROM licenciaturas;
+
+   
+/////////////////////////////////////////////////////////////////
+/*Funcion para eliminar datos de la tabla de licenciaturas*/
+////////////////////////////////////////////////////////////////
+
+DROP FUNCTION IF EXISTS sicva.eliminar_licenciatura;
+CREATE FUNCTION sicva.`eliminar_licenciatura`(MiId int(11)) RETURNS int(11)
+BEGIN
+    
+    UPDATE licenciaturas SET estado=0 WHERE id_licenciatura=MiId;
+    
+    RETURN 1;
+
+END;
+
+
+select * from licenciaturas;
+UPDATE licenciaturas SET estado=0 WHERE id_licenciatura=MiId;
+
+/////////////////////////////////////////////////////////////////
+/*Funcion para actualizar datos de la tabla de licenciaturas*/
+////////////////////////////////////////////////////////////////
+
+DROP FUNCTION IF EXISTS sicva.actualizar_licenciatura;
+CREATE FUNCTION sicva.`actualizar_licenciatura`(MiId int(11),MiDescripcion VARCHAR(45)) RETURNS int(11)
+BEGIN
+ DECLARE contador INT;
+SELECT COUNT(*) INTO contador FROM licenciaturas 
+    WHERE descripcion = MiDescripcion AND estado=1;
+    IF(contador>0)THEN
+    RETURN 0;ELSE
+    UPDATE licenciaturas SET descripcion=UPPER(MiDescripcion)
+    WHERE id_licenciatura=MiId;
+    RETURN 1;
+    END IF;
+ END;
+
+/////////////////////////////////////////////////////////////////
+/*Función para insertar usuarios a la tabla usuarios*/
+/////////////////////////////////////////////////////////////////
+
+DROP FUNCTION IF EXISTS sicva.insertar_usuario;
+CREATE FUNCTION sicva.`insertar_usuario`(Nombre VARCHAR(45),AP VARCHAR(45), AM VARCHAR(45),Usuario VARCHAR(45),
+contra VARCHAR(45), Id_lic int(11),RolId int(11)) 
+RETURNS int(11)
+BEGIN
+  DECLARE contador INT;
+  
+    SELECT COUNT(*) INTO contador FROM usuarios
+    WHERE nombre=Nombre AND apellido_paterno=AP AND apellido_materno=AM AND usuario=Usuario 
+    AND contrasenia=contra AND contrasenia_estado=0 AND estado=1  AND id_lic=Id_lic AND roles_id_rol=RolId;
+    IF(contador>0)THEN
+    RETURN 0;
+    ELSE
+    
+    INSERT INTO usuarios(nombre,apellido_paterno,apellido_materno,usuario,contrasenia,
+    contrasenia_estado, estado,id_lic,roles_id_rol)
+    VALUES(UPPER (Nombre),UPPER (AP),UPPER (AM),UPPER (Usuario),UPPER (contra),0,
+           1,Id_lic,RolId);
+    RETURN 1;
+    END IF;
+END;
+
+select insertar_usuario('elizabeth','espinoza','garcia','eespinozag','eespinozag',1,2);
+select insertar_usuario('esbeidi','rodriguez','ramirez','erodriguezr','erodriguezr',1,3);
+
+/////////////////////////////////////////////////////////////////
+/*Funcion para eliminar datos de la tabla de usuario*/
+////////////////////////////////////////////////////////////////
+DROP FUNCTION IF EXISTS sicva.eliminar_usuario;
+CREATE FUNCTION sicva.`eliminar_usuario`(MiId int(11)) RETURNS int(11)
+BEGIN
+    
+    UPDATE usuarios SET estado=0 WHERE id_usuarios=MiId;
+    
+    RETURN 1;
+
+END;
+
+
+select * from usuarios;
+ UPDATE usuarios SET estado=0 WHERE id_usuarios=2;
+
+
+/////////////////////////////////////////////////////////////////
+/*Funcion para actualizar datos de la tabla de usuarios*/
+////////////////////////////////////////////////////////////////
+DROP FUNCTION IF EXISTS sicva.actualizar_usuario;
+CREATE FUNCTION sicva.`actualizar_usuario`(MiId int(11),MiNombre VARCHAR(45),AP VARCHAR(45), AM VARCHAR(45), 
+MiIdlic int(11),MiRolId int(11)) 
+RETURNS int(11)
+BEGIN
+  DECLARE contador INT;
+    SELECT COUNT(*) INTO contador FROM usuarios
+    WHERE nombre=MiNombre AND apellido_paterno=AP AND apellido_materno=AM AND id_lic=MiIdlic 
+    AND roles_id_rol=MiRolId;
+    IF(contador>0)THEN
+    RETURN 0;
+    ELSE
+    UPDATE usuarios SET nombre=UPPER (MiNombre),apellido_paterno=UPPER (AP),
+    apellido_materno=UPPER (AM),id_lic=MiIdlic,roles_id_rol=MiRolId
+    WHERE id_usuarios=MiId;
+    RETURN 1;
+    END IF;
+END;
+
+/////////////////////////////////////////////////////////////////
+/*Consulta listar datos de la tabla de usuarios*/
+////////////////////////////////////////////////////////////////
+
+SELECT usuarios.id_usuarios,usuarios.nombre,usuarios.apellido_paterno,usuarios.apellido_materno,usuarios.usuario,
+usuarios.contrasenia,usuarios.contrasenia_estado,usuarios.id_lic,licenciaturas.descripcion,
+usuarios.roles_id_rol,roles.descripcion,
+	usuarios.estado FROM usuarios
+INNER JOIN licenciaturas ON usuarios.id_lic = licenciaturas.id_licenciatura
+INNER JOIN roles ON usuarios.roles_id_rol = roles.id_rol WHERE usuarios.estado=1;
+
+
+
+
+
+DROP FUNCTION IF EXISTS sicva.actualizar_usuario;
+CREATE FUNCTION sicva.`actualizar_usuario`(MiId int(11),MiNombre VARCHAR(45),AP VARCHAR(45), AM VARCHAR(45), 
+Id_lic int(11),RolId int(11)) 
+RETURNS int(11)
+BEGIN
+  DECLARE contador INT;
+    SELECT COUNT(*) INTO contador FROM usuarios
+    WHERE nombre=MiNombre AND apellido_paterno=AP AND apellido_materno=AM AND id_lic=Id_lic 
+    AND roles_id_rol=RolId;
+    IF(contador>0)THEN
+    RETURN 0;
+    ELSE
+    UPDATE usuarios SET nombre=UPPER (MiNombre),apellido_paterno=UPPER (AP),
+    apellido_materno=UPPER (AM),id_lic=Id_lic,roles_id_rol=RolId
+    WHERE id_usuarios=MiId;
+    RETURN 1;
+    END IF;
+END;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
