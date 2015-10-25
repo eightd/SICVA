@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<h:outputScript library="js" name="GenerarUsuarios.js" />
+	<h:outputScript library="js" name="validaciones.js" />
+
+	<h:form id="form">
+		<img src="images/logo-sicva.png" align="middle" width="80"
+			height="130" />
+		<br> </br>
+		<p:menubar>
+			<p:menuitem value="Inicio" url="Principal.xhtml" icon="ui-icon-home" />
+			<p:menuitem value="Registrar Docente" url="alta_docente.xhtml"
+				icon="ui-icon-person" />
+			<p:menuitem value="Vincular Docente" url="vincular_docente.xhtml"
+				icon="ui-icon-transfer-e-w" />
+			<p:menuitem value="Cambiar Contraseña" url="contrasenia.xhtml"
+				icon="ui-icon-locked" />
+			<p:menuitem value="Ver Curriculum Vitae" url="ver_cv.xhtml"
+				icon="ui-icon-document" />
+			<f:facet name="options">
+				<p:commandButton value="Cerrar Sesión" icon="ui-icon-closethick"
+					action="#{ControladorLogin.cerrarSesion}" process="@this" />
+			</f:facet>
+		</p:menubar>
+		<br />
+		<!-- FORMULARIO -->
+		<p:panel id="basic" header="Control de Docentes"
+			style="margin-bottom:20px">
+
+			<p:commandButton value="Agregar" onclick="PF('nuevo').show();"
+				type="button" icon="ui-icon-pencil"
+				style="float:right; font-size:12px;" />
+			<br />
+			<br />
+			<!-- TABLA -->
+			<p:dataTable var="datos" value="#{Docentes.listadocen}" id="tb"
+				emptyMessage="No hay registros..."
+				filteredValue="#{Docentes.filtros}">
+
+				<p:column headerText="Nombre"
+					style="width:32px;text-align: center;font-size:11px"
+					filterBy="#{datos.nombre}" filterMatchMode="contains">
+					<h:outputText value="#{datos.nombre}" />
+				</p:column>
+
+				<p:column headerText="Apellido Paterno"
+					style="width:32px;text-align: center;font-size:11px"
+					filterBy="#{datos.ap}" filterMatchMode="contains">
+					<h:outputText value="#{datos.ap}" />
+				</p:column>
+
+				<p:column headerText="Apellido Materno"
+					style="width:32px;text-align: center;font-size:11px"
+					filterBy="#{datos.am}" filterMatchMode="contains">
+					<h:outputText value="#{datos.am}" />
+				</p:column>
+
+				<p:column headerText="Usuario"
+					style="width:32px;text-align: center;font-size:11px">
+					<h:outputText value="#{datos.usuario}" />
+				</p:column>
+
+				<p:column headerText="Modificar"
+					style="width:6px;text-align: center;font-size:10px"
+					exportable="false">
+					<p:commandButton oncomplete="PF('modificar').show();"
+						update=":form:modificar"
+						action="#{Docentes.actualizarDemo(datos)}" icon="ui-icon-pencil"
+						process="@this">
+					</p:commandButton>
+				</p:column>
+				
+				<p:column headerText="Eliminar"
+					style="width:3px;text-align: center;font-size:10px"
+					exportable="false">
+					<p:commandButton update=":form" icon="ui-icon-trash"
+						action="#{Docentes.eliminar}" process="@this">
+						<f:setPropertyActionListener target="#{Docentes.docenteSeleccionado}"
+							value="#{datos}" />
+						<p:confirm header="Confirmación" message="¿Estas seguro?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+				</p:column>
+				
+				<p:column headerText="Resetear Contraseña"
+					style="width:8px;text-align: center;font-size:10px"
+					exportable="false">
+					<p:commandButton update=":form" icon="ui-icon-refresh"
+						action="#{Docentes.reset}" process="@this">
+						<f:setPropertyActionListener target="#{Docentes.docenteSeleccionado}"
+							value="#{datos}" />
+						<p:confirm header="Confirmación" message="¿Estas seguro?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+
+<!-- AGREGAR DOCENTE(PANTALLA EMERGENTE)-->
+		<center>
+			<p:dialog header="Nuevo Docente" widgetVar="nuevo" id="nuevo" focus="nombre">
+				<p:growl id="msj" showDetail="true" sticky="false" life="1000" />
+				<h:panelGrid columns="2" cellpadding="5">
+
+					<h:outputLabel for="nombre" value="* Nombre:" />
+					<p:inputText id="nombre" label="nombre"
+						value="#{Docentes.docente.nombre}" maxlength="20"
+						onkeypress="return soloLetras(event)" required="true" />
+
+					<h:outputLabel for="apater" value="* Apellido Paterno: " />
+					<p:inputText id="apater" label="apater"
+						value="#{Docentes.docente.ap}" maxlength="20"
+						onkeypress="return soloLetras(event)" required="true" />
+
+					<h:outputLabel for="amater" value="* Apellido Materno: " />
+					<p:inputText id="amater" label="amater"
+						value="#{Docentes.docente.am}" maxlength="20"
+						onkeypress="return soloLetras(event)" onblur="valid(this.form)"
+						required="true" />
+
+					<h:outputLabel for="usua" value=" * Usuario: " />
+					<p:inputText id="usua" label="usua"
+						readonly="#{facesContext.renderResponse}"
+						value="#{Docentes.docente.usuario}" maxlength="15" required="true" />
+
+					<h:outputLabel for="cont" value="* Contraseña: " />
+					<p:inputText id="cont" readonly="#{facesContext.renderResponse}"
+						label="cont" value="#{Docentes.docente.contra}" maxlength="15"
+						required="true" />
+
+					<p:commandButton value="Guardar" icon="ui-icon-disk"
+						update="msj,@form" action="#{Docentes.guardar}"
+						process="@this form:nuevo" />
+					<h:outputLabel value="Nota: * Campos obligatorios" />
+				</h:panelGrid>
+			</p:dialog>
+		</center>
+<!--MODIFICAR DOCENTE-->
+		<center>
+			<p:dialog header="Actualizar Docente" showEffect="explode"
+				modal="true" hideEffect="explode" widgetVar="modificar"
+				id="modificar">
+
+				<h:panelGrid columns="2">
+					<h:outputLabel for="nom" value="* Nombre:" />
+					<p:inputText id="nom" label="nom"
+						value="#{Docentes.docenteSeleccionado.nombre}" maxlength="20"
+						onkeypress="return soloLetras(event)" required="true" />
+
+					<h:outputLabel for="ap" value="* A. Paterno: " />
+					<p:inputText id="ap" label="ap"
+						value="#{Docentes.docenteSeleccionado.ap}" maxlength="20"
+						onkeypress="return soloLetras(event)" required="true" />
+
+					<h:outputLabel for="am" value="* A. Materno: " />
+					<p:inputText id="am" label="am"
+						value="#{Docentes.docenteSeleccionado.am}" maxlength="20"
+						onkeypress="return soloLetras(event)" required="true" />
+
+					<p:commandButton value="Guardar" icon="ui-icon-disk"
+						update="msj,@form" action="#{Docentes.actualizar}"
+						process="@this form:modificar" />
+					<h:outputLabel value="Nota: * Campos obligatorios" />
+				</h:panelGrid>
+			</p:dialog>
+		</center>
+<!-- ELIMINAR DOCENTE (Pantalla emergente)-->
+		<p:confirmDialog global="true" showEffect="explode" modal="true"
+			hideEffect="explode">
+
+			<p:commandButton value="Si" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="No" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+
+	</h:form>
+</h:body>
+</html>

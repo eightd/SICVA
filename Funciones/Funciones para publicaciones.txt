@@ -1,0 +1,136 @@
+------------------------------------------------------------------
+
+--  FUNCTION insertar_publicaciones
+
+------------------------------------------------------------------
+
+
+CREATE DEFINER = `root` @`localhost`
+FUNCTION `insertar_publicaciones`(MiPeriodo         VARCHAR(45),
+                                  MiPublicacion     VARCHAR(150),
+                                  MiInstitucion     VARCHAR(80),
+                                  MiEvidencia       LONGBLOB,
+                                  IdModifica        INT(11),
+                                  IdLicenciatura    INT(11),
+                                  MiIdUsuario       INT(11))
+   RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM publicaciones
+          WHERE     periodo = MiPeriodo
+          AND publicacion = MiPublicacion
+          AND institucion = MiInstitucion
+          AND id_lic_inscrita = IdLicenciatura
+          AND usuarios_id_usuarios = MiIdUsuario;
+
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+      INSERT INTO publicaciones(periodo,
+                                publicacion,
+                                institucion,
+                                evidencia,
+                                id_usuario_modificacion,
+                                id_lic_inscrita,
+                                usuarios_id_usuarios)
+           VALUES (UPPER(MiPeriodo),
+                   UPPER(MiPublicacion),
+                   UPPER(MiInstitucion),
+                   MiEvidencia,
+                   IdModifica,
+                   IdLicenciatura,
+                   MiIdUsuario);
+
+      RETURN 1;
+   END IF;
+END;
+
+
+
+
+------------------------------------------------------------------
+
+--  FUNCTION eliminar_publicaciones
+
+------------------------------------------------------------------
+
+
+CREATE DEFINER = `root` @`localhost`
+FUNCTION `eliminar_publicaciones`(MiId int(11))
+   RETURNS int(11)
+BEGIN
+   DELETE FROM publicaciones
+         WHERE id_publicacion = MiId;
+
+   RETURN 1;
+END
+
+
+;
+
+------------------------------------------------------------------
+
+--  FUNCTION actualizar_publicaciones
+
+------------------------------------------------------------------
+
+
+CREATE FUNCTION sicva.`actualizar_publicaciones`(MiId              int(11),
+                                    MiPeriodo         VARCHAR(45),
+                                    MiPublicacion     VARCHAR(150),
+                                    MiInstitucion     VARCHAR(80),
+                                    IdModifica        INT(11),
+                                    IdLicenciatura    INT(11),
+                                    MiIdUsuario       INT(11)) RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM publicaciones
+          WHERE     periodo = MiPeriodo
+          AND publicacion = MiPublicacion
+          AND institucion = MiInstitucion
+          AND id_lic_inscrita = IdLicenciatura
+          AND usuarios_id_usuarios = MiIdUsuario;
+
+
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+      UPDATE publicaciones
+         SET periodo = UPPER(MiPeriodo),
+             publicacion = UPPER(MiPublicacion),
+             institucion = UPPER(MiInstitucion),
+             id_usuario_modificacion = IdModifica,
+             id_lic_inscrita = IdLicenciatura,
+             usuarios_id_usuarios = MiIdUsuario
+       WHERE id_publicacion = MiId;
+
+
+
+      RETURN 1;
+   END IF;
+END;
+
+------------------------------------------------------------------
+--  FUNCTION actualizar_evidencia_publicaciones
+------------------------------------------------------------------
+
+CREATE DEFINER = `root` @`localhost`
+FUNCTION `actualizar_evidencia_publicaciones`(MiId int(11), IdModifica INT(11), MiEvidencia LONGBLOB)
+   RETURNS int(11)
+BEGIN
+      UPDATE publicaciones
+      SET evidencia = MiEvidencia,
+      id_usuario_modificacion = IdModifica
+      WHERE id_publicacion= MiId;
+      RETURN 1;
+END;

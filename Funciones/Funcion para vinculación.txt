@@ -1,0 +1,24 @@
+DROP FUNCTION IF EXISTS sicva.insertar_vinculacion;
+CREATE FUNCTION sicva.`insertar_vinculacion`(id_usu int (45), licenciatura int(45)) RETURNS int(11)
+BEGIN
+  DECLARE contador INT;
+  
+    SELECT COUNT(*) INTO contador FROM vinculaciones
+    WHERE usuarios_id_usuarios=id_usu
+    AND licenciaturas_id_licenciatura=licenciatura;
+   
+    IF(contador>0)THEN
+    RETURN 0;
+    
+    ELSE
+    
+    INSERT INTO vinculaciones
+    (id_vinculacion, usuarios_id_usuarios,licenciaturas_id_licenciatura) 
+    VALUES (NULL,id_usu,licenciatura);  
+       
+    RETURN 1;
+    END IF;
+
+    
+   
+END;

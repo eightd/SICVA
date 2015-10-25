@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<f:metadata>
+		<f:viewAction action="#{S_Experiencia.init}" />
+	</f:metadata>
+</h:head>
+<h:body>
+	<h:form id="form">
+		<h:outputScript library="js" name="validaciones.js" />
+
+		<p:growl id="msj" showDetail="true" sticky="false" life="1000" />
+		<img src="images/logo-sicva.png" align="middle" width="80"
+			height="130" />
+		<br> </br>
+
+		<p:menubar>
+			<p:menuitem value="Inicio" url="Principal.xhtml" icon="ui-icon-home" />
+			<p:submenu label="Ver Secciones" icon="ui-icon-document">
+				<p:submenu label="Sección" icon="ui-icon-contact">
+					<p:menuitem value="Datos Personales" url="S_DatosPersonales.xhtml" />
+					<p:menuitem value="Escolaridad" url="S_Escolaridad.xhtml" />
+					<p:menuitem value="Experiencia Laboral"
+						url="S_ExperienciaLaboral.xhtml" />
+					<p:menuitem value="Ponencias Impartidas" url="S_Ponencias.xhtml" />
+					<p:menuitem value="Asistencia a Cursos"
+						url="S_AsistenciaCursos.xhtml" />
+					<p:menuitem value="Comisiones" url="S_Comisiones.xhtml" />
+					<p:menuitem value="Publicaciones" url="S_Publicaciones.xhtml" />
+					<p:menuitem value="Miembro de Organización" url="S_Miembro.xhtml" />
+					<p:menuitem value="Asesoría de Tesis" url="S_Tesis.xhtml" />
+					<p:menuitem value="Sinodal" url="S_Sinodal.xhtml" />
+
+				</p:submenu>
+			</p:submenu>
+
+			<p:menuitem value="Anterior" url="S_Escolaridad.xhtml"
+				icon="ui-icon-arrowreturnthick-1-w" />
+			<p:menuitem value="Siguiente" url="S_Ponencias.xhtml"
+				icon="ui-icon-arrowreturnthick-1-e" />
+
+			<f:facet name="options">
+				<p:commandButton value="Cerrar Sesión" icon="ui-icon-closethick"
+					action="#{ControladorLogin.cerrarSesion}" />
+			</f:facet>
+		</p:menubar>
+		<br />
+	</h:form>
+
+	<!-- TABLA -->
+
+	<h:form enctype="multipart/form-data" id="tabla">
+		<p:growl id="messages" showDetail="true"  sticky="false" life="1000"/>
+		<p:panel id="basic"
+			header="Experiencias Laborales de Coordinadores y Docentes de la Carrera"
+			style="margin-bottom:20px">
+			<p:dataTable var="datos" value="#{S_Experiencia.lista}" id="tb"
+				emptyMessage="No hay registros..." 
+				filteredValue="#{S_Experiencia.filtros}">
+
+				<p:column headerText="ID"
+					style="width:0px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.id}" />
+				</p:column>
+
+				<p:column headerText="Nombre"
+					style="width:32px;text-align: center;font-size:12px"
+					filterBy="#{datos.nombre}" filterMatchMode="contains">
+					<h:outputText value="#{datos.nombre}" />
+				</p:column>
+
+				<p:column headerText="Institución o Empresa"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.institucion}" />
+				</p:column>
+
+				<p:column headerText="Departamento o Facultad"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.dpto}" />
+				</p:column>
+
+				<p:column headerText="Puesto"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.puesto}" />
+				</p:column>
+				
+				<p:column headerText="Rol"
+					style="width:32px;text-align: center;font-size:12px"
+					filterBy="#{datos.rol}" filterMatchMode="contains">
+					<h:outputText value="#{datos.rol}" />
+				</p:column>
+
+				<p:column headerText="Evidencia"
+					style="width:5px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.existencia}" />
+				</p:column>
+				
+				<p:column headerText="Modificar"
+					style="width:5px;text-align: center;font-size:12px"
+					exportable="false">
+
+					<p:commandButton oncomplete="PF('d').show();"
+						update=":actualizar:d"
+						action="#{S_Experiencia.UpdateExperiencia(datos)}"
+						icon="ui-icon-pencil">
+					</p:commandButton>
+				</p:column>
+				
+				<p:column headerText="Modificar Evidencia"
+					style="width:5px;text-align: center;font-size:12px">
+					<p:commandButton oncomplete="PF('dlgEvi').show();"
+						update=":UpdEvi:dlgEvi"
+						action="#{S_Experiencia.UpdateExperiencia(datos)}"
+						icon="ui-icon-pencil">
+					</p:commandButton>
+				</p:column>
+
+				<p:column headerText="Eliminar"
+					style="width:5px;text-align: center;font-size:12px"
+					exportable="false">
+					<p:commandButton update=" :tabla" icon="ui-icon-trash"
+						action="#{S_Experiencia.eliminar}">
+						<f:setPropertyActionListener
+							target="#{S_Experiencia.licSeleccionada}" value="#{datos}" />
+						<p:confirm header="Confirmación" message="¿Estas seguro?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+	
+	<!-- ACTUALIZAR  (Pantalla emergente)-->
+	<h:form enctype="multipart/form-data" id="actualizar">
+		<p:dialog header="Actualizar Experiencia Laboral" showEffect="explode"
+			modal="true" hideEffect="explode" widgetVar="d" id="d">
+
+			<h:panelGrid columns="2" cellpadding="5">
+
+				<h:outputLabel value="Última modificación" />
+				<h:outputLabel value="#{S_Experiencia.licSeleccionada.nombreodif}" />
+
+				<h:outputLabel value="* Periodo" />
+				<p:inputMask value="#{S_Experiencia.licSeleccionada.periodo}"
+					onkeypress="return  numeros(event)" required="true"
+					mask="9999/99/99 - 9999/99/99" />
+
+				<h:outputLabel value="* Institución o Empresa" />
+				<p:inputText value="#{S_Experiencia.licSeleccionada.institucion}"
+					onkeypress="return  numYletras(event)" maxlength="80"
+					required="true" />
+
+				<h:outputLabel value="* Departamento o Facultad" />
+				<p:inputText value="#{S_Experiencia.licSeleccionada.dpto}"
+					onkeypress="return  numYletras(event)" maxlength="80"
+					required="true" />
+
+				<h:outputLabel value="* Lugar" />
+				<p:inputText value="#{S_Experiencia.licSeleccionada.lugar}"
+					onkeypress="return  direccion(event)" maxlength="50"
+					required="true" />
+
+				<h:outputLabel value="* Puesto" />
+				<p:inputText value="#{S_Experiencia.licSeleccionada.puesto}"
+					onkeypress="return  soloLetras(event)" maxlength="50"
+					required="true" />
+
+
+				<p:commandButton value="Guardar" icon="ui-icon-disk" ajax="false"
+					update="msj,@form" action="#{S_Experiencia.actualizar}" />
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+	
+	<!-- ACTUALIZAR EVIDENCIA (Pantalla emergente)-->
+	<h:form enctype="multipart/form-data" id="UpdEvi">
+		<p:dialog header="Actualizar Evidencia" showEffect="explode"
+			modal="true" hideEffect="explode" widgetVar="dlgEvi" id="dlgEvi">
+
+			<h:panelGrid columns="2" cellpadding="5">
+				<h:outputLabel value="Última modificación" />
+				<h:outputLabel value="#{S_Experiencia.licSeleccionada.nombreodif}" />
+
+				<h:outputLabel value="Evidencia"></h:outputLabel>
+				<p:fileUpload value="#{S_Experiencia.licSeleccionada.evidencia}"
+					mode="simple" skinSimple="true" />
+
+				<p:commandButton value="Guardar" icon="ui-icon-disk" ajax="false"
+					update="msj,@form" action="#{S_Experiencia.ActualizarEvidencia}" />
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+
+	<!-- ELIMINAR (Pantalla emergente)-->
+	<h:form enctype="multipart/form-data" id="eliminar">
+		<p:confirmDialog global="true" showEffect="explode" modal="true"
+			hideEffect="explode">
+
+			<p:commandButton value="Si" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="No" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<script type="text/javascript">
+		function mostrar() {
+			document.getElementById('oculto').style.display = 'block';
+			document.getElenentById('id="BtnMostrar').style.display = 'none'
+			document.getElenentById('id="BtnMostrar').disabled = false
+			document.getElenentById('id="BtnOcultar').disabled = true
+		}
+		function ocultar() {
+			document.getElementById('oculto').style.display = 'none';
+			document.getElenentById('id="BtnOcultar').disabled = false
+			document.getElenentById('id="BtnMostrar').disabled = true
+		}
+	</script>
+	<script type="text/javascript">
+		PrimeFaces.locales['es'] = {
+			closeText : 'Cerrar',
+			prevText : 'Anterior',
+			nextText : 'Siguiente',
+			currentText : 'Inicio',
+			monthNames : [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo',
+					'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre',
+					'Noviembre', 'Diciembre' ],
+			monthNamesShort : [ 'Lunes', 'Martes', 'Miércoles', 'Jueves',
+					'Viernes', 'Sábado' ],
+			dayNames : [ 'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves',
+					'Viernes', 'Sábado' ],
+			dayNamesShort : [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab' ],
+			dayNamesMin : [ 'D', 'L', 'M', 'Mie', 'J', 'V', 'S' ],
+			weekHeader : 'Semana',
+			firstDay : 1,
+			isRTL : false,
+			showMonthAfterYear : false,
+			yearSuffix : '',
+			timeOnlyTitle : 'Sólo hora',
+			timeText : 'Tempo',
+			hourText : 'Hora',
+			minuteText : 'Minuto',
+			secondText : 'Segundo',
+			currentText : 'Fecha actual',
+			ampm : false,
+			month : 'Mes',
+			week : 'Semana',
+			day : 'Día',
+			allDayText : 'Todo el día'
+		};
+	</script>
+	
+	<f:metadata>
+		<f:viewAction action="#{Sinodal.init}" />
+	</f:metadata>
+</h:head>
+<h:body>
+	<h:form id="form">
+		<h:outputScript library="js" name="validaciones.js" />
+
+		<p:growl id="msj" showDetail="true" sticky="false" life="1000" />
+		<img src="images/logo-sicva.png" align="middle" width="80"
+			height="130" />
+		<br> </br>
+
+		<p:menubar>
+
+			<p:menuitem value="Inicio" url="Principal.xhtml" icon="ui-icon-home" />
+
+			<p:submenu label="Registro Curriculum Vitae" icon="ui-icon-document">
+				<p:submenu label="Sección" icon="ui-icon-contact">
+					<p:menuitem value="Datos Personales" url="DatosPersonales.xhtml" />
+					<p:menuitem value="Escolaridad" url="Escolaridad.xhtml" />
+					<p:menuitem value="Experiencia Laboral"
+						url="ExperienciaLaboral.xhtml" />
+					<p:menuitem value="Ponencias Impartidas" url="Ponencias.xhtml" />
+					<p:menuitem value="Asistencia a Cursos"
+						url="AsistenciaCursos.xhtml" />
+					<p:menuitem value="Comisiones" url="Comisiones.xhtml" />
+					<p:menuitem value="Publicaciones" url="Publicaciones.xhtml" />
+					<p:menuitem value="Miembro de Organización" url="Miembro.xhtml" />
+					<p:menuitem value="Asesoría de Tesis" url="Tesis.xhtml" />
+					<p:menuitem value="Sinodal" url="Sinodal.xhtml" />
+
+				</p:submenu>
+
+			</p:submenu>
+
+			<p:menuitem value="Anterior" url="Tesis.xhtml"
+				icon="ui-icon-arrowreturnthick-1-w" />
+			<p:menuitem value="Siguiente" url="Sinodal.xhtml"
+				icon="ui-icon-arrowreturnthick-1-e" disabled="true" />
+
+			<f:facet name="options">
+				<p:commandButton value="Cerrar Sesión" icon="ui-icon-closethick"
+					action="#{ControladorLogin.cerrarSesion}" />
+			</f:facet>
+
+		</p:menubar>
+
+
+		<br />
+	</h:form>
+
+	<!-- FORMULARIO -->
+	<h:form enctype="multipart/form-data" id="form1">
+		<p:panel id="basic" header="Sinodal" style="margin-bottom:20px">
+
+			<p:commandButton value="Agregar" onclick="mostrar()" type="button"
+				icon="ui-icon-pencil" style="float:right; font-size:12px;" />
+
+			<br />
+			<br />
+			<!-- AGREGAR NUEVO SINODAL (Formulario Oculto)-->
+			<div id='oculto' style='display: none;'>
+				<center>
+
+					<p:growl id="messages" showDetail="true" sticky="false" life="1000"/>
+					<h:outputLabel value="NUEVO SINODAL" />
+					<br /> <br />
+					<p:panelGrid columns="2" cellpadding="5"
+						enctype="multipart/form-data">
+
+						<h:outputLabel value="* Licenciatura Inscrita" />
+						<p:selectOneMenu value="#{Sinodal.sinodalDTO.idlic}"
+							style="width:210px">
+							<f:selectItem itemValue=" " itemLabel="- Seleccionar -"></f:selectItem>
+							<f:selectItems value="#{CarreraControlador.listaLic}" var="d"
+								itemValue="#{d.id}" itemLabel="#{d.descripcion}"></f:selectItems>
+						</p:selectOneMenu>
+
+
+						<h:outputLabel value="* Proyecto" />
+						<p:inputText value="#{Sinodal.sinodalDTO.proyecto}"
+							onkeypress="return  numYletras(event)" maxlength="80"
+							required="true" />
+
+
+						<h:outputLabel value="* Nivel" />
+						<p:selectOneMenu value="#{Sinodal.sinodalDTO.nivel}"
+							style="width:210px">
+							<f:selectItem itemValue=" " itemLabel="- Seleccionar -"></f:selectItem>
+							<f:selectItems value="#{CarreraControlador.listaNivel}" var="s"
+								itemValue="#{s.id}" itemLabel="#{s.descripcion}"></f:selectItems>
+						</p:selectOneMenu>
+
+
+						<h:outputLabel value="* Fecha de Titulación" />
+						<p:calendar id="mask"
+							value="#{Sinodal.sinodalDTO.fechatitulacion}" locale="es"
+							pattern="dd-MM-yyyy" mask="true" />
+
+						<h:outputLabel value="* Alumno" />
+						<p:inputText value="#{Sinodal.sinodalDTO.alumno}"
+							onkeypress="return  soloLetras(event)" maxlength="80"
+							required="true" />
+
+
+						<h:outputLabel value="* Opción de Titulación" />
+						<p:selectOneMenu id="sinodal" value="#{Sinodal.sinodalDTO.idopc}"
+							style="width:210px">
+							<f:selectItem itemValue=" " itemLabel="- Seleccionar -"></f:selectItem>
+							<f:selectItems value="#{CarreraControlador.listaCarrera}" var="f"
+								itemValue="#{f.id}" itemLabel="#{f.descripcion}"></f:selectItems>
+						</p:selectOneMenu>
+
+						<h:outputLabel value="Imagen"></h:outputLabel>
+						<p:fileUpload value="#{Sinodal.sinodalDTO.evidencia}"
+							mode="simple" skinSimple="true" required="true" />
+
+					</p:panelGrid>
+
+					<p:commandButton value="Guardar" ajax="false"
+						action="#{Sinodal.guardar}" icon="ui-icon-disk" />
+
+				</center>
+				<br /> <br />
+			</div>
+		</p:panel>
+	</h:form>
+	<!-- TABLA -->
+	<h:form enctype="multipart/form-data" id="tabla">
+		<p:growl id="messages" showDetail="true" sticky="false" life="1000"/>
+		<p:panel id="basic" header="Registros de Sinodal"
+			style="margin-bottom:20px">
+			<p:dataTable var="datos" value="#{Sinodal.lista}" id="tb"
+				emptyMessage="No hay registros...">
+
+				<p:column headerText="ID"
+					style="width:0px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.id}" />
+				</p:column>
+
+				<p:column headerText="Licenciatura Inscrita"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.descripcionlic}" />
+				</p:column>
+
+				<p:column headerText="Proyecto"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.proyecto}" />
+				</p:column>
+
+				<p:column headerText="Nivel"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.descripcion}" />
+				</p:column>
+
+				<p:column headerText="Fecha de Titulación"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.fechatitulacion}" />
+				</p:column>
+
+				<p:column headerText="Alumno"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.alumno}" />
+				</p:column>
+
+				<p:column headerText="Opción de Titulación"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.descripcionTitulacion}" />
+				</p:column>
+
+				<p:column headerText="Evidencia"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.existencia}" />
+				</p:column>
+
+				<p:column headerText="Modificar"
+					style="width:5px;text-align: center;font-size:12px"
+					exportable="false">
+					<p:commandButton oncomplete="PF('d').show();"
+						update=":actualizar:d" action="#{Sinodal.actualizarDemo(datos)}"
+						icon="ui-icon-pencil">
+					</p:commandButton>
+				</p:column>
+
+				<p:column headerText="Modificar Evidencia"
+					style="width:5px;text-align: center;font-size:12px">
+					<p:commandButton oncomplete="PF('dlgEvi').show();"
+						update=":UpdEvi:dlgEvi" action="#{Sinodal.actualizarDemo(datos)}"
+						icon="ui-icon-pencil">
+					</p:commandButton>
+				</p:column>
+
+				<p:column headerText="Eliminar"
+					style="width:5px;text-align: center;font-size:12px"
+					exportable="false">
+					<p:commandButton update=" :tabla" icon="ui-icon-trash"
+						action="#{Sinodal.eliminar}">
+						<f:setPropertyActionListener target="#{Sinodal.licSeleccionada}"
+							value="#{datos}" />
+						<p:confirm header="Confirmación" message="¿Estas seguro?"
+							icon="ui-icon-alert" />
+
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+
+
+	<!-- ACTUALIZAR SINODAL (Pantalla emergente)-->
+	<h:form enctype="multipart/form-data" id="actualizar">
+		<p:dialog header="Actualizar Sinodal" showEffect="explode"
+			modal="true" hideEffect="explode" widgetVar="d" id="d">
+
+			<h:panelGrid columns="2" cellpadding="5" id="panGriPru">
+
+				<h:outputLabel value="Última modificación" />
+				<h:outputLabel value="#{Sinodal.licSeleccionada.nombreodif}" />
+
+				<h:outputLabel value="* Licenciatura Inscrita" />
+				<p:selectOneMenu value="#{Sinodal.licSeleccionada.idlic}"
+					style="width:210px">
+					<f:selectItem itemValue=" " itemLabel="- Seleccionar -"></f:selectItem>
+					<f:selectItems value="#{CarreraControlador.listaLic}" var="d"
+						itemValue="#{d.id}" itemLabel="#{d.descripcion}"></f:selectItems>
+				</p:selectOneMenu>
+
+				<h:outputLabel value="* Proyecto" />
+				<p:inputText value="#{Sinodal.licSeleccionada.proyecto}"
+					onkeypress="return  numYletras(event)" maxlength="80"
+					required="true" />
+
+				<h:outputLabel value="* Nivel" />
+				<p:selectOneMenu value="#{Sinodal.licSeleccionada.nivel}"
+					style="width:210px">
+					<f:selectItem itemValue=" " itemLabel="- Seleccionar -"></f:selectItem>
+					<f:selectItems value="#{CarreraControlador.listaNivel}" var="s"
+						itemValue="#{s.id}" itemLabel="#{s.descripcion}"></f:selectItems>
+				</p:selectOneMenu>
+
+				<h:outputLabel value="* Fecha de Titulación" />
+				<p:inputMask value="#{Sinodal.licSeleccionada.fechatitulacion}"
+					mask="9999/99/99" onkeypress="return numeros(event)"
+					required="true" />
+
+				<h:outputLabel value="* Alumno" />
+				<p:inputText value="#{Sinodal.licSeleccionada.alumno}"
+					onkeypress="return  soloLetras(event)" maxlength="80"
+					required="true" />
+
+				<h:outputLabel value="* Opción de Titulación" />
+				<p:selectOneMenu id="sinodal2"
+					value="#{Sinodal.licSeleccionada.idopc}" style="width:210px">
+					<f:selectItem itemValue=" " itemLabel="- Seleccionar -"></f:selectItem>
+					<f:selectItems value="#{CarreraControlador.listaCarrera}" var="f"
+						itemValue="#{f.id}" itemLabel="#{f.descripcion}"></f:selectItems>
+				</p:selectOneMenu>
+
+				<p:commandButton value="Guardar" icon="ui-icon-disk" ajax="false"
+					update="msj,@form" action="#{Sinodal.actualizar}" />
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+
+	<!-- ACTUALIZAR EVIDENCIA (Pantalla emergente)-->
+	<h:form enctype="multipart/form-data" id="UpdEvi">
+		<p:dialog header="Actualizar Evidencia" showEffect="explode"
+			modal="true" hideEffect="explode" widgetVar="dlgEvi" id="dlgEvi">
+
+			<h:panelGrid columns="2" cellpadding="5">
+				<h:outputLabel value="Última modificación" />
+				<h:outputLabel value="#{Sinodal.licSeleccionada.nombreodif}" />
+
+				<h:outputLabel value="Evidencia"></h:outputLabel>
+				<p:fileUpload value="#{Sinodal.licSeleccionada.evidencia}"
+					mode="simple" skinSimple="true" />
+
+				<p:commandButton value="Guardar" icon="ui-icon-disk" ajax="false"
+					update="msj,@form" action="#{Sinodal.ActualizarEvidencia}" />
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+
+	<!-- ELIMINAR ASESORÍA DE TESIS (Pantalla emergente)-->
+	<h:form enctype="multipart/form-data" id="eliminar">
+		<p:confirmDialog global="true" showEffect="explode" modal="true"
+			hideEffect="explode">
+
+			<p:commandButton value="Si" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="No" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+
+
+	</h:form>
+</h:body>
+</html>

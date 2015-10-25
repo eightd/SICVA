@@ -1,0 +1,423 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<script type="text/javascript">
+		function mostrar() {
+			document.getElementById('oculto').style.display = 'block';
+			document.getElenentById('id="BtnMostrar').style.display = 'none'
+			document.getElenentById('id="BtnMostrar').disabled = false
+			document.getElenentById('id="BtnOcultar').disabled = true
+		}
+		function ocultar() {
+			document.getElementById('oculto').style.display = 'none';
+			document.getElenentById('id="BtnOcultar').disabled = false
+			document.getElenentById('id="BtnMostrar').disabled = true
+		}
+	</script>
+	<script type="text/javascript">
+		PrimeFaces.locales['es'] = {
+			closeText : 'Cerrar',
+			prevText : 'Anterior',
+			nextText : 'Siguiente',
+			currentText : 'Inicio',
+			monthNames : [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo',
+					'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre',
+					'Noviembre', 'Diciembre' ],
+			monthNamesShort : [ 'Lunes', 'Martes', 'Miércoles', 'Jueves',
+					'Viernes', 'Sábado' ],
+			dayNames : [ 'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves',
+					'Viernes', 'Sábado' ],
+			dayNamesShort : [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab' ],
+			dayNamesMin : [ 'D', 'L', 'M', 'Mi', 'J', 'V', 'S' ],
+			weekHeader : 'Semana',
+			firstDay : 1,
+			isRTL : false,
+			showMonthAfterYear : false,
+			yearSuffix : '',
+			timeOnlyTitle : 'Sólo hora',
+			timeText : 'Tempo',
+			hourText : 'Hora',
+			minuteText : 'Minuto',
+			secondText : 'Segundo',
+			currentText : 'Fecha actual',
+			ampm : false,
+			month : 'Mes',
+			week : 'Semana',
+			day : 'Día',
+			allDayText : 'Todo el día'
+		};
+	</script>
+
+	<f:metadata>
+		<f:viewAction action="#{Datos.init}" />
+	</f:metadata>
+	
+</h:head>
+<h:body>
+	<h:form id="form">
+		<h:outputScript library="js" name="validaciones.js" />
+		<p:growl id="msj" showDetail="true" sticky="false" life="1000" />
+		<img src="images/logo-sicva.png" align="middle" width="80"
+			height="130" />
+		<br> </br>
+		<p:menubar>
+			<p:menuitem value="Inicio" url="Principal.xhtml" icon="ui-icon-home" />
+			<p:submenu label="Registro Curriculum Vitae" icon="ui-icon-document">
+				<p:submenu label="Sección" icon="ui-icon-contact">
+					<p:menuitem value="Datos Personales" url="DatosPersonales.xhtml" />
+					<p:menuitem value="Escolaridad" url="Escolaridad.xhtml" />
+					<p:menuitem value="Experiencia Laboral"
+						url="ExperienciaLaboral.xhtml" />
+					<p:menuitem value="Ponencias Impartidas" url="Ponencias.xhtml" />
+					<p:menuitem value="Asistencia a Cursos"
+						url="AsistenciaCursos.xhtml" />
+					<p:menuitem value="Comisiones" url="Comisiones.xhtml" />
+					<p:menuitem value="Publicaciones" url="Publicaciones.xhtml" />
+					<p:menuitem value="Miembro de Organización" url="Miembro.xhtml" />
+					<p:menuitem value="Asesoría de Tesis" url="Tesis.xhtml" />
+					<p:menuitem value="Sinodal" url="Sinodal.xhtml" />
+				</p:submenu>
+			</p:submenu>
+			<p:menuitem value="Anterior" url="DatosPersonales.xhtml"
+				icon="ui-icon-arrowreturnthick-1-w" disabled="true" />
+			<p:menuitem value="Siguiente" url="Escolaridad.xhtml"
+				icon="ui-icon-arrowreturnthick-1-e" />
+			<f:facet name="options">
+				<p:commandButton value="Cerrar Sesión" icon="ui-icon-closethick"
+					action="#{ControladorLogin.cerrarSesion}" />
+			</f:facet>
+		</p:menubar>
+		<br />
+	</h:form>
+
+	<!-- FORMULARIO -->
+	<h:form enctype="multipart/form-data" id="form1">
+		<p:panel id="basic" header="Datos Personales"
+			style="margin-bottom:20px">
+
+			<p:commandButton value="Agregar" onclick="mostrar()" type="button"
+				icon="ui-icon-pencil" style="float:right; font-size:12px;" />
+
+			<br />
+			<br />
+			<!-- AGREGAR NUEVO MIEMBRO (Formulario Oculto)-->
+			<div id='oculto' style='display: none;'>
+				<center>
+
+					<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
+					<h:outputLabel value="NUEVOS DATOS PERSONALES" />
+					<br /> <br />
+					<p:panelGrid columns="2" cellpadding="5"
+						enctype="multipart/form-data">
+
+						<h:outputLabel value="* Nombre" />
+						<p:inputText value="#{Datos.datospersonalesDTO.nombre}"
+							onkeypress="return  soloLetras(event)" maxlength="30"
+							required="true" />
+
+
+						<h:outputLabel value="* Apellido Paterno" />
+						<p:inputText value="#{Datos.datospersonalesDTO.ap}"
+							onkeypress="return  soloLetras(event)" maxlength="30"
+							required="true" />
+
+
+						<h:outputLabel value="* Apellido Materno" />
+						<p:inputText value="#{Datos.datospersonalesDTO.am}"
+							onkeypress="return  soloLetras(event)" maxlength="30"
+							required="true" />
+
+
+						<h:outputLabel value="* CURP" />
+						<p:inputMask value="#{Datos.datospersonalesDTO.curp}"
+							mask="aaaa999999aaaaaa99" onkeypress="return  numYletras(event)"
+							maxlength="30" required="true" />
+
+						<h:outputLabel value="* RFC" />
+						<p:inputText value="#{Datos.datospersonalesDTO.rfc}"
+							mask="aaaa999999aaaaaa99" onkeypress="return  numYletras(event)"
+							maxlength="30" required="true" />
+
+						<h:outputLabel value="* Fecha de Nacimiento" />
+						<p:calendar id="mask"
+							value="#{Datos.datospersonalesDTO.fechanacimiento}" locale="es"
+							pattern="dd-MM-yyyy" mask="true" />
+
+						<h:outputLabel value="* Nacionalidad" />
+						<p:inputText value="#{Datos.datospersonalesDTO.nacionalidad}"
+							onkeypress="return  soloLetras(event)" maxlength="30"
+							required="true" />
+
+
+						<h:outputLabel value="* Domicilio" />
+						<p:inputText value="#{Datos.datospersonalesDTO.domicilio}"
+							onkeypress="return  direccion(event)" maxlength="50"
+							required="true" />
+
+
+						<h:outputLabel value="* Teléfono Móvil" />
+						<p:inputMask value="#{Datos.datospersonalesDTO.cel}"
+							mask="(999) 999-9999" onkeypress="return  numeros(event)"
+							maxlength="15" required="true" />
+
+						<h:outputLabel value="* Teléfono de Casa" />
+						<p:inputMask value="#{Datos.datospersonalesDTO.tel}"
+							mask="(999) 999-9999" onkeypress="return  numeros(event)"
+							maxlength="15" required="true" />
+
+						<h:outputLabel value="* E-mail" />
+						<p:inputText value="#{Datos.datospersonalesDTO.email}"
+							maxlength="50" required="true"
+							validatorMessage="Correo Incorrecto"
+							requiredMessage="Correo Electronico Requerido">
+							<f:validateRegex
+								pattern="(\W|^)[\w.+\-]{0,25}@(yahoo|hotmail|gmail)\.com(\W|$)" />
+						</p:inputText>
+
+
+						<h:outputLabel value="* Facebook" />
+						<p:inputText value="#{Datos.datospersonalesDTO.facebook}"
+							maxlength="50" required="true"
+							validatorMessage="Facebook Incorrecto"
+							requiredMessage="Facebook Requerido">
+							<f:validateRegex
+								pattern="(\W|^)[\w.+\-]{0,25}@(facebook)\.com(\W|$)" />
+						</p:inputText>
+
+						<h:outputLabel value="* Estado Civil" />
+						<p:selectOneMenu value="#{Datos.datospersonalesDTO.idestadocivil}"
+							style="width:210px">
+							<f:selectItem itemValue=" " itemLabel="- Seleccionar -"></f:selectItem>
+							<f:selectItems value="#{CarreraControlador.listaEstadoCivil}"
+								var="s" itemValue="#{s.id}" itemLabel="#{s.descripcion}"></f:selectItems>
+						</p:selectOneMenu>
+
+						<h:outputLabel value="Imagen"></h:outputLabel>
+						<p:fileUpload value="#{Datos.datospersonalesDTO.foto}"
+							mode="simple" skinSimple="true" required="true" />
+
+					</p:panelGrid>
+
+					<p:commandButton value="Guardar" ajax="false"
+						action="#{Datos.guardar}" icon="ui-icon-disk" />
+
+				</center>
+				<br /> <br />
+			</div>
+		</p:panel>
+	</h:form>
+	<!-- TABLA -->
+	<h:form enctype="multipart/form-data" id="tabla">
+		<p:growl id="messages" showDetail="true" sticky="false" life="1000"/>
+		<p:panel id="basic" header="Registros de Datos Personales"
+			style="margin-bottom:20px">
+			<p:dataTable var="datos" value="#{Datos.lista}" id="tb"
+				emptyMessage="No hay registros...">
+
+				<p:column headerText="ID"
+					style="width:0px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.id}" />
+				</p:column>
+
+				<p:column headerText="Nombre"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.nombre}" />
+				</p:column>
+
+				<p:column headerText="Apellido Paterno"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.ap}" />
+				</p:column>
+
+				<p:column headerText="Apellido Materno"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.am}" />
+				</p:column>
+
+
+				<p:column headerText="Fecha de Nacimiento"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.fechanacimiento}" />
+				</p:column>
+
+
+				<p:column headerText="Domicilio"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.domicilio}" />
+				</p:column>
+
+				<p:column headerText="Foto"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.existencia}" />
+				</p:column>
+
+				<p:column headerText="Modificar"
+					style="width:5px;text-align: center;font-size:12px"
+					exportable="false">
+
+					<p:commandButton oncomplete="PF('d').show();"
+						update=":actualizar:d" action="#{Datos.actualizarDemo(datos)}"
+						icon="ui-icon-pencil">
+
+					</p:commandButton>
+				</p:column>
+
+				<p:column headerText="Modificar Foto"
+					style="width:5px;text-align: center;font-size:12px">
+					<p:commandButton oncomplete="PF('dlgEvi').show();"
+						update=":UpdEvi:dlgEvi" action="#{Datos.actualizarDemo(datos)}"
+						icon="ui-icon-pencil">
+					</p:commandButton>
+				</p:column>
+
+				<p:column headerText="Eliminar"
+					style="width:5px;text-align: center;font-size:12px"
+					exportable="false">
+					<p:commandButton update=" :tabla" icon="ui-icon-trash"
+						action="#{Datos.eliminar}">
+						<f:setPropertyActionListener target="#{Datos.licSeleccionada}"
+							value="#{datos}" />
+						<p:confirm header="Confirmación" message="¿Estas seguro?"
+							icon="ui-icon-alert" />
+
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+
+
+	<!-- ACTUALIZAR  (Pantalla emergente)-->
+	<h:form enctype="multipart/form-data" id="actualizar">
+		<p:dialog header="Actualizar Datos Personales" showEffect="explode"
+			modal="true" hideEffect="explode" widgetVar="d" id="d">
+
+			<h:panelGrid columns="2" cellpadding="5">
+				<h:outputLabel value="Última modificación" />
+				<h:outputLabel value="#{Datos.licSeleccionada.nombreodif}" />
+
+				<h:outputLabel value="* Nombre" />
+				<p:inputText value="#{Datos.licSeleccionada.nombre}"
+					onkeypress="return  soloLetras(event)" maxlength="30"
+					required="true" />
+
+
+				<h:outputLabel value="* Apellido Paterno" />
+				<p:inputText value="#{Datos.licSeleccionada.ap}"
+					onkeypress="return  soloLetras(event)" maxlength="30"
+					required="true" />
+
+
+				<h:outputLabel value="* Apellido Materno" />
+				<p:inputText value="#{Datos.licSeleccionada.am}"
+					onkeypress="return  soloLetras(event)" maxlength="30"
+					required="true" />
+
+
+				<h:outputLabel value="* CURP" />
+				<p:inputMask value="#{Datos.licSeleccionada.curp}"
+					mask="aaaa999999aaaaaa99" onkeypress="return  numYletras(event)"
+					maxlength="30" required="true" />
+
+				<h:outputLabel value="* RFC" />
+				<p:inputText value="#{Datos.licSeleccionada.rfc}"
+					onkeypress="return  numYletras(event)" maxlength="30"
+					required="true" />
+
+				<h:outputLabel value="* Fecha de Nacimiento" />
+				<p:inputText value="#{Datos.licSeleccionada.fechanacimiento}" />
+
+
+
+				<h:outputLabel value="* Nacionalidad" />
+				<p:inputText value="#{Datos.licSeleccionada.nacionalidad}"
+					onkeypress="return  soloLetras(event)" maxlength="30"
+					required="true" />
+
+
+				<h:outputLabel value="* Domicilio" />
+				<p:inputText value="#{Datos.licSeleccionada.domicilio}"
+					onkeypress="return  direccion(event)" maxlength="50"
+					required="true" />
+
+
+				<h:outputLabel value="* Teléfono Móvil" />
+				<p:inputMask value="#{Datos.licSeleccionada.cel}"
+					mask="(999) 999-9999" onkeypress="return  numeros(event)"
+					maxlength="15" required="true" />
+
+				<h:outputLabel value="* Teléfono de Casa" />
+				<p:inputMask value="#{Datos.licSeleccionada.tel}"
+					mask="(999) 999-9999" onkeypress="return  numeros(event)"
+					maxlength="15" required="true" />
+
+				<h:outputLabel value="* E-mail" />
+				<p:inputText value="#{Datos.licSeleccionada.email}" maxlength="50"
+					required="true" validatorMessage="Correo Incorrecto"
+					requiredMessage="Correo Electronico Requerido">
+					<f:validateRegex
+						pattern="(\W|^)[\w.+\-]{0,25}@(yahoo|hotmail|gmail)\.com(\W|$)" />
+				</p:inputText>
+
+				<h:outputLabel value="* Facebook" />
+				<p:inputText value="#{Datos.licSeleccionada.facebook}"
+					maxlength="50" required="true"
+					validatorMessage="Facebook Incorrecto"
+					requiredMessage="Facebook Requerido">
+					<f:validateRegex
+						pattern="(\W|^)[\w.+\-]{0,25}@(facebook)\.com(\W|$)" />
+				</p:inputText>
+
+				<h:outputLabel value="* Estado Civil" />
+				<p:selectOneMenu value="#{Datos.licSeleccionada.idestadocivil}"
+					style="width:210px">
+					<f:selectItem itemValue=" " itemLabel="- Seleccionar -"></f:selectItem>
+					<f:selectItems value="#{CarreraControlador.listaEstadoCivil}"
+						var="s" itemValue="#{s.id}" itemLabel="#{s.descripcion}"></f:selectItems>
+				</p:selectOneMenu>
+
+
+
+				<p:commandButton value="Guardar" icon="ui-icon-disk" ajax="false"
+					update="msj,@form" action="#{Datos.actualizar}" />
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+
+
+	<!-- ACTUALIZAR EVIDENCIA (Pantalla emergente)-->
+	<h:form enctype="multipart/form-data" id="UpdEvi">
+		<p:dialog header="Actualizar Evidencia" showEffect="explode"
+			modal="true" hideEffect="explode" widgetVar="dlgEvi" id="dlgEvi">
+
+			<h:panelGrid columns="2" cellpadding="5">
+				<h:outputLabel value="Última modificación" />
+				<h:outputLabel value="#{Datos.licSeleccionada.nombreodif}" />
+
+				<h:outputLabel value="Evidencia"></h:outputLabel>
+				<p:fileUpload value="#{Datos.licSeleccionada.foto}" mode="simple"
+					skinSimple="true" />
+
+				<p:commandButton value="Guardar" icon="ui-icon-disk" ajax="false"
+					update="msj,@form" action="#{Datos.ActualizarEvidencia}" />
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+	<!-- ELIMINAR LICENCIATURA (Pantalla emergente)-->
+	<h:form enctype="multipart/form-data" id="eliminar">
+		<p:confirmDialog global="true" showEffect="explode" modal="true"
+			hideEffect="explode">
+
+			<p:commandButton value="Si" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="No" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+	</h:form>
+</h:body>
+</html>
+

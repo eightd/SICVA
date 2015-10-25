@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<body>
+	<h:form>
+		<img src="images/logo-sicva.png" align="middle" width="80"
+			height="130" />
+		<br> </br>
+		<p:growl id="growl" showDetail="true" sticky="false" life="1000" />
+
+		<!-- Menu admin -->
+		<p:menubar rendered="#{ControladorLogin.tieneRol1('rol')}">
+			<p:menuitem value="Inicio" icon="ui-icon-home" url="Principal.xhtml" />
+			<p:submenu label="Nuevo" icon="ui-icon-document">
+				<p:submenu label="Registra :" icon="ui-icon-contact">
+					<p:menuitem value="Licenciatura" icon="ui-icon-pencil"
+						url="Crud_licen.xhtml" />
+					<p:separator />
+					<p:menuitem value="Coordinador, Secretaria" icon="ui-icon-pencil"
+						url="Crud_usuarios.xhtml" />
+					<p:separator />
+				</p:submenu>
+			</p:submenu>
+			<f:facet name="options">
+				<p:commandButton value="Cerrar Sesión" icon="ui-icon-closethick"
+					action="#{ControladorLogin.cerrarSesion}" />
+			</f:facet>
+		</p:menubar>
+		<br></br>
+		<!-- Menu admin -->
+
+		<!-- Menu Coordinador -->
+		<p:menubar rendered="#{ControladorLogin.tieneRol2('rol')}">
+
+			<p:submenu label="Registro de Curriculum Vitae" icon="ui-icon-document">
+				<p:submenu label="Sección" icon="ui-icon-contact">
+					<p:menuitem value="Datos Personales" url="DatosPersonales.xhtml" />
+					<p:menuitem value="Escolaridad" url="Escolaridad.xhtml" />
+					<p:menuitem value="Experiencia Laboral"
+						url="ExperienciaLaboral.xhtml" />
+					<p:menuitem value="Ponencias Impartidas" url="Ponencias.xhtml" />
+					<p:menuitem value="Asistencia a Cursos"
+						url="AsistenciaCursos.xhtml" />
+					<p:menuitem value="Comisiones" url="Comisiones.xhtml" />
+					<p:menuitem value="Publicaciones" url="Publicaciones.xhtml" />
+					<p:menuitem value="Miembro de Organización" url="Miembro.xhtml" />
+					<p:menuitem value="Asesoría de Tesis" url="Tesis.xhtml" />
+					<p:menuitem value="Sinodal" url="Sinodal.xhtml" />
+
+				</p:submenu>
+
+			</p:submenu>
+
+			<p:submenu label="C.V." icon="ui-icon-document">
+				<p:menuitem value="Ver Curriculum Vitae" url="ver_cv.xhtml"
+					icon="ui-icon-extlink" />
+				<p:menuitem value="Curriculum Vitae" url="ver_cv.xhtml"
+					icon="ui-icon-arrowthick-1-s" />
+
+			</p:submenu>
+
+			<p:menuitem value="Cambiar Contraseña" url="contrasenia.xhtml"
+				icon="ui-icon-refresh" />
+
+			<f:facet name="options">
+				<p:commandButton value="Cerrar Sesión" icon="ui-icon-closethick"
+					action="#{ControladorLogin.cerrarSesion}" />
+			</f:facet>
+
+		</p:menubar>
+		<br></br>
+
+		<!-- Menu Secre -->
+		<p:menubar rendered="#{ControladorLogin.tieneRol3('rol')}">
+			<p:menuitem value="Registrar Docente" url="alta_docente.xhtml"
+				icon="ui-icon-person" />
+			<p:menuitem value="Vincular Docente" url="vincular_docente.xhtml"
+				icon="ui-icon-transfer-e-w" />
+			<p:submenu label="Ver Secciones" icon="ui-icon-document">
+				<p:submenu label="Sección" icon="ui-icon-contact">
+					<p:menuitem value="Datos Personales" url="S_DatosPersonales.xhtml" />
+					<p:menuitem value="Escolaridad" url="S_Escolaridad.xhtml" />
+					<p:menuitem value="Experiencia Laboral" url="S_ExperienciaLaboral.xhtml" />
+					<p:menuitem value="Ponencias Impartidas" url="S_Ponencias.xhtml" />
+					<p:menuitem value="Asistencia a Cursos" url="S_AsistenciaCursos.xhtml" />
+					<p:menuitem value="Comisiones" url="S_Comisiones.xhtml" />
+					<p:menuitem value="Publicaciones" url="S_Publicaciones.xhtml" />
+					<p:menuitem value="Miembro de Organización" url="S_Miembro.xhtml" />
+					<p:menuitem value="Asesoría de Tesis" url="S_Tesis.xhtml" />
+					<p:menuitem value="Sinodal" url="S_Sinodal.xhtml" />
+				</p:submenu>
+			</p:submenu>
+			<p:menuitem value="Cambiar Contraseña" url="contrasenia.xhtml"
+				icon="ui-icon-locked" />
+			<p:menuitem value="Ver Curriculum Vitae" url="ver_cv.xhtml"
+				icon="ui-icon-document" />
+
+			<f:facet name="options">
+				<p:commandButton value="Cerrar Sesión" icon="ui-icon-closethick"
+					action="#{ControladorLogin.cerrarSesion}" />
+			</f:facet>
+		</p:menubar>
+		<br></br>
+		<!-- Menu Secre -->
+
+		<!-- Menu Doce -->
+		<p:menubar rendered="#{ControladorLogin.tieneRol4('rol')}">
+
+			<p:submenu label="Registro Curriculum Vitae" icon="ui-icon-document">
+				<p:submenu label="Sección" icon="ui-icon-contact">
+					<p:menuitem value="Datos Personales" url="DatosPersonales.xhtml" />
+					<p:menuitem value="Escolaridad" url="Escolaridad.xhtml" />
+					<p:menuitem value="Experiencia Laboral"
+						url="ExperienciaLaboral.xhtml" />
+					<p:menuitem value="Ponencias Impartidas" url="Ponencias.xhtml" />
+					<p:menuitem value="Asistencia a Cursos"
+						url="AsistenciaCursos.xhtml" />
+					<p:menuitem value="Comisiones" url="Comisiones.xhtml" />
+					<p:menuitem value="Publicaciones" url="Publicaciones.xhtml" />
+					<p:menuitem value="Miembro de Organización" url="Miembro.xhtml" />
+					<p:menuitem value="Asesoría de Tesis" url="Tesis.xhtml" />
+					<p:menuitem value="Sinodal" url="Sinodal.xhtml" />
+
+				</p:submenu>
+
+			</p:submenu>
+
+			<p:submenu label="Curriculum Vitae" icon="ui-icon-document">
+				<p:menuitem value="Curriculum Vitae" url="ver_cv.xhtml"
+					icon="ui-icon-extlink" />
+
+
+
+
+			</p:submenu>
+
+
+
+			<p:menuitem value="Cambiar Contraseña" url="contrasenia.xhtml"
+				icon="ui-icon-refresh" />
+
+			<f:facet name="options">
+				<p:commandButton value="Cerrar Sesión" icon="ui-icon-closethick"
+					action="#{ControladorLogin.cerrarSesion}" />
+			</f:facet>
+
+		</p:menubar>
+		<br></br>
+		<!-- Menu Doce -->
+		<!-- desc admin -->
+		<p:panel id="admin" header="BIENVENIDO"
+			rendered="#{ControladorLogin.tieneRol1('rol')}"
+			footer="Dirección: Av. Ignacio Zaragoza #1, Centro, Calpulalpan, Tlax"
+			style="margin-bottom:20px">
+			<p:panelGrid columns="1" cellpadding="0">
+				<h:outputText
+					value="En este módulo se podrá administrar los siguientes catálogos." />
+				<ul>
+					<li>Dar de alta secretarias para las diferentes licenciaturas.</li>
+					<li>Modificar los datos de las secretarias registradas en el
+						sistema.</li>
+					<li>Dar de baja secretarias registradas en el sistema.</li>
+				</ul>
+
+				<ul>
+					<li>Dar de alta coordinadores para las diferentes
+						licenciaturas.</li>
+					<li>Modificar los datos de los coordinadores registradas en el
+						sistema.</li>
+					<li>Dar de baja coordinadores registradas en el sistema.</li>
+				</ul>
+
+				<ul>
+					<li>Dar de alta nuevas licenciaturas al sistema.</li>
+					<li>Modificar las diferentes licenciaturas registradas en el
+						sistema.</li>
+					<li>Dar de baja licenciaturas registradas en el sistema.</li>
+				</ul>
+			</p:panelGrid>
+		</p:panel>
+		<!-- desc admin -->
+		<!-- desc coordinador -->
+		<p:panel id="coord" header="Coordinador"
+			rendered="#{ControladorLogin.tieneRol2('rol')}"
+			style="margin-bottom:20px"
+			footer="Dirección: Av. Ignacio Zaragoza #1, Centro, Calpulalpan, Tlax">
+			<p:panelGrid columns="1" cellpadding="0">
+				<h:outputText
+					value="En este módulo se podrán realizar las siguientes actividades." />
+				<ul>
+					<li>Podrá cambiar su contraseña.</li>
+					<li>Crear su propio Curriculum Vitae.</li>
+					<li>Visualizar Curriculum Vitae por Docente.</li>
+					<li>Actualizar información de su Curriculum Vitae.</li>
+					<li>Descargar Curriculum Vitae por licenciatura (Zip).</li>
+
+				</ul>
+			</p:panelGrid>
+		</p:panel>
+		<!-- desc coordinador -->
+		<!-- desc secre -->
+		<p:panel id="secre" header="Secretaria"
+			rendered="#{ControladorLogin.tieneRol3('rol')}"
+			style="margin-bottom:20px"
+			footer="Direccion: Av. Ignacio Zaragoza #1, Centro, Calpulalpan, Tlax">
+			<p:panelGrid columns="1" cellpadding="0">
+				<h:outputText
+					value="En este módulo se podrán realizar las siguientes actividades." />
+				<ul>
+					<li>Dar de alta una plantilla de docentes .</li>
+					<li>Vincular a un docente a la licenciatura.</li>
+					<li>Actualización de la información de los Curriculum Vitae de
+						los docentes de su plantilla de trabajo.</li>
+
+					<li>Visualizar Curriculum Vitae por docente.</li>
+					<li>Descargar Curriculum Vitae por licenciatura (Zip).</li>
+					<li>Podrá cambiar su contraseña para ingresar al sistema.</li>
+
+				</ul>
+			</p:panelGrid>
+		</p:panel>
+		<!-- desc secre -->
+		<!-- desc doce -->
+		<p:panel id="basic" header="Docente"
+			rendered="#{ControladorLogin.tieneRol4('rol')}"
+			style="margin-bottom:20px"
+			footer="Dirección: Av. Ignacio Zaragoza #1, Centro, Calpulalpan, Tlax">
+			<p:panelGrid columns="1" cellpadding="0">
+				<h:outputText
+					value="En este módulo se podrán realizar las siguientes actividades." />
+				<ul>
+
+					<li>Podrá cambiar su contraseña.</li>
+					<li>Crear su propio Curriculum Vitae.</li>
+					<li>Visualizar Curriculum Vitae</li>
+					<li>Actualizar información de su Curriculum Vitae.</li>
+
+				</ul>
+			</p:panelGrid>
+		</p:panel>
+		<!-- desc doce -->
+	</h:form>
+</body>
+</html>

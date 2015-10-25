@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+</h:head>
+<h:body>
+	<h:form id="form">
+		<h:outputScript library="js" name="validaciones.js" />
+		<p:growl id="msj" showDetail="true" sticky="false" life="1000" />
+
+		<img src="images/logo-sicva.png" align="middle" width="80"
+			height="130" />
+		<br> </br>
+
+		<!-- BARRA DE NAVEGACIÓN -->
+		<p:menubar>
+			<p:menuitem value="Inicio" icon="ui-icon-home" url="Principal.xhtml" />
+			<p:submenu label="Nuevo" icon="ui-icon-document">
+				<p:submenu label="Registra :" icon="ui-icon-contact">
+					<p:menuitem value="Licenciatura" icon="ui-icon-pencil"
+						url="Crud_licen.xhtml" />
+					<p:separator />
+					<p:menuitem value="Coordinador, Secretaria" icon="ui-icon-pencil"
+						url="Crud_usuarios.xhtml" />
+				</p:submenu>
+			</p:submenu>
+			<f:facet name="options">
+				<p:commandButton value="Cerrar Sesión" icon="ui-icon-closethick"
+					action="#{ControladorLogin.cerrarSesion}" process="@this" />
+			</f:facet>
+		</p:menubar>
+		<br />
+
+		<!-- FORMULARIO -->
+		<p:panel id="basic" header="Control Licenciatura"
+			style="margin-bottom:20px">
+			<p:commandButton value="Agregar" onclick="PF('dlg').show();"
+				type="button" icon="ui-icon-pencil"
+				style="float:right; font-size:12px;" />
+			<br />
+			<br />
+
+			<!-- TABLA -->
+			<p:dataTable var="datos" value="#{Licenciaturas.lista}" id="tb"
+				emptyMessage="No hay registros..."
+				filteredValue="#{Licenciaturas.filtros}">
+
+				<p:column headerText="Licenciatura"
+					style="width:32px;text-align: center;font-size:12px"
+					filterBy="#{datos.descripcion}" filterMatchMode="contains">
+					<h:outputText value="#{datos.descripcion}" />
+				</p:column>
+
+				<p:column headerText="Modificar"
+					style="width:5px;text-align: center;font-size:12px"
+					exportable="false">
+					<p:commandButton oncomplete="PF('d').show();" update=":form:d"
+						action="#{Licenciaturas.actualizarDemo(datos)}"
+						icon="ui-icon-pencil" process="@this">
+					</p:commandButton>
+				</p:column>
+
+				<p:column headerText="Eliminar"
+					style="width:5px;text-align: center;font-size:12px"
+					exportable="false">
+					<p:commandButton update="@form" icon="ui-icon-trash"
+						action="#{Licenciaturas.eliminar}" process="@this">
+						<f:setPropertyActionListener
+							target="#{Licenciaturas.licSeleccionada}" value="#{datos}" />
+						<p:confirm header="Confirmación" message="¿Estas seguro?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+
+		<!-- AGREGAR NUEVA LICENCIATURA (Pantalla emergente)-->
+
+		<p:dialog header="Licenciatura" showEffect="explode" modal="true"
+			hideEffect="explode" widgetVar="dlg" id="dlg">
+
+			<h:panelGrid columns="2" cellpadding="5">
+				<h:outputLabel value="* Descripción:" />
+				<p:inputText id="someText"
+					value="#{Licenciaturas.licenciaturaDTO.descripcion}" maxlength="45"
+					onkeypress="return soloLetras(event)" required="true">
+				</p:inputText>
+				<p:commandButton value="Guardar" icon="ui-icon-disk"
+					update="msj,@form" action="#{Licenciaturas.guardar}"
+					process="@this form:dlg" />
+				<h:outputLabel value="Nota: * Campo obligatorio" />
+			</h:panelGrid>
+		</p:dialog>
+
+
+		<!-- ACTUALIZAR LICENCIATURA (Pantalla emergente)-->
+		<p:dialog header="Actualizar Licenciatura" showEffect="explode"
+			modal="true" hideEffect="explode" widgetVar="d" id="d">
+
+			<h:panelGrid columns="2" cellpadding="5">
+
+				<h:outputLabel value="* Descripción:" />
+				<p:inputText value="#{Licenciaturas.licSeleccionada.descripcion}"
+					maxlength="45" onkeypress="return soloLetras(event)"
+					required="true" />
+
+				<p:commandButton value="Guardar" icon="ui-icon-disk"
+					update="msj,@form" action="#{Licenciaturas.actualizar}"
+					process="@this form:d" />
+
+				<h:outputLabel value="Nota: * Campo obligatorio" />
+			</h:panelGrid>
+		</p:dialog>
+
+		<!-- ELIMINAR LICENCIATURA (Pantalla emergente)-->
+		<p:confirmDialog global="true" showEffect="explode" modal="true"
+			hideEffect="explode">
+
+			<p:commandButton value="Si" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="No" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+	</h:form>
+</h:body>
+</html>
