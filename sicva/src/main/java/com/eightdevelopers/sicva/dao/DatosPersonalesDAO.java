@@ -32,11 +32,12 @@ public class DatosPersonalesDAO {
 	public String guardarDato(DatosPersonalesDTO asistenciacursosDTO) {
 		try {
 			try {
+
 				ConexionBD conexionBD = new ConexionBD();
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call insertar_datospersonales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)} ";
+				String sql = "{ ? = call insertar_datospersonales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
@@ -46,19 +47,14 @@ public class DatosPersonalesDAO {
 				callableStatement.setString(5, asistenciacursosDTO.getCurp());
 				callableStatement.setString(6, asistenciacursosDTO.getRfc());
 				DateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.US);
-
-				Date date = (Date) formatter.parse(asistenciacursosDTO.getFechanacimiento());
-
-				System.out.println(date);
-
-				Calendar cal = Calendar.getInstance();
-
-				cal.setTime(date);
-
-				String formatedDate = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-"
+                Date date = (Date) formatter.parse(asistenciacursosDTO.getFechanacimiento());
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                String formatedDate = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-"
 						+ cal.get(Calendar.DATE);
 
-				System.out.println("formatedDate : " + formatedDate);
+
+				
 
 				callableStatement.setString(7, formatedDate);
 				callableStatement.setString(8, asistenciacursosDTO.getNacionalidad());
@@ -67,13 +63,15 @@ public class DatosPersonalesDAO {
 				callableStatement.setString(11, asistenciacursosDTO.getTel());
 				callableStatement.setString(12, asistenciacursosDTO.getEmail());
 				callableStatement.setString(13, asistenciacursosDTO.getFacebook());
-				// Se cambia el modo de introduccir la imagen de (InputStream)
-				// asistenciacursosDTO.getFoto()
-				// a asistenciacursosDTO.getFoto().getInputstream()
 				callableStatement.setBinaryStream(14, asistenciacursosDTO.getFoto().getInputstream());
 				callableStatement.setInt(15, asistenciacursosDTO.getIdmodif());
-				callableStatement.setInt(16, asistenciacursosDTO.getIdestadocivil());
-				callableStatement.setInt(17, asistenciacursosDTO.getIdusuario());
+				Calendar cal1 = Calendar.getInstance();
+				String Fecha = ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+						+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":" + cal1
+						.get(Calendar.MILLISECOND));
+				callableStatement.setString(16,Fecha);
+				callableStatement.setInt(17, asistenciacursosDTO.getIdestadocivil());
+				callableStatement.setInt(18, asistenciacursosDTO.getIdusuario());
 
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
@@ -94,7 +92,7 @@ public class DatosPersonalesDAO {
 			System.out.println("Error en.." + ex.getMessage());
 		}
 
-		return "Se ha guardado satisfactoriamente";
+		return "";
 
 	}
 
@@ -140,6 +138,7 @@ public class DatosPersonalesDAO {
 				asistenciacursosDTO.setEmail(rs.getString("email"));
 				asistenciacursosDTO.setFacebook(rs.getString("facebook"));
 				asistenciacursosDTO.setIdmodif(rs.getInt("id_usuario_modificacion"));
+				asistenciacursosDTO.setFechamodif(rs.getString("fecha_modificacion"));
 				asistenciacursosDTO.setIdestadocivil(rs.getInt("estados_civiles_id_estados_civiles"));
 				asistenciacursosDTO.setIdusuario(rs.getInt("usuarios_id_usuarios"));
 				asistenciacursosDTO.setNombreodif(rs.getString("nombre_modi"));
@@ -205,7 +204,7 @@ public class DatosPersonalesDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call actualizar_datospersonales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)} ";
+				String sql = "{ ? = call actualizar_datospersonales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
@@ -223,8 +222,13 @@ public class DatosPersonalesDAO {
 				callableStatement.setString(13, asistenciacursosDTO.getEmail());
 				callableStatement.setString(14, asistenciacursosDTO.getFacebook());
 				callableStatement.setInt(15, IdUsuMod);
-				callableStatement.setInt(16, asistenciacursosDTO.getIdestadocivil());
-				callableStatement.setInt(17, asistenciacursosDTO.getIdusuario());
+				Calendar cal1 = Calendar.getInstance();
+				String Fecha = ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+						+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":" + cal1
+						.get(Calendar.MILLISECOND));
+				callableStatement.setString(16,Fecha);
+				callableStatement.setInt(17, asistenciacursosDTO.getIdestadocivil());
+				callableStatement.setInt(18, asistenciacursosDTO.getIdusuario());
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
 				connection.close();
@@ -255,13 +259,18 @@ public class DatosPersonalesDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call actualizar_evidencia_datospersonales(?,?,?)} ";
+				String sql = "{ ? = call actualizar_evidencia_datospersonales(?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
 				callableStatement.setInt(2, datospersonalesDTO.getId());
 				callableStatement.setInt(3, idUsuMod);
-				callableStatement.setBinaryStream(4, datospersonalesDTO.getFoto().getInputstream());
+				Calendar cal1 = Calendar.getInstance();
+				String Fecha = ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+						+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":" + cal1
+						.get(Calendar.MILLISECOND));
+				callableStatement.setString(4,Fecha);
+				callableStatement.setBinaryStream(5, datospersonalesDTO.getFoto().getInputstream());
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
 				connection.close();

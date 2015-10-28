@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.context.FacesContext;
@@ -63,6 +64,7 @@ public class S_ExperienciaLaboralDAO {
 				experiencialaboralDTO.setIdusuario(rs.getInt("usuarios_id_usuarios"));
 				experiencialaboralDTO.setNombre(rs.getString("nombre"));
 				experiencialaboralDTO.setNombreodif(rs.getString("nombre_modi"));
+				experiencialaboralDTO.setFechamodif(rs.getString("fecha_modificacion"));
 				experiencialaboralDTO.setRol(rs.getString("descripcion"));
 				experiencialaboralDTO.setExistencia(rs.getString("existencia"));
 				listado.add(experiencialaboralDTO);
@@ -133,7 +135,7 @@ public class S_ExperienciaLaboralDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call actualizar_experiencialaboral(?,?,?,?,?,?,?,?,?)} ";
+				String sql = "{ ? = call actualizar_experiencialaboral(?,?,?,?,?,?,?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
@@ -144,8 +146,14 @@ public class S_ExperienciaLaboralDAO {
 				callableStatement.setString(6, experiencialaboralDTO.getLugar());
 				callableStatement.setString(7, experiencialaboralDTO.getPuesto());
 				callableStatement.setInt(8, IdUsuMod);
-				callableStatement.setInt(9, experiencialaboralDTO.getIdlic());
-				callableStatement.setInt(10, experiencialaboralDTO.getIdusuario());
+				Calendar cal1 = Calendar.getInstance();
+				String Fecha = ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+						+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":" + cal1
+						.get(Calendar.MILLISECOND));
+				
+				callableStatement.setString(9,Fecha);
+				callableStatement.setInt(10, experiencialaboralDTO.getIdlic());
+				callableStatement.setInt(11, experiencialaboralDTO.getIdusuario());
 
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
@@ -174,13 +182,19 @@ public class S_ExperienciaLaboralDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call actualizar_evidencia_experiencialaboral(?,?,?)} ";
+				String sql = "{ ? = call actualizar_evidencia_experiencialaboral(?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
 				callableStatement.setInt(2, experiencialaboralDTO.getId());
 				callableStatement.setInt(3, idUsuMod);
-				callableStatement.setBinaryStream(4, experiencialaboralDTO.getEvidencia().getInputstream());
+				Calendar cal1 = Calendar.getInstance();
+				String Fecha = ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+						+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":" + cal1
+						.get(Calendar.MILLISECOND));
+				
+				callableStatement.setString(4,Fecha);
+				callableStatement.setBinaryStream(5, experiencialaboralDTO.getEvidencia().getInputstream());
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
 				connection.close();

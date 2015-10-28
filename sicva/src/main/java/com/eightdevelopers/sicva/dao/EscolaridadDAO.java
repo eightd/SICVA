@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.context.FacesContext;
@@ -31,7 +32,7 @@ public class EscolaridadDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call insertar_escolaridad(?,?,?,?,?,?,?,?,?)} ";
+				String sql = "{ ? = call insertar_escolaridad(?,?,?,?,?,?,?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
@@ -43,8 +44,13 @@ public class EscolaridadDAO {
 				// Se cambia el modo de introduccir la imagen de (InputStream)
 				callableStatement.setBinaryStream(7, asistenciacursosDTO.getEvidencia().getInputstream());
 				callableStatement.setInt(8, asistenciacursosDTO.getIdmodif());
-				callableStatement.setInt(9, asistenciacursosDTO.getIdlic());
-				callableStatement.setInt(10, asistenciacursosDTO.getIdusuario());
+				Calendar cal1 = Calendar.getInstance();
+				String Fecha = ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+						+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":" + cal1
+						.get(Calendar.MILLISECOND));
+				callableStatement.setString(9,Fecha);
+				callableStatement.setInt(10, asistenciacursosDTO.getIdlic());
+				callableStatement.setInt(11, asistenciacursosDTO.getIdusuario());
 
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
@@ -109,6 +115,7 @@ public class EscolaridadDAO {
 				escolaridadDTO.setDescripcionlic(rs.getString("nn.descripcion"));
 				escolaridadDTO.setIdusuario(rs.getInt("usuarios_id_usuarios"));
 				escolaridadDTO.setId_nivel(rs.getInt("id_nivel_educativo"));
+				escolaridadDTO.setFechamodif(rs.getString("fecha_modificacion"));
 				escolaridadDTO.setDescripcion(rs.getString("n.descripcion"));
 				escolaridadDTO.setNombreodif(rs.getString("nombre_modi"));
 				escolaridadDTO.setExistencia(rs.getString("exitencia"));
@@ -174,7 +181,7 @@ public class EscolaridadDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call actualizar_escolaridad(?,?,?,?,?,?,?,?,?)} ";
+				String sql = "{ ? = call actualizar_escolaridad(?,?,?,?,?,?,?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
@@ -185,8 +192,13 @@ public class EscolaridadDAO {
 				callableStatement.setString(6, asistenciacursosDTO.getLugar());
 				callableStatement.setString(7, asistenciacursosDTO.getDocumento());
 				callableStatement.setInt(8, idUsuMod);
-				callableStatement.setInt(9, asistenciacursosDTO.getIdlic());
-				callableStatement.setInt(10, asistenciacursosDTO.getIdusuario());
+				Calendar cal1 = Calendar.getInstance();
+				String Fecha = ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+						+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":" + cal1
+						.get(Calendar.MILLISECOND));
+				callableStatement.setString(9,Fecha);
+				callableStatement.setInt(10, asistenciacursosDTO.getIdlic());
+				callableStatement.setInt(11, asistenciacursosDTO.getIdusuario());
 
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
@@ -217,13 +229,19 @@ public class EscolaridadDAO {
 					conexionBD.abrir();
 					Connection connection = conexionBD.getConexion();
 
-					String sql = "{ ? = call actualizar_evidencia_escolaridad(?,?,?)} ";
+					String sql = "{ ? = call actualizar_evidencia_escolaridad(?,?,?,?)} ";
 
 					CallableStatement callableStatement = connection.prepareCall(sql);
 					callableStatement.registerOutParameter(1, Types.INTEGER);
 					callableStatement.setInt(2, escolaridaDTO.getId());
 					callableStatement.setInt(3, idUsuMod);
-					callableStatement.setBinaryStream(4, escolaridaDTO.getEvidencia().getInputstream());
+					
+					Calendar cal1 = Calendar.getInstance();
+					String Fecha = ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+							+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":" + cal1
+							.get(Calendar.MILLISECOND));
+					callableStatement.setString(4,Fecha);
+					callableStatement.setBinaryStream(5, escolaridaDTO.getEvidencia().getInputstream());
 					callableStatement.execute();
 					Integer num = callableStatement.getInt(1);
 					connection.close();

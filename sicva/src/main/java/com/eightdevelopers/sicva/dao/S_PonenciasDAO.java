@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.context.FacesContext;
@@ -57,6 +58,7 @@ public class S_PonenciasDAO {
 				ponenciasDTO.setIdmodif(rs.getInt("id_usuario_modificacion"));
 				ponenciasDTO.setIdlic(rs.getInt("id_lic_inscrita"));
 				ponenciasDTO.setIdusuario(rs.getInt("usuarios_id_usuarios"));
+				ponenciasDTO.setFechamodif(rs.getString("fecha_modificacion"));
 				ponenciasDTO.setName(rs.getString("nombre"));
 				ponenciasDTO.setNombreodif(rs.getString("nombre_modi"));
 				ponenciasDTO.setRol(rs.getString("descripcion"));
@@ -120,7 +122,7 @@ public class S_PonenciasDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call actualizar_cursosponencias(?,?,?,?,?,?,?,?,?)} ";
+				String sql = "{ ? = call actualizar_cursosponencias(?,?,?,?,?,?,?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
@@ -131,8 +133,13 @@ public class S_PonenciasDAO {
 				callableStatement.setString(6, ponenciasDTO.getLugar());
 				callableStatement.setString(7, ponenciasDTO.getHoras());
 				callableStatement.setInt(8, idUsuMod);
-				callableStatement.setInt(9, ponenciasDTO.getIdlic());
-				callableStatement.setInt(10, ponenciasDTO.getIdusuario());
+				Calendar cal1 = Calendar.getInstance();
+				String Fecha = ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+						+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":" + cal1
+						.get(Calendar.MILLISECOND));
+				callableStatement.setString(9,Fecha);
+				callableStatement.setInt(10, ponenciasDTO.getIdlic());
+				callableStatement.setInt(11, ponenciasDTO.getIdusuario());
 
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
@@ -160,13 +167,18 @@ public class S_PonenciasDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call actualizar_evidencia_cursosponencias(?,?,?)} ";
+				String sql = "{ ? = call actualizar_evidencia_cursosponencias(?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
 				callableStatement.setInt(2, ponenciasDTO.getId());
 				callableStatement.setInt(3, idUsuMod);
-				callableStatement.setBinaryStream(4, ponenciasDTO.getEvidencia().getInputstream());
+				Calendar cal1 = Calendar.getInstance();
+				String Fecha = ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+						+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":" + cal1
+						.get(Calendar.MILLISECOND));
+				callableStatement.setString(4,Fecha);
+				callableStatement.setBinaryStream(5, ponenciasDTO.getEvidencia().getInputstream());
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
 				connection.close();

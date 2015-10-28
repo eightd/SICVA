@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.context.FacesContext;
@@ -65,6 +66,7 @@ public class S_DatosPersonalesDAO {
 				datospersonalesDTO.setEmail(rs.getString("email"));
 				datospersonalesDTO.setFacebook(rs.getString("facebook"));
 				datospersonalesDTO.setIdmodif(rs.getInt("id_usuario_modificacion"));
+				datospersonalesDTO.setFechamodif(rs.getString("d.fecha_modificacion"));
 				datospersonalesDTO.setIdestadocivil(rs.getInt("estados_civiles_id_estados_civiles"));
 				datospersonalesDTO.setIdusuario(rs.getInt("usuarios_id_usuarios"));
 				datospersonalesDTO.setRol(rs.getString("rol"));
@@ -124,7 +126,7 @@ public class S_DatosPersonalesDAO {
 					conexionBD.abrir();
 					Connection connection = conexionBD.getConexion();
 
-					String sql = "{ ? = call actualizar_datospersonales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)} ";
+					String sql = "{ ? = call actualizar_datospersonales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)} ";
 
 					CallableStatement callableStatement = connection.prepareCall(sql);
 					callableStatement.registerOutParameter(1, Types.INTEGER);
@@ -142,8 +144,13 @@ public class S_DatosPersonalesDAO {
 					callableStatement.setString(13, datospersonalesDTO.getEmail());
 					callableStatement.setString(14, datospersonalesDTO.getFacebook());
 					callableStatement.setInt(15, IdUsuMod);
-					callableStatement.setInt(16, datospersonalesDTO.getIdestadocivil());
-					callableStatement.setInt(17, datospersonalesDTO.getIdusuario());
+					Calendar cal1 = Calendar.getInstance();
+					String Fecha = ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+							+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":" + cal1
+							.get(Calendar.MILLISECOND));
+					callableStatement.setString(16,Fecha);
+					callableStatement.setInt(17, datospersonalesDTO.getIdestadocivil());
+					callableStatement.setInt(18, datospersonalesDTO.getIdusuario());
 					callableStatement.execute();
 					Integer num = callableStatement.getInt(1);
 					connection.close();
@@ -173,13 +180,18 @@ public class S_DatosPersonalesDAO {
 					conexionBD.abrir();
 					Connection connection = conexionBD.getConexion();
 
-					String sql = "{ ? = call actualizar_evidencia_datospersonales(?,?,?)} ";
+					String sql = "{ ? = call actualizar_evidencia_datospersonales(?,?,?,?)} ";
 
 					CallableStatement callableStatement = connection.prepareCall(sql);
 					callableStatement.registerOutParameter(1, Types.INTEGER);
 					callableStatement.setInt(2, datospersonalesDTO.getId());
 					callableStatement.setInt(3, idUsuMod);
-					callableStatement.setBinaryStream(4, datospersonalesDTO.getFoto().getInputstream());
+					Calendar cal1 = Calendar.getInstance();
+					String Fecha = ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+							+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":" + cal1
+							.get(Calendar.MILLISECOND));
+					callableStatement.setString(4,Fecha);
+					callableStatement.setBinaryStream(5, datospersonalesDTO.getFoto().getInputstream());
 					callableStatement.execute();
 					Integer num = callableStatement.getInt(1);
 					connection.close();
