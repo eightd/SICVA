@@ -117,7 +117,7 @@
 
 						<h:outputLabel value="* Lugar" />
 						<p:inputText value="#{Escolaridad.escolaridaDTO.lugar}"
-							onkeypress="return  direccion(event)" maxlength="50"
+							onkeypress="return  direccion(event)" maxlength="100"
 							required="true" />
 
 
@@ -190,7 +190,7 @@
 				</p:column>
 
 				<p:column headerText="Evidencia"
-					style="width:32px;text-align: center;font-size:12px">
+					style="width:5px;text-align: center;font-size:12px">
 					<h:outputText value="#{datos.existencia}" />
 				</p:column>
 
@@ -235,8 +235,11 @@
 
 			<h:panelGrid columns="2" cellpadding="5">
 
-				<h:outputLabel value="Última modificación" />
+				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{Escolaridad.licSeleccionada.nombreodif}" />
+				
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{Escolaridad.licSeleccionada.fechamodif}" />
 
 				<h:outputLabel value="* Licenciatura Inscrita" />
 				<p:selectOneMenu value="#{Escolaridad.licSeleccionada.idlic}"
@@ -291,8 +294,11 @@
 			modal="true" hideEffect="explode" widgetVar="dlgEvi" id="dlgEvi">
 
 			<h:panelGrid columns="2" cellpadding="5">
-				<h:outputLabel value="Última modificación" />
+				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{Escolaridad.licSeleccionada.nombreodif}" />
+				
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{Escolaridad.licSeleccionada.fechamodif}" />
 
 				<h:outputLabel value="Evidencia"></h:outputLabel>
 				<p:fileUpload value="#{Escolaridad.licSeleccionada.evidencia}"

@@ -48,7 +48,7 @@
 
 	<!-- TABLA -->
 	<h:form enctype="multipart/form-data" id="tabla">
-		<p:growl id="messages" showDetail="true"  sticky="false" life="1000"/>
+		<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
 		<p:panel id="basic"
 			header="Datos Personales de Coordinadores y Docentes de Licenciatura"
 			style="margin-bottom:20px">
@@ -115,98 +115,108 @@
 	<h:form enctype="multipart/form-data" id="actualizar">
 		<p:dialog header="Actualizar Datos Personales" showEffect="explode"
 			modal="true" hideEffect="explode" widgetVar="d" id="d">
+			<!-- escrollpanel-->
+			<p:scrollPanel mode="native" style="height: 550px; width: 400px;">
 
-			<h:panelGrid columns="2" cellpadding="5">
-				<h:outputLabel value="Última modificación" />
-				<h:outputLabel
-					value="#{S_DatosPersonales.licSeleccionada.nombreodif}" />
+				<h:panelGrid columns="2" cellpadding="5">
 
-				<h:outputLabel value="* Nombre" />
-				<p:inputText value="#{S_DatosPersonales.licSeleccionada.nombre}"
-					onkeypress="return  soloLetras(event)" maxlength="30"
-					required="true" />
+					<h:outputLabel value="Última Modificación" />
+					<h:outputLabel
+						value="#{S_DatosPersonales.licSeleccionada.nombreodif}" />
 
+					<h:outputLabel value="Fecha Modificación" />
+					<h:outputLabel
+						value="#{S_DatosPersonales.licSeleccionada.fechamodif}" />
 
-				<h:outputLabel value="* Apellido Paterno" />
-				<p:inputText value="#{S_DatosPersonales.licSeleccionada.ap}"
-					onkeypress="return  soloLetras(event)" maxlength="30"
-					required="true" />
-
-
-				<h:outputLabel value="* Apellido Materno" />
-				<p:inputText value="#{S_DatosPersonales.licSeleccionada.am}"
-					onkeypress="return  soloLetras(event)" maxlength="30"
-					required="true" />
+					<h:outputLabel value="* Nombre" />
+					<p:inputText value="#{S_DatosPersonales.licSeleccionada.nombre}"
+						onkeypress="return  soloLetras(event)" maxlength="45"
+						required="true" />
 
 
-				<h:outputLabel value="* CURP" />
-				<p:inputMask value="#{S_DatosPersonales.licSeleccionada.curp}"
-					mask="aaaa999999aaaaaa99" onkeypress="return  numYletras(event)"
-					maxlength="30" required="true" />
-
-				<h:outputLabel value="* RFC" />
-				<p:inputText value="#{S_DatosPersonales.licSeleccionada.rfc}"
-					onkeypress="return  numYletras(event)" maxlength="30"
-					required="true" />
-
-				<h:outputLabel value="* Fecha de Nacimiento" />
-				<p:inputText
-					value="#{S_DatosPersonales.licSeleccionada.fechanacimiento}" />
+					<h:outputLabel value="* Apellido Paterno" />
+					<p:inputText value="#{S_DatosPersonales.licSeleccionada.ap}"
+						onkeypress="return  soloLetras(event)" maxlength="45"
+						required="true" />
 
 
-
-				<h:outputLabel value="* Nacionalidad" />
-				<p:inputText
-					value="#{S_DatosPersonales.licSeleccionada.nacionalidad}"
-					onkeypress="return  soloLetras(event)" maxlength="30"
-					required="true" />
+					<h:outputLabel value="* Apellido Materno" />
+					<p:inputText value="#{S_DatosPersonales.licSeleccionada.am}"
+						onkeypress="return  soloLetras(event)" maxlength="45"
+						required="true" />
 
 
-				<h:outputLabel value="* Domicilio" />
-				<p:inputText value="#{S_DatosPersonales.licSeleccionada.domicilio}"
-					onkeypress="return  direccion(event)" maxlength="50"
-					required="true" />
+					<h:outputLabel value="* CURP" />
+					<p:inputMask value="#{S_DatosPersonales.licSeleccionada.curp}"
+						mask="aaaa999999aaaaaa99" onkeypress="return  numYletras(event)"
+						maxlength="30" required="true" />
+
+					<h:outputLabel value="* RFC" />
+					<p:inputText value="#{S_DatosPersonales.licSeleccionada.rfc}"
+						onkeypress="return  numYletras(event)" maxlength="50"
+						required="true" />
+
+					<h:outputLabel value="* Fecha de Nacimiento" />
+					<p:inputText
+						value="#{S_DatosPersonales.licSeleccionada.fechanacimiento}" maxlength="11" />
 
 
-				<h:outputLabel value="* Teléfono Móvil" />
-				<p:inputMask value="#{S_DatosPersonales.licSeleccionada.cel}"
-					mask="(999) 999-9999" onkeypress="return  numeros(event)"
-					maxlength="15" required="true" />
 
-				<h:outputLabel value="* Teléfono de Casa" />
-				<p:inputMask value="#{S_DatosPersonales.licSeleccionada.tel}"
-					mask="(999) 999-9999" onkeypress="return  numeros(event)"
-					maxlength="15" required="true" />
+					<h:outputLabel value="* Nacionalidad" />
+					<p:inputText
+						value="#{S_DatosPersonales.licSeleccionada.nacionalidad}"
+						onkeypress="return  soloLetras(event)" maxlength="45"
+						required="true" />
 
-				<h:outputLabel value="* E-mail" />
-				<p:inputText value="#{S_DatosPersonales.licSeleccionada.email}"
-					maxlength="50" required="true" validatorMessage="Correo Incorrecto"
-					requiredMessage="Correo Electronico Requerido">
-					<f:validateRegex
-						pattern="(\W|^)[\w.+\-]{0,25}@(yahoo|hotmail|gmail)\.com(\W|$)" />
-				</p:inputText>
 
-				<h:outputLabel value="* Facebook" />
-				<p:inputText value="#{S_DatosPersonales.licSeleccionada.facebook}"
-					maxlength="50" required="true"
-					validatorMessage="Facebook Incorrecto"
-					requiredMessage="Facebook Requerido">
-					<f:validateRegex
-						pattern="(\W|^)[\w.+\-]{0,25}@(facebook)\.com(\W|$)" />
-				</p:inputText>
+					<h:outputLabel value="* Domicilio" />
+					<p:inputText value="#{S_DatosPersonales.licSeleccionada.domicilio}"
+						onkeypress="return  direccion(event)" maxlength="150"
+						required="true" />
 
-				<h:outputLabel value="* Estado Civil" />
-				<p:selectOneMenu
-					value="#{S_DatosPersonales.licSeleccionada.idestadocivil}"
-					style="width:210px">
-					<f:selectItem itemValue=" " itemLabel="- Seleccionar -"></f:selectItem>
-					<f:selectItems value="#{CarreraControlador.listaEstadoCivil}"
-						var="s" itemValue="#{s.id}" itemLabel="#{s.descripcion}"></f:selectItems>
-				</p:selectOneMenu>
 
-				<p:commandButton value="Guardar" icon="ui-icon-disk" ajax="false"
-					update="msj,@form" action="#{S_DatosPersonales.actualizar}" />
-			</h:panelGrid>
+					<h:outputLabel value="* Teléfono Móvil" />
+					<p:inputMask value="#{S_DatosPersonales.licSeleccionada.cel}"
+						mask="(999) 999-9999" onkeypress="return  numeros(event)"
+						maxlength="20" required="true" />
+
+					<h:outputLabel value="* Teléfono de Casa" />
+					<p:inputMask value="#{S_DatosPersonales.licSeleccionada.tel}"
+						mask="(999) 999-9999" onkeypress="return  numeros(event)"
+						maxlength="20" required="true" />
+
+					<h:outputLabel value="* E-mail" />
+					<p:inputText value="#{S_DatosPersonales.licSeleccionada.email}"
+						maxlength="60" required="true"
+						validatorMessage="Correo Incorrecto"
+						requiredMessage="Correo Electronico Requerido">
+						<f:validateRegex
+							pattern="(\W|^)[\w.+\-]{0,25}@(yahoo|hotmail|gmail)\.com(\W|$)" />
+					</p:inputText>
+
+					<h:outputLabel value="* Facebook" />
+					<p:inputText value="#{S_DatosPersonales.licSeleccionada.facebook}"
+						maxlength="45" required="true"
+						validatorMessage="Facebook Incorrecto"
+						requiredMessage="Facebook Requerido">
+						<f:validateRegex
+							pattern="(\W|^)[\w.+\-]{0,25}@(facebook)\.com(\W|$)" />
+					</p:inputText>
+
+					<h:outputLabel value="* Estado Civil" />
+					<p:selectOneMenu
+						value="#{S_DatosPersonales.licSeleccionada.idestadocivil}"
+						style="width:210px">
+						<f:selectItem itemValue=" " itemLabel="- Seleccionar -"></f:selectItem>
+						<f:selectItems value="#{CarreraControlador.listaEstadoCivil}"
+							var="s" itemValue="#{s.id}" itemLabel="#{s.descripcion}"></f:selectItems>
+					</p:selectOneMenu>
+
+					<p:commandButton value="Guardar" icon="ui-icon-disk" ajax="false"
+						update="msj,@form" action="#{S_DatosPersonales.actualizar}" />
+				</h:panelGrid>
+				<!-- cierro escrollpanel -->
+			</p:scrollPanel>
 		</p:dialog>
 	</h:form>
 
@@ -218,7 +228,11 @@
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel value="Última modificación" />
 				<h:outputLabel
-					value="#S_DatosPersonales.licSeleccionada.nombreodif}" />
+					value="#{S_DatosPersonales.licSeleccionada.nombreodif}" />
+
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel
+					value="#{S_DatosPersonales.licSeleccionada.fechamodif}" />
 
 				<h:outputLabel value="Evidencia"></h:outputLabel>
 				<p:fileUpload value="#{S_DatosPersonales.licSeleccionada.foto}"

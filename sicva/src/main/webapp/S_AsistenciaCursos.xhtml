@@ -134,8 +134,11 @@
 			modal="true" hideEffect="explode" widgetVar="d" id="d">
 			<h:panelGrid columns="2" cellpadding="5" id="panGriPru">
 
-				<h:outputLabel value="Última modificación" />
+				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{S_Asistencia.licSeleccionada.nombreodif}" />
+				
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{S_Asistencia.licSeleccionada.fechamodif}" />
 
 				<h:outputLabel value="* Periodo" />
 				<p:inputMask value="#{S_Asistencia.licSeleccionada.periodo}"
@@ -144,17 +147,17 @@
 
 				<h:outputLabel value="* Curso" />
 				<p:inputText value="#{S_Asistencia.licSeleccionada.curso}"
-					onkeypress="return  soloLetras(event)" maxlength="50"
+					onkeypress="return  soloLetras(event)" maxlength="80"
 					required="true" />
 
 				<h:outputLabel value="* Institución" />
 				<p:inputText value="#{S_Asistencia.licSeleccionada.institucion}"
-					onkeypress="return  numYletras(event)" maxlength="50"
+					onkeypress="return  numYletras(event)" maxlength="80"
 					required="true" />
 
 				<h:outputLabel value="* Lugar" />
 				<p:inputText value="#{S_Asistencia.licSeleccionada.lugar}"
-					onkeypress="return  direccion(event)" maxlength="50"
+					onkeypress="return  direccion(event)" maxlength="100"
 					required="true" />
 
 				<h:outputLabel value="* Horas" />
@@ -175,6 +178,9 @@
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel value="Última modificación" />
 				<h:outputLabel value="#{S_Asistencia.licSeleccionada.nombreodif}" />
+				
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{S_Asistencia.licSeleccionada.fechamodif}" />
 
 				<h:outputLabel value="Evidencia"></h:outputLabel>
 				<p:fileUpload value="#{S_Asistencia.licSeleccionada.evidencia}"

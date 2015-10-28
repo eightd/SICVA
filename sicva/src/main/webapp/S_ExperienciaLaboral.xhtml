@@ -140,8 +140,11 @@
 
 			<h:panelGrid columns="2" cellpadding="5">
 
-				<h:outputLabel value="Última modificación" />
+				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{S_Experiencia.licSeleccionada.nombreodif}" />
+				
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{S_Experiencia.licSeleccionada.fechamodif}" />
 
 				<h:outputLabel value="* Periodo" />
 				<p:inputMask value="#{S_Experiencia.licSeleccionada.periodo}"
@@ -160,12 +163,12 @@
 
 				<h:outputLabel value="* Lugar" />
 				<p:inputText value="#{S_Experiencia.licSeleccionada.lugar}"
-					onkeypress="return  direccion(event)" maxlength="50"
+					onkeypress="return  direccion(event)" maxlength="80"
 					required="true" />
 
 				<h:outputLabel value="* Puesto" />
 				<p:inputText value="#{S_Experiencia.licSeleccionada.puesto}"
-					onkeypress="return  soloLetras(event)" maxlength="50"
+					onkeypress="return  soloLetras(event)" maxlength="45"
 					required="true" />
 
 
@@ -181,8 +184,11 @@
 			modal="true" hideEffect="explode" widgetVar="dlgEvi" id="dlgEvi">
 
 			<h:panelGrid columns="2" cellpadding="5">
-				<h:outputLabel value="Última modificación" />
+				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{S_Experiencia.licSeleccionada.nombreodif}" />
+				
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{S_Experiencia.licSeleccionada.fechamodif}" />
 
 				<h:outputLabel value="Evidencia"></h:outputLabel>
 				<p:fileUpload value="#{S_Experiencia.licSeleccionada.evidencia}"

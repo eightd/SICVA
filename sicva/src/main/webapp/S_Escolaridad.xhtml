@@ -122,8 +122,11 @@
 
 			<h:panelGrid columns="2" cellpadding="5">
 
-				<h:outputLabel value="Última modificación" />
+				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{S_Escolaridad.licSeleccionada.nombreodif}" />
+				
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{S_Escolaridad.licSeleccionada.fechamodif}" />
 
 				<h:outputLabel value="* Nivel Educativo" />
 				<p:selectOneMenu value="#{S_Escolaridad.licSeleccionada.id_nivel}"
@@ -170,8 +173,11 @@
 			modal="true" hideEffect="explode" widgetVar="dlgEvi" id="dlgEvi">
 
 			<h:panelGrid columns="2" cellpadding="5">
-				<h:outputLabel value="Última modificación" />
+				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{S_Escolaridad.licSeleccionada.nombreodif}" />
+				
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{S_Escolaridad.licSeleccionada.fechamodif}" />
 
 				<h:outputLabel value="Evidencia"></h:outputLabel>
 				<p:fileUpload value="#{S_Escolaridad.licSeleccionada.evidencia}"

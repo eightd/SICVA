@@ -17,7 +17,7 @@
 			document.getElenentById('id="BtnMostrar').disabled = true
 		}
 	</script>
-	
+
 	<f:metadata>
 		<f:viewAction action="#{Asistencia.init}" />
 	</f:metadata>
@@ -85,7 +85,7 @@
 			<div id='oculto' style='display: none;'>
 				<center>
 
-					<p:growl id="messages" showDetail="true"  sticky="false" life="1000"/>
+					<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
 					<h:outputLabel value="NUEVA ASISTENCIA A CURSO" />
 					<br /> <br />
 					<p:panelGrid columns="2" cellpadding="5"
@@ -108,18 +108,18 @@
 
 						<h:outputLabel value="* Curso" />
 						<p:inputText value="#{Asistencia.asistenciacursosDTO.curso}"
-							onkeypress="return  soloLetras(event)" maxlength="50"
+							onkeypress="return  soloLetras(event)" maxlength="80"
 							required="true" />
 
 						<h:outputLabel value="* Institución" />
 						<p:inputText value="#{Asistencia.asistenciacursosDTO.institucion}"
-							onkeypress="return  numYletras(event)" maxlength="50"
+							onkeypress="return  numYletras(event)" maxlength="80"
 							required="true" />
 
 
 						<h:outputLabel value="* Lugar" />
 						<p:inputText value="#{Asistencia.asistenciacursosDTO.lugar}"
-							onkeypress="return  direccion(event)" maxlength="50"
+							onkeypress="return  direccion(event)" maxlength="100"
 							required="true" />
 
 
@@ -143,7 +143,7 @@
 	</h:form>
 	<!-- TABLA -->
 	<h:form enctype="multipart/form-data" id="tabla">
-		<p:growl id="messages" showDetail="true"  sticky="false" life="1000"/>
+		<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
 		<p:panel id="basic" header="Registros de Asistencia a Cursos"
 			style="margin-bottom:20px">
 			<p:dataTable var="datos" value="#{Asistencia.lista}" id="tb"
@@ -185,9 +185,9 @@
 					style="width:32px;text-align: center;font-size:12px">
 					<h:outputText value="#{datos.horas}" />
 				</p:column>
-				
+
 				<p:column headerText="Evidencia"
-					style="width:32px;text-align: center;font-size:12px">
+					style="width:5px;text-align: center;font-size:12px">
 					<h:outputText value="#{datos.existencia}" />
 				</p:column>
 
@@ -200,13 +200,12 @@
 						action="#{Asistencia.actualizarDemo(datos)}" icon="ui-icon-pencil">
 					</p:commandButton>
 				</p:column>
-				
+
 				<p:column headerText="Modificar Evidencia"
 					style="width:5px;text-align: center;font-size:12px">
 					<p:commandButton oncomplete="PF('dlgEvi').show();"
 						update=":UpdEvi:dlgEvi"
-						action="#{Asistencia.actualizarDemo(datos)}"
-						icon="ui-icon-pencil">
+						action="#{Asistencia.actualizarDemo(datos)}" icon="ui-icon-pencil">
 					</p:commandButton>
 				</p:column>
 
@@ -234,9 +233,12 @@
 			modal="true" hideEffect="explode" widgetVar="d" id="d">
 
 			<h:panelGrid columns="2" cellpadding="5" id="panGriPru">
-			
-			<h:outputLabel value="Última modificación" />
+
+				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{Asistencia.licSeleccionada.nombreodif}" />
+
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{Asistencia.licSeleccionada.fechamodif}" />
 
 				<h:outputLabel value="* Licenciatura Inscrita" />
 				<p:selectOneMenu value="#{Asistencia.licSeleccionada.idlic}"
@@ -253,17 +255,17 @@
 
 				<h:outputLabel value="* Curso" />
 				<p:inputText value="#{Asistencia.licSeleccionada.curso}"
-					onkeypress="return  soloLetras(event)" maxlength="50"
+					onkeypress="return  soloLetras(event)" maxlength="80"
 					required="true" />
 
 				<h:outputLabel value="* Institución" />
 				<p:inputText value="#{Asistencia.licSeleccionada.institucion}"
-					onkeypress="return  numYletras(event)" maxlength="50"
+					onkeypress="return  numYletras(event)" maxlength="80"
 					required="true" />
 
 				<h:outputLabel value="* Lugar" />
 				<p:inputText value="#{Asistencia.licSeleccionada.lugar}"
-					onkeypress="return  direccion(event)" maxlength="50"
+					onkeypress="return  direccion(event)" maxlength="100"
 					required="true" />
 
 				<h:outputLabel value="* Horas" />
@@ -275,15 +277,18 @@
 			</h:panelGrid>
 		</p:dialog>
 	</h:form>
-	
+
 	<!-- ACTUALIZAR EVIDENCIA (Pantalla emergente)-->
 	<h:form enctype="multipart/form-data" id="UpdEvi">
 		<p:dialog header="Actualizar Evidencia" showEffect="explode"
 			modal="true" hideEffect="explode" widgetVar="dlgEvi" id="dlgEvi">
 
 			<h:panelGrid columns="2" cellpadding="5">
-				<h:outputLabel value="Última modificación" />
+				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{Asistencia.licSeleccionada.nombreodif}" />
+				
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{Asistencia.licSeleccionada.fechamodif}" />
 
 				<h:outputLabel value="Evidencia"></h:outputLabel>
 				<p:fileUpload value="#{Asistencia.licSeleccionada.evidencia}"

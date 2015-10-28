@@ -115,19 +115,19 @@
 
 						<h:outputLabel value="* Nombre" />
 						<p:inputText value="#{Datos.datospersonalesDTO.nombre}"
-							onkeypress="return  soloLetras(event)" maxlength="30"
+							onkeypress="return  soloLetras(event)" maxlength="45"
 							required="true" />
 
 
 						<h:outputLabel value="* Apellido Paterno" />
 						<p:inputText value="#{Datos.datospersonalesDTO.ap}"
-							onkeypress="return  soloLetras(event)" maxlength="30"
+							onkeypress="return  soloLetras(event)" maxlength="45"
 							required="true" />
 
 
 						<h:outputLabel value="* Apellido Materno" />
 						<p:inputText value="#{Datos.datospersonalesDTO.am}"
-							onkeypress="return  soloLetras(event)" maxlength="30"
+							onkeypress="return  soloLetras(event)" maxlength="45"
 							required="true" />
 
 
@@ -139,7 +139,7 @@
 						<h:outputLabel value="* RFC" />
 						<p:inputText value="#{Datos.datospersonalesDTO.rfc}"
 							mask="aaaa999999aaaaaa99" onkeypress="return  numYletras(event)"
-							maxlength="30" required="true" />
+							maxlength="50" required="true" />
 
 						<h:outputLabel value="* Fecha de Nacimiento" />
 						<p:calendar id="mask"
@@ -148,29 +148,29 @@
 
 						<h:outputLabel value="* Nacionalidad" />
 						<p:inputText value="#{Datos.datospersonalesDTO.nacionalidad}"
-							onkeypress="return  soloLetras(event)" maxlength="30"
+							onkeypress="return  soloLetras(event)" maxlength="45"
 							required="true" />
 
 
 						<h:outputLabel value="* Domicilio" />
 						<p:inputText value="#{Datos.datospersonalesDTO.domicilio}"
-							onkeypress="return  direccion(event)" maxlength="50"
+							onkeypress="return  direccion(event)" maxlength="150"
 							required="true" />
 
 
 						<h:outputLabel value="* Teléfono Móvil" />
 						<p:inputMask value="#{Datos.datospersonalesDTO.cel}"
 							mask="(999) 999-9999" onkeypress="return  numeros(event)"
-							maxlength="15" required="true" />
+							maxlength="20" required="true" />
 
 						<h:outputLabel value="* Teléfono de Casa" />
 						<p:inputMask value="#{Datos.datospersonalesDTO.tel}"
 							mask="(999) 999-9999" onkeypress="return  numeros(event)"
-							maxlength="15" required="true" />
+							maxlength="20" required="true" />
 
 						<h:outputLabel value="* E-mail" />
 						<p:inputText value="#{Datos.datospersonalesDTO.email}"
-							maxlength="50" required="true"
+							maxlength="60" required="true"
 							validatorMessage="Correo Incorrecto"
 							requiredMessage="Correo Electronico Requerido">
 							<f:validateRegex
@@ -180,7 +180,7 @@
 
 						<h:outputLabel value="* Facebook" />
 						<p:inputText value="#{Datos.datospersonalesDTO.facebook}"
-							maxlength="50" required="true"
+							maxlength="45" required="true"
 							validatorMessage="Facebook Incorrecto"
 							requiredMessage="Facebook Requerido">
 							<f:validateRegex
@@ -208,6 +208,7 @@
 				<br /> <br />
 			</div>
 		</p:panel>
+		
 	</h:form>
 	<!-- TABLA -->
 	<h:form enctype="multipart/form-data" id="tabla">
@@ -250,7 +251,7 @@
 				</p:column>
 
 				<p:column headerText="Foto"
-					style="width:32px;text-align: center;font-size:12px">
+					style="width:5px;text-align: center;font-size:12px">
 					<h:outputText value="#{datos.existencia}" />
 				</p:column>
 
@@ -297,24 +298,28 @@
 			modal="true" hideEffect="explode" widgetVar="d" id="d">
 
 			<h:panelGrid columns="2" cellpadding="5">
-				<h:outputLabel value="Última modificación" />
+				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{Datos.licSeleccionada.nombreodif}" />
+				
+				
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{Datos.licSeleccionada.fechamodif}" />
 
 				<h:outputLabel value="* Nombre" />
 				<p:inputText value="#{Datos.licSeleccionada.nombre}"
-					onkeypress="return  soloLetras(event)" maxlength="30"
+					onkeypress="return  soloLetras(event)" maxlength="45"
 					required="true" />
 
 
 				<h:outputLabel value="* Apellido Paterno" />
 				<p:inputText value="#{Datos.licSeleccionada.ap}"
-					onkeypress="return  soloLetras(event)" maxlength="30"
+					onkeypress="return  soloLetras(event)" maxlength="45"
 					required="true" />
 
 
 				<h:outputLabel value="* Apellido Materno" />
 				<p:inputText value="#{Datos.licSeleccionada.am}"
-					onkeypress="return  soloLetras(event)" maxlength="30"
+					onkeypress="return  soloLetras(event)" maxlength="45"
 					required="true" />
 
 
@@ -325,7 +330,7 @@
 
 				<h:outputLabel value="* RFC" />
 				<p:inputText value="#{Datos.licSeleccionada.rfc}"
-					onkeypress="return  numYletras(event)" maxlength="30"
+					onkeypress="return  numYletras(event)" maxlength="50"
 					required="true" />
 
 				<h:outputLabel value="* Fecha de Nacimiento" />
@@ -335,28 +340,28 @@
 
 				<h:outputLabel value="* Nacionalidad" />
 				<p:inputText value="#{Datos.licSeleccionada.nacionalidad}"
-					onkeypress="return  soloLetras(event)" maxlength="30"
+					onkeypress="return  soloLetras(event)" maxlength="45"
 					required="true" />
 
 
 				<h:outputLabel value="* Domicilio" />
 				<p:inputText value="#{Datos.licSeleccionada.domicilio}"
-					onkeypress="return  direccion(event)" maxlength="50"
+					onkeypress="return  direccion(event)" maxlength="150"
 					required="true" />
 
 
 				<h:outputLabel value="* Teléfono Móvil" />
 				<p:inputMask value="#{Datos.licSeleccionada.cel}"
 					mask="(999) 999-9999" onkeypress="return  numeros(event)"
-					maxlength="15" required="true" />
+					maxlength="20" required="true" />
 
 				<h:outputLabel value="* Teléfono de Casa" />
 				<p:inputMask value="#{Datos.licSeleccionada.tel}"
 					mask="(999) 999-9999" onkeypress="return  numeros(event)"
-					maxlength="15" required="true" />
+					maxlength="20" required="true" />
 
 				<h:outputLabel value="* E-mail" />
-				<p:inputText value="#{Datos.licSeleccionada.email}" maxlength="50"
+				<p:inputText value="#{Datos.licSeleccionada.email}" maxlength="60"
 					required="true" validatorMessage="Correo Incorrecto"
 					requiredMessage="Correo Electronico Requerido">
 					<f:validateRegex
@@ -365,7 +370,7 @@
 
 				<h:outputLabel value="* Facebook" />
 				<p:inputText value="#{Datos.licSeleccionada.facebook}"
-					maxlength="50" required="true"
+					maxlength="45" required="true"
 					validatorMessage="Facebook Incorrecto"
 					requiredMessage="Facebook Requerido">
 					<f:validateRegex
@@ -395,9 +400,12 @@
 			modal="true" hideEffect="explode" widgetVar="dlgEvi" id="dlgEvi">
 
 			<h:panelGrid columns="2" cellpadding="5">
-				<h:outputLabel value="Última modificación" />
+				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{Datos.licSeleccionada.nombreodif}" />
-
+				
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{Datos.licSeleccionada.fechamodif}" />
+				
 				<h:outputLabel value="Evidencia"></h:outputLabel>
 				<p:fileUpload value="#{Datos.licSeleccionada.foto}" mode="simple"
 					skinSimple="true" />
