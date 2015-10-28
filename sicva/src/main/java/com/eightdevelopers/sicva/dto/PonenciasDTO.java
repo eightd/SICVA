@@ -27,6 +27,7 @@ public class PonenciasDTO implements Serializable {
 	private Integer idusuario;
 	private String descripcionlic;
 	private String nombreodif;
+	private String fechamodif;
 	private String existencia;
 	// tipos de datos para uso exclusivo de una secretaria
 	private String name;
@@ -150,6 +151,14 @@ public class PonenciasDTO implements Serializable {
 
 	public void setRol(String rol) {
 		this.rol = rol;
+	}
+
+	public String getFechamodif() {
+		return fechamodif;
+	}
+
+	public void setFechamodif(String fechamodif) {
+		this.fechamodif = fechamodif;
 	}
 
 }

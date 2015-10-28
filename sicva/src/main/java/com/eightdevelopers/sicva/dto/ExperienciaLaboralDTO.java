@@ -25,6 +25,7 @@ public class ExperienciaLaboralDTO implements Serializable {
 	private Integer idmodif;
 	private Integer idlic;
 	private Integer idusuario;
+	private String fechamodif;
 	private String descripcionlic;
 	private String nombreodif;
 	private String existencia;
@@ -150,6 +151,14 @@ public class ExperienciaLaboralDTO implements Serializable {
 
 	public void setRol(String rol) {
 		this.rol = rol;
+	}
+
+	public String getFechamodif() {
+		return fechamodif;
+	}
+
+	public void setFechamodif(String fechamodif) {
+		this.fechamodif = fechamodif;
 	}
 
 }
