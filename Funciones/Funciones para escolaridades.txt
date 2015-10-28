@@ -1,11 +1,8 @@
-
-------------------------
-
-
-------------------------------------------
---  FUNCTION insertar_escolaridad
 ------------------------------------------------------------------
 
+--  FUNCTION insertar_escolaridad
+
+------------------------------------------------------------------
 
 
 CREATE DEFINER = `root` @`localhost`
@@ -16,6 +13,7 @@ FUNCTION `insertar_escolaridad`(MiNivel           INT(11),
                                 MiDocumento       VARCHAR(45),
                                 MiEvidencia       LONGBLOB,
                                 IdModifica        INT(11),
+                                MiFechaModi       VARCHAR(45),
                                 IdLicenciatura    INT(11),
                                 MiIdUsuario       INT(11))
    RETURNS int(11)
@@ -25,14 +23,14 @@ BEGIN
    SELECT COUNT(*)
      INTO contador
      FROM escolaridades
-          WHERE     niveles_educativos_id_nivel_educativo = MiNivel
+    WHERE     niveles_educativos_id_nivel_educativo = MiNivel
           AND institucion = MiInstitucion
           AND periodo = MiPeriodo
           AND lugar = MiLugar
           AND documento_obtenido = MiDocumento
           AND id_lic_inscrita = IdLicenciatura
-          AND usuarios_id_usuarios = MiIdUsuario;
-
+          AND usuarios_id_usuarios = MiIdUsuario
+          AND fecha_modificacion = MiFechaModi;
 
    IF (contador > 0)
    THEN
@@ -45,6 +43,7 @@ BEGIN
                                 documento_obtenido,
                                 evidencia,
                                 id_usuario_modificacion,
+                                fecha_modificacion,
                                 id_lic_inscrita,
                                 usuarios_id_usuarios)
            VALUES (MiNivel,
@@ -54,15 +53,15 @@ BEGIN
                    UPPER(MiDocumento),
                    MiEvidencia,
                    IdModifica,
+                   MiFechaModi,
                    IdLicenciatura,
                    MiIdUsuario);
 
       RETURN 1;
    END IF;
-END
+END;
 
 
-;
 
 ------------------------------------------------------------------
 
@@ -79,9 +78,9 @@ BEGIN
          WHERE id_escolaridad = MiId;
 
    RETURN 1;
-END
+END;
 
-;
+
 
 
 ------------------------------------------------------------------
@@ -91,7 +90,6 @@ END
 ------------------------------------------------------------------
 
 
-
 CREATE DEFINER = `root` @`localhost`
 FUNCTION `actualizar_escolaridad`(MiId              int(11),
                                   MiNivel           INT(11),
@@ -99,8 +97,8 @@ FUNCTION `actualizar_escolaridad`(MiId              int(11),
                                   MiPeriodo         VARCHAR(45),
                                   MiLugar           VARCHAR(100),
                                   MiDocumento       VARCHAR(45),
-                                  MiEvidencia       LONGBLOB,
                                   IdModifica        INT(11),
+                                  MiFechaModi       VARCHAR(45),
                                   IdLicenciatura    INT(11),
                                   MiIdUsuario       INT(11))
    RETURNS int(11)
@@ -110,13 +108,14 @@ BEGIN
    SELECT COUNT(*)
      INTO contador
      FROM escolaridades
-          WHERE     niveles_educativos_id_nivel_educativo = MiNivel
+    WHERE     niveles_educativos_id_nivel_educativo = MiNivel
           AND institucion = MiInstitucion
           AND periodo = MiPeriodo
           AND lugar = MiLugar
           AND documento_obtenido = MiDocumento
           AND id_lic_inscrita = IdLicenciatura
-          AND usuarios_id_usuarios = MiIdUsuario;
+          AND usuarios_id_usuarios = MiIdUsuario
+          AND fecha_modificacion = MiFechaModi;
 
 
    IF (contador > 0)
@@ -129,32 +128,46 @@ BEGIN
              periodo = UPPER(MiPeriodo),
              lugar = UPPER(MiLugar),
              documento_obtenido = UPPER(MiDocumento),
-             evidencia = MiEvidencia,
              id_usuario_modificacion = IdModifica,
+             fecha_modificacion = MiFechaModi,
              niveles_educativos_id_nivel_educativo = MiNivel,
              usuarios_id_usuarios = MiIdUsuario
        WHERE id_escolaridad = MiId;
 
       RETURN 1;
    END IF;
-END
+END;
 
 
-;
 
 
 ------------------------------------------------------------------
+
 --  FUNCTION actualizar_evidencia_escolaridad
+
 ------------------------------------------------------------------
+
 
 CREATE DEFINER = `root` @`localhost`
-FUNCTION `actualizar_evidencia_escolaridad`(MiId int(11), IdModifica INT(11), MiEvidencia LONGBLOB)
+FUNCTION `actualizar_evidencia_escolaridad`(MiId           int(11),
+                                            IdModifica     INT(11),
+                                            MiFechaModi    VARCHAR(45),
+                                            MiEvidencia    LONGBLOB)
    RETURNS int(11)
 BEGIN
-      UPDATE escolaridades
+   UPDATE escolaridades
       SET evidencia = MiEvidencia,
-      id_usuario_modificacion = IdModifica
-      WHERE id_escolaridad = MiId;
-   
-      RETURN 1;
+          id_usuario_modificacion = IdModifica,
+          fecha_modificacion = MiFechaModi
+    WHERE id_escolaridad = MiId;
+
+   RETURN 1;
 END;
+
+
+
+
+
+
+
+

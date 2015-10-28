@@ -1,9 +1,12 @@
 ------------------------------------------------------------------
+
 --  FUNCTION insertar_datospersonales
+
 ------------------------------------------------------------------
 
 
-CREATE FUNCTION `insertar_datospersonales`(MiNombre             VARCHAR(45),
+CREATE DEFINER = `root` @`localhost`
+FUNCTION `insertar_datospersonales`(MiNombre             VARCHAR(45),
                                     MiAp                 VARCHAR(45),
                                     MiAm                 VARCHAR(45),
                                     MiCurp               VARCHAR(30),
@@ -14,22 +17,20 @@ CREATE FUNCTION `insertar_datospersonales`(MiNombre             VARCHAR(45),
                                     MiCel                VARCHAR(20),
                                     MiTel                VARCHAR(20),
                                     MiEmail              VARCHAR(60),
-                                    MiFacebook           VARCHAR(60),
+                                    MiFacebook           VARCHAR(45),
                                     MiFoto               LONGBLOB,
                                     IdModifica           INT(11),
+                                    MiFechaModi          VARCHAR(30),
                                     IdEstadoCivil        INT(11),
                                     MiIdUsuario          INT(11))
    RETURNS int(11)
 BEGIN
    DECLARE contador   INT;
 
-
    SELECT COUNT(*)
      INTO contador
      FROM datos_personales
     WHERE usuarios_id_usuarios = MiIdUsuario;
-
-
 
    IF (contador > 0)
    THEN
@@ -49,6 +50,7 @@ BEGIN
                                    facebook,
                                    foto,
                                    id_usuario_modificacion,
+                                   fecha_modificacion,
                                    estados_civiles_id_estados_civiles,
                                    usuarios_id_usuarios)
            VALUES (UPPER(MiNombre),
@@ -65,13 +67,15 @@ BEGIN
                    MiFacebook,
                    MiFoto,
                    IdModifica,
+                   MiFechaModi,
                    IdEstadoCivil,
                    MiIdUsuario);
-
-
       RETURN 1;
    END IF;
 END;
+
+
+
 
 ------------------------------------------------------------------
 
@@ -86,10 +90,8 @@ FUNCTION `eliminar_datospersonales`(MiId int(11))
 BEGIN
    DELETE FROM datos_personales
          WHERE id_datos_personales = MiId;
-
    RETURN 1;
 END;
-
 
 
 
@@ -99,7 +101,9 @@ END;
 
 ------------------------------------------------------------------
 
-CREATE FUNCTION sicva.`actualizar_datospersonales`(MiId                 int(11),
+
+CREATE DEFINER = `root` @`localhost`
+FUNCTION `actualizar_datospersonales`(MiId                 int(11),
                                       MiNombre             VARCHAR(45),
                                       MiAp                 VARCHAR(45),
                                       MiAm                 VARCHAR(45),
@@ -111,10 +115,12 @@ CREATE FUNCTION sicva.`actualizar_datospersonales`(MiId                 int(11),
                                       MiCel                VARCHAR(20),
                                       MiTel                VARCHAR(20),
                                       MiEmail              VARCHAR(60),
-                                      MiFacebook           VARCHAR(60),
+                                      MiFacebook           VARCHAR(45),
                                       IdModifica           INT(11),
+                                      MiFechaModi          VARCHAR(30),
                                       IdEstadoCivil        INT(11),
-                                      MiIdUsuario          INT(11)) RETURNS int(11)
+                                      MiIdUsuario          INT(11))
+   RETURNS int(11)
 BEGIN
    DECLARE contador   INT;
 
@@ -135,9 +141,8 @@ BEGIN
           AND facebook = MiFacebook
           AND id_usuario_modificacion = IdModifica
           AND estados_civiles_id_estados_civiles = IdEstadoCivil
-          AND usuarios_id_usuarios = MiIdUsuario;
-
-
+          AND usuarios_id_usuarios = MiIdUsuario
+          AND fecha_modificacion = MiFechaModi;
 
    IF (contador > 0)
    THEN
@@ -158,31 +163,54 @@ BEGIN
              facebook = MiFacebook,
              id_usuario_modificacion = IdModifica,
              estados_civiles_id_estados_civiles = IdEstadoCivil,
-             usuarios_id_usuarios = MiIdUsuario
+             usuarios_id_usuarios = MiIdUsuario,
+             fecha_modificacion = MiFechaModi
        WHERE id_datos_personales = MiId;
-
-
-
       RETURN 1;
    END IF;
 END;
 
+
+
+
 ------------------------------------------------------------------
+
 --  FUNCTION actualizar_evidencia_datospersonales
+
 ------------------------------------------------------------------
 
 
 CREATE DEFINER = `root` @`localhost`
+
 FUNCTION `actualizar_evidencia_datospersonales`(MiId           int(11),
+
                                                 IdModifica     INT(11),
+
+                                                MiFechaModi    VARCHAR(30),
+
                                                 MiEvidencia    LONGBLOB)
+
    RETURNS int(11)
 BEGIN
-   UPDATE datos_personales
-      SET foto = MiEvidencia,
-	id_usuario_modificacion = IdModifica
+   
+
+    UPDATE datos_personales
+      
+	  SET foto = MiEvidencia,
+          
+	  id_usuario_modificacion = IdModifica,
+
+          fecha_modificacion = MiFechaModi
+
     WHERE id_datos_personales = MiId;
 
 
+
    RETURN 1;
+
 END;
+
+
+
+
+

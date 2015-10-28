@@ -1,8 +1,5 @@
------------------------------------------------------------
+------------------------------------------------------------------
 
-
-
--------
 --  FUNCTION insertar_experiencialaboral
 
 ------------------------------------------------------------------
@@ -13,9 +10,10 @@ FUNCTION `insertar_experiencialaboral`(MiPeriodo         VARCHAR(45),
                                        MiEmpresa         VARCHAR(80),
                                        MiInstitucion     VARCHAR(80),
                                        MiLugar           VARCHAR(80),
-                                       MiPuesto          VARCHAR(80),
+                                       MiPuesto          VARCHAR(45),
                                        MiEvidencia       LONGBLOB,
                                        IdModifica        INT(11),
+                                       MiFechaModi       VARCHAR(45),
                                        IdLicenciatura    INT(11),
                                        MiIdUsuario       INT(11))
    RETURNS int(11)
@@ -25,13 +23,14 @@ BEGIN
    SELECT COUNT(*)
      INTO contador
      FROM experiencias_laborales
-          WHERE     periodo = MiPeriodo
+    WHERE     periodo = MiPeriodo
           AND intitucion_empresa = MiEmpresa
           AND dpto_facultad = MiInstitucion
           AND lugar = MiLugar
           AND puesto = MiPuesto
           AND id_lic_inscrita = IdLicenciatura
-          AND usuarios_id_usuarios = MiIdUsuario;
+          AND usuarios_id_usuarios = MiIdUsuario
+          AND fecha_modificacion = MiFechaModi;
 
 
    IF (contador > 0)
@@ -45,6 +44,7 @@ BEGIN
                                          puesto,
                                          evidencia,
                                          id_usuario_modificacion,
+                                         fecha_modificacion,
                                          id_lic_inscrita,
                                          usuarios_id_usuarios)
            VALUES (UPPER(MiPeriodo),
@@ -54,24 +54,18 @@ BEGIN
                    UPPER(MiPuesto),
                    MiEvidencia,
                    IdModifica,
+                   MiFechaModi,
                    IdLicenciatura,
                    MiIdUsuario);
 
       RETURN 1;
    END IF;
-END
+END;
 
 
-
-
-
-
-
-
-
-;
 
 ------------------------------------------------------------------
+
 --  FUNCTION eliminar_experiencialaboral
 
 ------------------------------------------------------------------
@@ -85,10 +79,9 @@ BEGIN
          WHERE id_experiencia_laboral = MiId;
 
    RETURN 1;
-END
+END;
 
 
-;
 
 ------------------------------------------------------------------
 
@@ -97,28 +90,32 @@ END
 ------------------------------------------------------------------
 
 
-CREATE FUNCTION sicva.`actualizar_experiencialaboral`(MiId              int(11),
+CREATE DEFINER = `root` @`localhost`
+FUNCTION `actualizar_experiencialaboral`(MiId              int(11),
                                          MiPeriodo         VARCHAR(45),
                                          MiEmpresa         VARCHAR(80),
                                          MiInstitucion     VARCHAR(80),
                                          MiLugar           VARCHAR(80),
-                                         MiPuesto          VARCHAR(80),
+                                         MiPuesto          VARCHAR(45),
                                          IdModifica        INT(11),
+                                         MiFechaModi       VARCHAR(45),
                                          IdLicenciatura    INT(11),
-                                         MiIdUsuario       INT(11)) RETURNS int(11)
+                                         MiIdUsuario       INT(11))
+   RETURNS int(11)
 BEGIN
    DECLARE contador   INT;
 
    SELECT COUNT(*)
      INTO contador
      FROM experiencias_laborales
-          WHERE     periodo = MiPeriodo
+    WHERE     periodo = MiPeriodo
           AND intitucion_empresa = MiEmpresa
           AND dpto_facultad = MiInstitucion
           AND lugar = MiLugar
           AND puesto = MiPuesto
           AND id_lic_inscrita = IdLicenciatura
-          AND usuarios_id_usuarios = MiIdUsuario;
+          AND usuarios_id_usuarios = MiIdUsuario
+          AND fecha_modificacion = MiFechaModi;
 
 
    IF (contador > 0)
@@ -133,23 +130,43 @@ BEGIN
              puesto = UPPER(MiPuesto),
              id_usuario_modificacion = IdModifica,
              id_lic_inscrita = IdLicenciatura,
-             usuarios_id_usuarios = MiIdUsuario
+             usuarios_id_usuarios = MiIdUsuario,
+             fecha_modificacion = MiFechaModi
        WHERE id_experiencia_laboral = MiId;
+
       RETURN 1;
    END IF;
 END;
 
-------------------------------------------------------------------
---  FUNCTION actualizar_evidencia_experiencialaboral
+
+
+
 ------------------------------------------------------------------
 
+--  FUNCTION actualizar_evidencia_experiencialaboral
+
+------------------------------------------------------------------
+
+
 CREATE DEFINER = `root` @`localhost`
-FUNCTION `actualizar_evidencia_experiencialaboral`(MiId int(11), IdModifica INT(11), MiEvidencia LONGBLOB)
+FUNCTION `actualizar_evidencia_experiencialaboral`(
+   MiId           int(11),
+   IdModifica     INT(11),
+   MiFechaModi    VARCHAR(45),
+   MiEvidencia    LONGBLOB)
    RETURNS int(11)
 BEGIN
-      UPDATE experiencias_laborales
+   UPDATE experiencias_laborales
       SET evidencia = MiEvidencia,
-      id_usuario_modificacion = IdModifica
-      WHERE id_experiencia_laboral = MiId;
-      RETURN 1;
+          id_usuario_modificacion = IdModifica,
+          fecha_modificacion = MiFechaModi
+    WHERE id_experiencia_laboral = MiId;
+
+   RETURN 1;
 END;
+
+
+
+
+
+
