@@ -6,8 +6,9 @@ import java.sql.DriverManager;
 public class ConexionBD {
 	private final static String DB_USER = "root";
     private final static String DB_PASSWORD = "123456";
-    //private final static String DB_NAME = "sicva";
-    private final static String DB_SRT_CON = "jdbc:mysql:///sicva?useUnicode=true&characterEncoding=utf-8";
+    private final static String DB_NAME = "sicva";
+    //private final static String DB_SRT_CON = "jdbc:mysql:///sicva?useUnicode=true&characterEncoding=utf-8";
+    private final static String DB_SRT_CON = "jdbc:mysql://localhost:3306/" + DB_NAME;
     Connection conexion = null;
 
 	/**
