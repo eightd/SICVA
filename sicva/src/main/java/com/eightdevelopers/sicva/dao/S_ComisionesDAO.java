@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.context.FacesContext;
@@ -52,6 +53,7 @@ public class S_ComisionesDAO {
 				comisionesDTO.setIdlic(rs.getInt("id_lic_inscrita"));
 				comisionesDTO.setName(rs.getString("nombre"));
 				comisionesDTO.setIdusuario(rs.getInt("usuarios_id_usuarios"));
+				comisionesDTO.setFechamodif(rs.getString("fecha_modificacion"));
 				comisionesDTO.setNombreodif(rs.getString("nombre_modi"));
 				comisionesDTO.setRol(rs.getString("descripcion"));
 				comisionesDTO.setExistencia(rs.getString("existencia"));
@@ -113,7 +115,7 @@ public class S_ComisionesDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call actualizar_comisiones(?,?,?,?,?,?,?,?,?)} ";
+				String sql = "{ ? = call actualizar_comisiones(?,?,?,?,?,?,?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
@@ -123,12 +125,14 @@ public class S_ComisionesDAO {
 				callableStatement.setString(5, comisionesDTO.getInstitucion());
 				callableStatement.setString(6, comisionesDTO.getLugar());
 				callableStatement.setString(7, comisionesDTO.getParticipacion());
-				// Se cambia el modo de introduccir la imagen de (InputStream)
-				// asistenciacursosDTO.getEvidencia()
-				// a asistenciacursosDTO.getEvidencia().getInputstream()
 				callableStatement.setInt(8, idUsuMod);
-				callableStatement.setInt(9, comisionesDTO.getIdlic());
-				callableStatement.setInt(10, comisionesDTO.getIdusuario());
+				Calendar cal1 = Calendar.getInstance();
+				String Fecha = ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+						+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":"
+						+ cal1.get(Calendar.MILLISECOND));
+				callableStatement.setString(9, Fecha);
+				callableStatement.setInt(10, comisionesDTO.getIdlic());
+				callableStatement.setInt(11, comisionesDTO.getIdusuario());
 
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
@@ -160,13 +164,18 @@ public class S_ComisionesDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call actualizar_evidencia_comisiones(?,?,?)} ";
+				String sql = "{ ? = call actualizar_evidencia_comisiones(?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
 				callableStatement.setInt(2, comisionesDTO.getId());
 				callableStatement.setInt(3, idUsuMod);
-				callableStatement.setBinaryStream(4, comisionesDTO.getEvidencia().getInputstream());
+				Calendar cal1 = Calendar.getInstance();
+				String Fecha = ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+						+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":"
+						+ cal1.get(Calendar.MILLISECOND));
+				callableStatement.setString(4, Fecha);
+				callableStatement.setBinaryStream(5, comisionesDTO.getEvidencia().getInputstream());
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
 				connection.close();

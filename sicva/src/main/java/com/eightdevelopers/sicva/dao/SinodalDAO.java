@@ -36,7 +36,7 @@ public class SinodalDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call insertar_sinodal(?,?,?,?,?,?,?,?,?)} ";
+				String sql = "{ ? = call insertar_sinodal(?,?,?,?,?,?,?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
@@ -58,10 +58,15 @@ public class SinodalDAO {
 				// a asistenciacursosDTO.getEvidencia().getInputstream()
 				callableStatement.setBinaryStream(5, asistenciacursosDTO.getEvidencia().getInputstream());
 				callableStatement.setInt(6, asistenciacursosDTO.getIdmodif());
-				callableStatement.setInt(7, asistenciacursosDTO.getIdlic());
-				callableStatement.setInt(8, asistenciacursosDTO.getIdopc());
-				callableStatement.setInt(9, asistenciacursosDTO.getIdusuario());
-				callableStatement.setInt(10, asistenciacursosDTO.getNivel());
+				Calendar cal1 = Calendar.getInstance();
+				String Fecha = ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+						+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":"
+						+ cal1.get(Calendar.MILLISECOND));
+				callableStatement.setString(7, Fecha);
+				callableStatement.setInt(8, asistenciacursosDTO.getIdlic());
+				callableStatement.setInt(9, asistenciacursosDTO.getIdopc());
+				callableStatement.setInt(10, asistenciacursosDTO.getIdusuario());
+				callableStatement.setInt(11, asistenciacursosDTO.getNivel());
 
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
@@ -129,6 +134,7 @@ public class SinodalDAO {
 				asistenciacursosDTO.setDescripcionlic(rs.getString("nn.descripcion"));
 				asistenciacursosDTO.setIdopc(rs.getInt("opciones_de_titulacion_id_opciones_de_titulacion"));
 				asistenciacursosDTO.setIdusuario(rs.getInt("usuarios_id_usuarios"));
+				asistenciacursosDTO.setFechamodif(rs.getString("fecha_modificacion"));
 				asistenciacursosDTO.setNivel(rs.getInt("niveles_educativos_id_nivel_educativo"));
 				asistenciacursosDTO.setId_nivel(rs.getInt("id_nivel_educativo"));
 				asistenciacursosDTO.setDescripcion(rs.getString("n.descripcion"));
@@ -199,7 +205,7 @@ public class SinodalDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call actualizar_sinodal(?,?,?,?,?,?,?,?,?)} ";
+				String sql = "{ ? = call actualizar_sinodal(?,?,?,?,?,?,?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
@@ -208,10 +214,15 @@ public class SinodalDAO {
 				callableStatement.setString(4, asistenciacursosDTO.getFechatitulacion());
 				callableStatement.setString(5, asistenciacursosDTO.getAlumno());
 				callableStatement.setInt(6, IdUsuMod);
-				callableStatement.setInt(7, asistenciacursosDTO.getIdlic());
-				callableStatement.setInt(8, asistenciacursosDTO.getIdopc());
-				callableStatement.setInt(9, asistenciacursosDTO.getIdusuario());
-				callableStatement.setInt(10, asistenciacursosDTO.getNivel());
+				Calendar cal1 = Calendar.getInstance();
+				String Fecha= ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+						+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":"
+						+ cal1.get(Calendar.MILLISECOND));
+				callableStatement.setString(7, Fecha);
+				callableStatement.setInt(8, asistenciacursosDTO.getIdlic());
+				callableStatement.setInt(9, asistenciacursosDTO.getIdopc());
+				callableStatement.setInt(10, asistenciacursosDTO.getIdusuario());
+				callableStatement.setInt(11, asistenciacursosDTO.getNivel());
 
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
@@ -243,13 +254,18 @@ public class SinodalDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call actualizar_evidencia_sinodal(?,?,?)} ";
+				String sql = "{ ? = call actualizar_evidencia_sinodal(?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
 				callableStatement.setInt(2, sinodalDTO.getId());
 				callableStatement.setInt(3, idUsuMod);
-				callableStatement.setBinaryStream(4, sinodalDTO.getEvidencia().getInputstream());
+				Calendar cal1 = Calendar.getInstance();
+				String Fecha= ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+						+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":"
+						+ cal1.get(Calendar.MILLISECOND));
+				callableStatement.setString(4, Fecha);
+				callableStatement.setBinaryStream(5, sinodalDTO.getEvidencia().getInputstream());
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
 				connection.close();

@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.context.FacesContext;
@@ -32,20 +33,22 @@ public class PublicacionesDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call insertar_publicaciones(?,?,?,?,?,?,?)} ";
+				String sql = "{ ? = call insertar_publicaciones(?,?,?,?,?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
 				callableStatement.setString(2, asistenciacursosDTO.getPeriodo());
 				callableStatement.setString(3, asistenciacursosDTO.getPublicacion());
 				callableStatement.setString(4, asistenciacursosDTO.getInstitucion());
-				// Se cambia el modo de introduccir la imagen de (InputStream)
-				// asistenciacursosDTO.getEvidencia()
-				// a asistenciacursosDTO.getEvidencia().getInputstream()
 				callableStatement.setBinaryStream(5, asistenciacursosDTO.getEvidencia().getInputstream());
 				callableStatement.setInt(6, asistenciacursosDTO.getIdmodif());
-				callableStatement.setInt(7, asistenciacursosDTO.getIdlic());
-				callableStatement.setInt(8, asistenciacursosDTO.getIdusuario());
+				Calendar cal1 = Calendar.getInstance();
+				String Fecha = ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+						+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":"
+						+ cal1.get(Calendar.MILLISECOND));
+				callableStatement.setString(7, Fecha);
+				callableStatement.setInt(8, asistenciacursosDTO.getIdlic());
+				callableStatement.setInt(9, asistenciacursosDTO.getIdusuario());
 
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
@@ -102,13 +105,11 @@ public class PublicacionesDAO {
 				asistenciacursosDTO.setPeriodo(rs.getString("periodo"));
 				asistenciacursosDTO.setPublicacion(rs.getString("publicacion"));
 				asistenciacursosDTO.setInstitucion(rs.getString("institucion"));
-
-				// asistenciacursosDTO.setEvidencia((StreamedContent)
-				// rs.getBinaryStream("evidencia"));
 				asistenciacursosDTO.setIdmodif(rs.getInt("id_usuario_modificacion"));
 				asistenciacursosDTO.setIdlic(rs.getInt("id_lic_inscrita"));
 				asistenciacursosDTO.setDescripcionlic(rs.getString("descripcion"));
 				asistenciacursosDTO.setIdusuario(rs.getInt("usuarios_id_usuarios"));
+				asistenciacursosDTO.setFechamodif(rs.getString("fecha_modificacion"));
 				asistenciacursosDTO.setNombreodif(rs.getString("nombre_modi"));
      			asistenciacursosDTO.setExistencia(rs.getString("exitencia"));
 
@@ -174,7 +175,7 @@ public class PublicacionesDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call actualizar_publicaciones(?,?,?,?,?,?,?)} ";
+				String sql = "{ ? = call actualizar_publicaciones(?,?,?,?,?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
@@ -182,12 +183,14 @@ public class PublicacionesDAO {
 				callableStatement.setString(3, asistenciacursosDTO.getPeriodo());
 				callableStatement.setString(4, asistenciacursosDTO.getPublicacion());
 				callableStatement.setString(5, asistenciacursosDTO.getInstitucion());
-				// Se cambia el modo de introduccir la imagen de (InputStream)
-				// asistenciacursosDTO.getEvidencia()
-				// a asistenciacursosDTO.getEvidencia().getInputstream()
 				callableStatement.setInt(6, idUsuMod);
-				callableStatement.setInt(7, asistenciacursosDTO.getIdlic());
-				callableStatement.setInt(8, asistenciacursosDTO.getIdusuario());
+				Calendar cal1 = Calendar.getInstance();
+				String Fecha= ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+						+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":"
+						+ cal1.get(Calendar.MILLISECOND));
+				callableStatement.setString(7, Fecha);
+				callableStatement.setInt(8, asistenciacursosDTO.getIdlic());
+				callableStatement.setInt(9, asistenciacursosDTO.getIdusuario());
 
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
@@ -219,13 +222,18 @@ public class PublicacionesDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call actualizar_evidencia_publicaciones(?,?,?)} ";
+				String sql = "{ ? = call actualizar_evidencia_publicaciones(?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
 				callableStatement.setInt(2, publicacionesDTO.getId());
 				callableStatement.setInt(3, idUsuMod);
-				callableStatement.setBinaryStream(4, publicacionesDTO.getEvidencia().getInputstream());
+				Calendar cal1 = Calendar.getInstance();
+				String Fecha= ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+						+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":"
+						+ cal1.get(Calendar.MILLISECOND));
+				callableStatement.setString(4, Fecha);
+				callableStatement.setBinaryStream(5, publicacionesDTO.getEvidencia().getInputstream());
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
 				connection.close();

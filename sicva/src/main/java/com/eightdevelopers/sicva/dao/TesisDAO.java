@@ -37,7 +37,7 @@ public class TesisDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call insertar_tesis(?,?,?,?,?,?,?,?)} ";
+				String sql = "{ ? = call insertar_tesis(?,?,?,?,?,?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
@@ -58,9 +58,14 @@ public class TesisDAO {
 				// a tesisDTO.getEvidencia().getInputstream()
 				callableStatement.setBinaryStream(5, tesisDTO.getEvidencia().getInputstream());
 				callableStatement.setInt(6, tesisDTO.getIdmodif());
-				callableStatement.setInt(7, tesisDTO.getIdlic());
-				callableStatement.setInt(8, tesisDTO.getIdusuario());
-				callableStatement.setInt(9, tesisDTO.getId_nivel());
+				Calendar cal1 = Calendar.getInstance();
+				String Fecha = ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+						+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":"
+						+ cal1.get(Calendar.MILLISECOND));
+				callableStatement.setString(7, Fecha);
+				callableStatement.setInt(8, tesisDTO.getIdlic());
+				callableStatement.setInt(9, tesisDTO.getIdusuario());
+				callableStatement.setInt(10, tesisDTO.getId_nivel());
 
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
@@ -124,6 +129,7 @@ public class TesisDAO {
 				asistenciacursosDTO.setIdlic(rs.getInt("id_lic_inscrita"));
 				asistenciacursosDTO.setDescripcionlic(rs.getString("nn.descripcion"));
 				asistenciacursosDTO.setIdusuario(rs.getInt("usuarios_id_usuarios"));
+				asistenciacursosDTO.setFechamodif(rs.getString("fecha_modificacion"));
 				asistenciacursosDTO.setNivel(rs.getInt("niveles_educativos_id_nivel_educativo"));
 				asistenciacursosDTO.setId_nivel(rs.getInt("id_nivel_educativo"));
 				asistenciacursosDTO.setDescripcion(rs.getString("n.descripcion"));
@@ -191,7 +197,7 @@ public class TesisDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call actualizar_tesis(?,?,?,?,?,?,?,?)} ";
+				String sql = "{ ? = call actualizar_tesis(?,?,?,?,?,?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
@@ -200,9 +206,14 @@ public class TesisDAO {
 				callableStatement.setString(4, asistenciacursosDTO.getFechatitulacion());
 				callableStatement.setString(5, asistenciacursosDTO.getAlumno());
 				callableStatement.setInt(6, IdUsuMod);
-				callableStatement.setInt(7, asistenciacursosDTO.getIdlic());
-				callableStatement.setInt(8, asistenciacursosDTO.getIdusuario());
-				callableStatement.setInt(9, asistenciacursosDTO.getNivel());
+				Calendar cal1 = Calendar.getInstance();
+				String Fecha= ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+						+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":"
+						+ cal1.get(Calendar.MILLISECOND));
+				callableStatement.setString(7, Fecha);
+				callableStatement.setInt(8, asistenciacursosDTO.getIdlic());
+				callableStatement.setInt(9, asistenciacursosDTO.getIdusuario());
+				callableStatement.setInt(10, asistenciacursosDTO.getNivel());
 
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
@@ -233,13 +244,18 @@ public class TesisDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call actualizar_evidencia_tesis(?,?,?)} ";
+				String sql = "{ ? = call actualizar_evidencia_tesis(?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
 				callableStatement.setInt(2, tesisDTO.getId());
 				callableStatement.setInt(3, idUsuMod);
-				callableStatement.setBinaryStream(4, tesisDTO.getEvidencia().getInputstream());
+				Calendar cal1 = Calendar.getInstance();
+				String Fecha= ("" + cal1.get(Calendar.DATE) + "/" + cal1.get(Calendar.MONTH) + "/" + cal1.get(Calendar.YEAR) + " "
+						+ cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND) + ":"
+						+ cal1.get(Calendar.MILLISECOND));
+				callableStatement.setString(4, Fecha);
+				callableStatement.setBinaryStream(5, tesisDTO.getEvidencia().getInputstream());
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
 				connection.close();
