@@ -69,7 +69,9 @@
 
 					</p:outputPanel>
 				</f:facet>
-				<p:column headerText="Nombre" width="500">
+				<p:column headerText="Nombre"
+					style="width:800px;text-align: center;font-size:12px"
+					filterBy="#{datos.nombre}" filterMatchMode="contains">
 					<h:outputText value="#{datos.nombre} #{datos.ap} #{datos.am}" />
 				</p:column>
 
