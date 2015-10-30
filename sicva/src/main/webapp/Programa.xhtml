@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+<script type="text/javascript">
+	function mostrar() {
+		document.getElementById('oculto').style.display = 'block';
+		document.getElenentById('id="BtnMostrar').style.display = 'none'
+		document.getElenentById('id="BtnMostrar').disabled = false
+		document.getElenentById('id="BtnOcultar').disabled = true
+	}
+	function ocultar() {
+		document.getElementById('oculto').style.display = 'none';
+		document.getElenentById('id="BtnOcultar').disabled = false
+		document.getElenentById('id="BtnMostrar').disabled = true
+	}
+</script>
+</h:head>
+<h:body>
+	<h:form id="form">
+		<h:outputScript library="js" name="validaciones.js" />
+
+		<p:growl id="msj" showDetail="true" sticky="false" life="1000" />
+		<img src="images/logo-sicva.png" align="middle" width="80"
+			height="130" />
+		<br> </br>
+
+		<p:menubar>
+
+			<p:menuitem value="Inicio" url="Principal.xhtml" icon="ui-icon-home" />
+
+			<p:submenu label="Registro Curriculum Vitae" icon="ui-icon-document">
+				<p:submenu label="Sección" icon="ui-icon-contact">
+					<p:menuitem value="Datos Personales" url="DatosPersonales.xhtml" />
+					<p:menuitem value="Escolaridad" url="Escolaridad.xhtml" />
+					<p:menuitem value="Experiencia Laboral"
+						url="ExperienciaLaboral.xhtml" />
+					<p:menuitem value="Ponencias Impartidas" url="Ponencias.xhtml" />
+					<p:menuitem value="Asistencia a Cursos"
+						url="AsistenciaCursos.xhtml" />
+					<p:menuitem value="Comisiones" url="Comisiones.xhtml" />
+					<p:menuitem value="Publicaciones" url="Publicaciones.xhtml" />
+					<p:menuitem value="Miembro de Organización" url="Miembro.xhtml" />
+					<p:menuitem value="Asesoría de Tesis" url="Tesis.xhtml" />
+					<p:menuitem value="Sinodal" url="Sinodal.xhtml" />
+
+				</p:submenu>
+
+			</p:submenu>
+
+		
+
+			<f:facet name="options">
+				<p:commandButton value="Cerrar Sesión" icon="ui-icon-closethick"
+					action="#{ControladorLogin.cerrarSesion}" />
+			</f:facet>
+
+		</p:menubar>
+
+
+		<br />
+	</h:form>
+
+	<!-- FORMULARIO -->
+	<h:form enctype="multipart/form-data" id="form1">
+		<p:panel id="basic" header="Generar Programas Analíticos" style="margin-bottom:20px">
+
+			<p:commandButton value="Agregar" onclick="mostrar()" type="button"
+				icon="ui-icon-pencil" style="float:right; font-size:12px;" />
+
+			<br />
+			<br />
+			<!-- AGREGAR NUEVO MIEMBRO (Formulario Oculto)-->
+			<div id='oculto' style='display: none;'>
+				<center>
+
+					<p:growl id="messages" showDetail="true" />
+					<h:outputLabel value="Generar Nuevo Programa Analítico" />
+					<br /> <br />
+					<p:panelGrid columns="2" cellpadding="5"
+						enctype="multipart/form-data">
+
+					          <h:outputLabel  value="* Materias: " />
+      
+	
+						<p:selectOneMenu value="#{Programa.programaDTO.idmateria}"
+							style="width:210px">
+							<f:selectItem itemValue=" " itemLabel="- Seleccionar -"></f:selectItem>
+							<f:selectItems value="#{Materias.lista}" var="d"
+								itemValue="#{d.idmaterias}" itemLabel="#{d.descripcion}"></f:selectItems>
+						</p:selectOneMenu>
+
+
+
+					</p:panelGrid>
+
+					<p:commandButton value="Guardar" ajax="false"
+						action="#{Programa.guardar}" icon="ui-icon-disk" />
+
+				</center>
+				<br /> <br />
+			</div>
+		</p:panel>
+	</h:form>
+	<!-- TABLA -->
+	<h:form enctype="multipart/form-data" id="tabla">
+		<p:growl id="messages" showDetail="true" />
+		<p:panel id="basic" header="Programas Analíticos Generados"
+			style="margin-bottom:20px">
+			<p:dataTable var="datos" value="#{Programa.lista}" id="tb"
+				emptyMessage="No hay registros...">
+
+				<p:column headerText="ID"
+					style="display: none;font-size:12px"  >
+					<h:outputText value="#{datos.idprograma}" />
+				</p:column>
+
+
+						<p:column headerText="Materia"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.descripcionmateriapro}" />
+				</p:column>
+
+				
+							<p:column headerText="Editar"
+					style="width:5px;text-align: center;font-size:12px"
+					exportable="false">
+					<p:commandButton update=" :tabla" icon="ui-icon-pencil" action="#{Programa.demo(datos.idprograma)}">
+				
+	              
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+
+
+	<!-- ELIMINAR LICENCIATURA (Pantalla emergente)-->
+	<h:form enctype="multipart/form-data" id="eliminar">
+		<p:confirmDialog global="true" showEffect="explode" modal="true"
+			hideEffect="explode">
+
+			<p:commandButton value="Si" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  url="DatosPrincipales.xhtml"/>
+			<p:commandButton value="No" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+
+
+	</h:form>
+</h:body>
+</html>
