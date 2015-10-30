@@ -28,6 +28,8 @@ public class ComisionesDTO implements Serializable {
 	private String descripcionlic;
 	private String nombreodif;
 	private String existencia;
+	private String fechamodif;
+	
 	// tipos de datos para uso exclusivo de una secretaria
 	private String name;
 	private String rol;
@@ -150,6 +152,14 @@ public class ComisionesDTO implements Serializable {
 
 	public void setRol(String rol) {
 		this.rol = rol;
+	}
+
+	public String getFechamodif() {
+		return fechamodif;
+	}
+
+	public void setFechamodif(String fechamodif) {
+		this.fechamodif = fechamodif;
 	}
 
 }
