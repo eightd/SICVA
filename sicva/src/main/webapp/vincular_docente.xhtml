@@ -6,20 +6,44 @@
 <h:head>
 </h:head>
 <h:body>
+	<p:outputLabel
+		rendered="#{ControladorLogin.verificarSesion() eq false}" />
 	<h:outputScript library="js" name="GenerarUsuarios.js" />
 	<h:outputScript library="js" name="validaciones.js" />
 	<h:form id="form">
-	<p:growl id="msj" showDetail="true" sticky="false" life="1000" />
-				
+		<p:growl id="msj" showDetail="true" sticky="false" life="1000" />
+
 		<img src="images/logo-sicva.png" align="middle" width="80"
 			height="130" />
 		<br> </br>
-		
-		
+
+
 		<!-- BARRA DE NAVEGACIÓN -->
 		<p:menubar>
 			<p:menuitem value="Inicio" icon="ui-icon-home" url="Principal.xhtml" />
-			
+			<p:menuitem value="Registrar Docente" url="alta_docente.xhtml"
+				icon="ui-icon-person" />
+			<p:menuitem value="Vincular Docente" url="vincular_docente.xhtml"
+				icon="ui-icon-transfer-e-w" />
+			<p:submenu label="Ver Secciones" icon="ui-icon-document">
+				<p:submenu label="Sección" icon="ui-icon-contact">
+					<p:menuitem value="Datos Personales" url="S_DatosPersonales.xhtml" />
+					<p:menuitem value="Escolaridad" url="S_Escolaridad.xhtml" />
+					<p:menuitem value="Experiencia Laboral" url="S_ExperienciaLaboral.xhtml" />
+					<p:menuitem value="Ponencias Impartidas" url="S_Ponencias.xhtml" />
+					<p:menuitem value="Asistencia a Cursos" url="S_AsistenciaCursos.xhtml" />
+					<p:menuitem value="Comisiones" url="S_Comisiones.xhtml" />
+					<p:menuitem value="Publicaciones" url="S_Publicaciones.xhtml" />
+					<p:menuitem value="Miembro de Organización" url="S_Miembro.xhtml" />
+					<p:menuitem value="Asesoría de Tesis" url="S_Tesis.xhtml" />
+					<p:menuitem value="Sinodal" url="S_Sinodal.xhtml" />
+				</p:submenu>
+			</p:submenu>	
+			<p:menuitem value="Cambiar Contraseña" url="contrasenia.xhtml"
+				icon="ui-icon-locked" />
+			<p:menuitem value="Ver Curriculum Vitae" url="ver_cv.xhtml"
+				icon="ui-icon-document" />
+
 			<f:facet name="options">
 				<p:commandButton value="Cerrar Sesión" icon="ui-icon-closethick"
 					action="#{ControladorLogin.cerrarSesion}" process="@this" />
@@ -32,7 +56,7 @@
 		<p:panel id="basic" header="Vincular de Docentes"
 			style="margin-bottom:20px">
 
-			
+
 			<br />
 			<br />
 			<!-- TABLA -->
@@ -40,7 +64,7 @@
 				emptyMessage="No hay registros..."
 				filteredValue="#{vinculacion.filtros}">
 
-               
+
 				<p:column headerText="Nombre"
 					style="width:32px;text-align: center;font-size:11px"
 					filterBy="#{datos.nombre}" filterMatchMode="contains">
@@ -57,16 +81,16 @@
 					style="width:32px;text-align: center;font-size:11px">
 					<h:outputText value="#{datos.am}" />
 				</p:column>
-				
+
 				<p:column headerText="Rol"
 					style="width:32px;text-align: center;font-size:11px">
 					<h:outputText value="#{datos.desc_rol}" />
 				</p:column>
 
-				
-				
-				
-					<p:column headerText="Vincular"
+
+
+
+				<p:column headerText="Vincular"
 					style="width:3px;text-align: center;font-size:11px"
 					exportable="false">
 					<p:commandButton update=":form" icon="ui-icon-arrowthick-1-e"
@@ -77,14 +101,14 @@
 							icon="ui-icon-alert" />
 					</p:commandButton>
 				</p:column>
-			
+
 			</p:dataTable>
 		</p:panel>
 
 
 
-<!-- VINCULAR DOCENTE (Pantalla emergente)-->
-		<p:confirmDialog global="true"  modal="true">
+		<!-- VINCULAR DOCENTE (Pantalla emergente)-->
+		<p:confirmDialog global="true" modal="true">
 
 			<p:commandButton value="Si" type="button"
 				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />

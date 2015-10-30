@@ -6,6 +6,8 @@
 <h:head>
 </h:head>
 <h:body>
+	<p:outputLabel
+		rendered="#{ControladorLogin.verificarSesion() eq false}" />
 	<h:outputScript library="js" name="GenerarUsuarios.js" />
 	<h:outputScript library="js" name="validaciones.js" />
 
@@ -19,6 +21,20 @@
 				icon="ui-icon-person" />
 			<p:menuitem value="Vincular Docente" url="vincular_docente.xhtml"
 				icon="ui-icon-transfer-e-w" />
+			<p:submenu label="Ver Secciones" icon="ui-icon-document">
+				<p:submenu label="Sección" icon="ui-icon-contact">
+					<p:menuitem value="Datos Personales" url="S_DatosPersonales.xhtml" />
+					<p:menuitem value="Escolaridad" url="S_Escolaridad.xhtml" />
+					<p:menuitem value="Experiencia Laboral" url="S_ExperienciaLaboral.xhtml" />
+					<p:menuitem value="Ponencias Impartidas" url="S_Ponencias.xhtml" />
+					<p:menuitem value="Asistencia a Cursos" url="S_AsistenciaCursos.xhtml" />
+					<p:menuitem value="Comisiones" url="S_Comisiones.xhtml" />
+					<p:menuitem value="Publicaciones" url="S_Publicaciones.xhtml" />
+					<p:menuitem value="Miembro de Organización" url="S_Miembro.xhtml" />
+					<p:menuitem value="Asesoría de Tesis" url="S_Tesis.xhtml" />
+					<p:menuitem value="Sinodal" url="S_Sinodal.xhtml" />
+				</p:submenu>
+			</p:submenu>	
 			<p:menuitem value="Cambiar Contraseña" url="contrasenia.xhtml"
 				icon="ui-icon-locked" />
 			<p:menuitem value="Ver Curriculum Vitae" url="ver_cv.xhtml"
@@ -75,26 +91,26 @@
 						process="@this">
 					</p:commandButton>
 				</p:column>
-				
+
 				<p:column headerText="Eliminar"
 					style="width:3px;text-align: center;font-size:10px"
 					exportable="false">
 					<p:commandButton update=":form" icon="ui-icon-trash"
 						action="#{Docentes.eliminar}" process="@this">
-						<f:setPropertyActionListener target="#{Docentes.docenteSeleccionado}"
-							value="#{datos}" />
+						<f:setPropertyActionListener
+							target="#{Docentes.docenteSeleccionado}" value="#{datos}" />
 						<p:confirm header="Confirmación" message="¿Estas seguro?"
 							icon="ui-icon-alert" />
 					</p:commandButton>
 				</p:column>
-				
+
 				<p:column headerText="Resetear Contraseña"
 					style="width:8px;text-align: center;font-size:10px"
 					exportable="false">
 					<p:commandButton update=":form" icon="ui-icon-refresh"
 						action="#{Docentes.reset}" process="@this">
-						<f:setPropertyActionListener target="#{Docentes.docenteSeleccionado}"
-							value="#{datos}" />
+						<f:setPropertyActionListener
+							target="#{Docentes.docenteSeleccionado}" value="#{datos}" />
 						<p:confirm header="Confirmación" message="¿Estas seguro?"
 							icon="ui-icon-alert" />
 					</p:commandButton>
@@ -102,9 +118,10 @@
 			</p:dataTable>
 		</p:panel>
 
-<!-- AGREGAR DOCENTE(PANTALLA EMERGENTE)-->
+		<!-- AGREGAR DOCENTE(PANTALLA EMERGENTE)-->
 		<center>
-			<p:dialog header="Nuevo Docente" widgetVar="nuevo" id="nuevo" focus="nombre">
+			<p:dialog header="Nuevo Docente" widgetVar="nuevo" id="nuevo"
+				focus="nombre">
 				<p:growl id="msj" showDetail="true" sticky="false" life="1000" />
 				<h:panelGrid columns="2" cellpadding="5">
 
@@ -141,7 +158,7 @@
 				</h:panelGrid>
 			</p:dialog>
 		</center>
-<!--MODIFICAR DOCENTE-->
+		<!--MODIFICAR DOCENTE-->
 		<center>
 			<p:dialog header="Actualizar Docente" showEffect="explode"
 				modal="true" hideEffect="explode" widgetVar="modificar"
@@ -170,7 +187,7 @@
 				</h:panelGrid>
 			</p:dialog>
 		</center>
-<!-- ELIMINAR DOCENTE (Pantalla emergente)-->
+		<!-- ELIMINAR DOCENTE (Pantalla emergente)-->
 		<p:confirmDialog global="true" showEffect="explode" modal="true"
 			hideEffect="explode">
 

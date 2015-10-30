@@ -22,6 +22,8 @@
 	<f:viewAction action="#{Ponencia.init}" />
 </f:metadata>
 <h:body>
+	<p:outputLabel
+		rendered="#{ControladorLogin.verificarSesion() eq false}" />
 	<h:form id="form">
 		<h:outputScript library="js" name="validaciones.js" />
 
@@ -235,7 +237,7 @@
 
 				<h:outputLabel value="Última modificación" />
 				<h:outputLabel value="#{Ponencia.licSeleccionada.nombreodif}" />
-				
+
 				<h:outputLabel value="Fecha Modificación" />
 				<h:outputLabel value="#{Ponencia.licSeleccionada.fechamodif}" />
 
@@ -288,7 +290,7 @@
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{Ponencia.licSeleccionada.nombreodif}" />
-				
+
 				<h:outputLabel value="Fecha Modificación" />
 				<h:outputLabel value="#{Ponencia.licSeleccionada.fechamodif}" />
 

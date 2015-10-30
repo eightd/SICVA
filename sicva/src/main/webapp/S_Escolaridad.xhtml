@@ -9,6 +9,8 @@
 	</f:metadata>
 </h:head>
 <h:body>
+	<p:outputLabel
+		rendered="#{ControladorLogin.verificarSesion() eq false}" />
 	<h:form id="form">
 		<h:outputScript library="js" name="validaciones.js" />
 		<p:growl id="msj" showDetail="true" sticky="false" life="1000" />
@@ -48,15 +50,16 @@
 
 	<!-- TABLA -->
 	<h:form enctype="multipart/form-data" id="tabla">
-		<p:growl id="messages" showDetail="true"  sticky="false" life="1000"/>
-		<p:panel id="basic" header="Escolaridades de Coordinadores y Docentes de Carrera"
+		<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
+		<p:panel id="basic"
+			header="Escolaridades de Coordinadores y Docentes de Carrera"
 			style="margin-bottom:20px">
 			<p:dataTable var="datos" value="#{S_Escolaridad.lista}" id="tb"
 				emptyMessage="No hay registros..."
 				filteredValue="#{Docentes.filtros}">
 
 				<p:column headerText="Nombre"
-					style="width:32px;text-align: center;font-size:12px" 
+					style="width:32px;text-align: center;font-size:12px"
 					filterBy="#{datos.nombre}" filterMatchMode="contains">
 					<h:outputText value="#{datos.nombre}" />
 				</p:column>
@@ -124,7 +127,7 @@
 
 				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{S_Escolaridad.licSeleccionada.nombreodif}" />
-				
+
 				<h:outputLabel value="Fecha Modificación" />
 				<h:outputLabel value="#{S_Escolaridad.licSeleccionada.fechamodif}" />
 
@@ -175,7 +178,7 @@
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{S_Escolaridad.licSeleccionada.nombreodif}" />
-				
+
 				<h:outputLabel value="Fecha Modificación" />
 				<h:outputLabel value="#{S_Escolaridad.licSeleccionada.fechamodif}" />
 

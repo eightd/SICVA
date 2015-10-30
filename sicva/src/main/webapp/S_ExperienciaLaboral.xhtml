@@ -9,6 +9,8 @@
 	</f:metadata>
 </h:head>
 <h:body>
+	<p:outputLabel
+		rendered="#{ControladorLogin.verificarSesion() eq false}" />
 	<h:form id="form">
 		<h:outputScript library="js" name="validaciones.js" />
 
@@ -53,12 +55,12 @@
 	<!-- TABLA -->
 
 	<h:form enctype="multipart/form-data" id="tabla">
-		<p:growl id="messages" showDetail="true"  sticky="false" life="1000"/>
+		<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
 		<p:panel id="basic"
 			header="Experiencias Laborales de Coordinadores y Docentes de la Carrera"
 			style="margin-bottom:20px">
 			<p:dataTable var="datos" value="#{S_Experiencia.lista}" id="tb"
-				emptyMessage="No hay registros..." 
+				emptyMessage="No hay registros..."
 				filteredValue="#{S_Experiencia.filtros}">
 
 				<p:column headerText="ID"
@@ -86,7 +88,7 @@
 					style="width:32px;text-align: center;font-size:12px">
 					<h:outputText value="#{datos.puesto}" />
 				</p:column>
-				
+
 				<p:column headerText="Rol"
 					style="width:32px;text-align: center;font-size:12px"
 					filterBy="#{datos.rol}" filterMatchMode="contains">
@@ -97,7 +99,7 @@
 					style="width:5px;text-align: center;font-size:12px">
 					<h:outputText value="#{datos.existencia}" />
 				</p:column>
-				
+
 				<p:column headerText="Modificar"
 					style="width:5px;text-align: center;font-size:12px"
 					exportable="false">
@@ -108,7 +110,7 @@
 						icon="ui-icon-pencil">
 					</p:commandButton>
 				</p:column>
-				
+
 				<p:column headerText="Modificar Evidencia"
 					style="width:5px;text-align: center;font-size:12px">
 					<p:commandButton oncomplete="PF('dlgEvi').show();"
@@ -132,7 +134,7 @@
 			</p:dataTable>
 		</p:panel>
 	</h:form>
-	
+
 	<!-- ACTUALIZAR  (Pantalla emergente)-->
 	<h:form enctype="multipart/form-data" id="actualizar">
 		<p:dialog header="Actualizar Experiencia Laboral" showEffect="explode"
@@ -142,7 +144,7 @@
 
 				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{S_Experiencia.licSeleccionada.nombreodif}" />
-				
+
 				<h:outputLabel value="Fecha Modificación" />
 				<h:outputLabel value="#{S_Experiencia.licSeleccionada.fechamodif}" />
 
@@ -177,7 +179,7 @@
 			</h:panelGrid>
 		</p:dialog>
 	</h:form>
-	
+
 	<!-- ACTUALIZAR EVIDENCIA (Pantalla emergente)-->
 	<h:form enctype="multipart/form-data" id="UpdEvi">
 		<p:dialog header="Actualizar Evidencia" showEffect="explode"
@@ -186,7 +188,7 @@
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{S_Experiencia.licSeleccionada.nombreodif}" />
-				
+
 				<h:outputLabel value="Fecha Modificación" />
 				<h:outputLabel value="#{S_Experiencia.licSeleccionada.fechamodif}" />
 

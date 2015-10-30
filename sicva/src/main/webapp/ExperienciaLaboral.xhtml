@@ -22,6 +22,8 @@
 	</f:metadata>
 </h:head>
 <h:body>
+	<p:outputLabel
+		rendered="#{ControladorLogin.verificarSesion() eq false}" />
 	<h:form id="form">
 		<h:outputScript library="js" name="validaciones.js" />
 
@@ -83,7 +85,7 @@
 			<div id='oculto' style='display: none;'>
 				<center>
 
-					<p:growl id="messages" showDetail="true" sticky="false" life="1000"/>
+					<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
 					<h:outputLabel value="NUEVA EXPERIENCIA" />
 					<br /> <br />
 					<p:panelGrid columns="2" cellpadding="5"
@@ -141,7 +143,7 @@
 	<!-- TABLA -->
 
 	<h:form enctype="multipart/form-data" id="tabla">
-		<p:growl id="messages" showDetail="true" sticky="false" life="1000"/>
+		<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
 		<p:panel id="basic" header="Registros de Experiencia Laboral"
 			style="margin-bottom:20px">
 			<p:dataTable var="datos" value="#{Experiencia.lista}" id="tb"
@@ -234,7 +236,7 @@
 
 				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{Experiencia.licSeleccionada.nombreodif}" />
-				
+
 				<h:outputLabel value="Fecha Modificación" />
 				<h:outputLabel value="#{Experiencia.licSeleccionada.fechamodif}" />
 
@@ -286,7 +288,7 @@
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{Experiencia.licSeleccionada.nombreodif}" />
-				
+
 				<h:outputLabel value="Fecha Modificación" />
 				<h:outputLabel value="#{Experiencia.licSeleccionada.fechamodif}" />
 

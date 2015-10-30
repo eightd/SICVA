@@ -9,6 +9,8 @@
 	</f:metadata>
 </h:head>
 <h:body>
+	<p:outputLabel
+		rendered="#{ControladorLogin.verificarSesion() eq false}" />
 	<h:outputScript library="js" name="GenerarUsuarios.js" />
 	<h:outputScript library="js" name="validaciones.js" />
 	<h:form id="form">
@@ -104,7 +106,7 @@
 							icon="ui-icon-alert" />
 					</p:commandButton>
 				</p:column>
-				
+
 				<p:column headerText="Resetear Contraseña"
 					style="width:8px;text-align: center;font-size:10px"
 					exportable="false">
@@ -123,7 +125,7 @@
 		<center>
 			<p:dialog header="Nuevo Usuario" modal="true" widgetVar="nuevo"
 				id="nuevo" focus="nombre">
-				<p:growl id="msj" showDetail="true" sticky="false" life="1000"/>
+				<p:growl id="msj" showDetail="true" sticky="false" life="1000" />
 				<h:panelGrid columns="2" cellpadding="5">
 					<h:outputLabel for="nombre" value="* Nombre:" />
 					<p:inputText id="nombre" label="nombre"

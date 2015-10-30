@@ -9,6 +9,8 @@
 	</f:metadata>
 </h:head>
 <h:body>
+	<p:outputLabel
+		rendered="#{ControladorLogin.verificarSesion() eq false}" />
 	<h:form id="form">
 		<h:outputScript library="js" name="validaciones.js" />
 		<p:growl id="msj" showDetail="true" sticky="false" life="1000" />
@@ -136,7 +138,7 @@
 
 				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{S_Asistencia.licSeleccionada.nombreodif}" />
-				
+
 				<h:outputLabel value="Fecha Modificación" />
 				<h:outputLabel value="#{S_Asistencia.licSeleccionada.fechamodif}" />
 
@@ -169,7 +171,7 @@
 			</h:panelGrid>
 		</p:dialog>
 	</h:form>
-	
+
 	<!-- ACTUALIZAR EVIDENCIA (Pantalla emergente)-->
 	<h:form enctype="multipart/form-data" id="UpdEvi">
 		<p:dialog header="Actualizar Evidencia" showEffect="explode"
@@ -178,7 +180,7 @@
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel value="Última modificación" />
 				<h:outputLabel value="#{S_Asistencia.licSeleccionada.nombreodif}" />
-				
+
 				<h:outputLabel value="Fecha Modificación" />
 				<h:outputLabel value="#{S_Asistencia.licSeleccionada.fechamodif}" />
 
@@ -191,7 +193,7 @@
 			</h:panelGrid>
 		</p:dialog>
 	</h:form>
-	
+
 	<!-- ELIMINAR LICENCIATURA (Pantalla emergente)-->
 	<h:form enctype="multipart/form-data" id="eliminar">
 		<p:confirmDialog global="true" showEffect="explode" modal="true"

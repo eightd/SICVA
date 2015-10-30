@@ -7,6 +7,7 @@
 </h:head>
 <body>
 	<h:form>
+	<p:outputLabel rendered="#{ControladorLogin.verificarSesion() eq false}" />
 		<img src="images/logo-sicva.png" align="middle" width="80"
 			height="130" />
 		<br> </br>
@@ -206,7 +207,7 @@
 		<p:panel id="secre" header="Secretaria"
 			rendered="#{ControladorLogin.tieneRol3('rol')}"
 			style="margin-bottom:20px"
-			footer="Direccion: Av. Ignacio Zaragoza #1, Centro, Calpulalpan, Tlax">
+			footer="Dirección: Av. Ignacio Zaragoza #1, Centro, Calpulalpan, Tlax">
 			<p:panelGrid columns="1" cellpadding="0">
 				<h:outputText
 					value="En este módulo se podrán realizar las siguientes actividades." />

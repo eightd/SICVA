@@ -9,6 +9,8 @@
 	</f:metadata>
 </h:head>
 <h:body>
+	<p:outputLabel
+		rendered="#{ControladorLogin.verificarSesion() eq false}" />
 	<h:form id="form">
 		<h:outputScript library="js" name="validaciones.js" />
 		<p:growl id="msj" showDetail="true" sticky="false" life="1000" />
@@ -48,7 +50,7 @@
 
 	<!-- TABLA -->
 	<h:form enctype="multipart/form-data" id="tabla">
-		<p:growl id="messages" showDetail="true" sticky="false" life="1000"/>
+		<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
 		<p:panel id="basic"
 			header="Cursos o Ponencias Impartidos(as) de Coordinadores y Docentes de Licenciatura"
 			style="margin-bottom:20px">
@@ -140,7 +142,7 @@
 
 				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{S_Ponencia.licSeleccionada.nombreodif}" />
-				
+
 				<h:outputLabel value="Fecha Modificación" />
 				<h:outputLabel value="#{S_Ponencia.licSeleccionada.fechamodif}" />
 
@@ -181,7 +183,7 @@
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel value="Última Modificación" />
 				<h:outputLabel value="#{S_Ponencia.licSeleccionada.nombreodif}" />
-				
+
 				<h:outputLabel value="Fecha Modificación" />
 				<h:outputLabel value="#{S_Ponencia.licSeleccionada.fechamodif}" />
 

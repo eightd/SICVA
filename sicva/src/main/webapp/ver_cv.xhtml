@@ -6,12 +6,36 @@
 <h:head>
 </h:head>
 <h:body>
+	<p:outputLabel
+		rendered="#{ControladorLogin.verificarSesion() eq false}" />
 	<h:form>
 		<img src="images/logo-sicva.png" align="middle" width="80"
 			height="130" />
 		<br> </br>
 		<p:menubar>
 			<p:menuitem value="Inicio" url="Principal.xhtml" icon="ui-icon-home" />
+			<p:menuitem value="Registrar Docente" url="alta_docente.xhtml"
+				icon="ui-icon-person" />
+			<p:menuitem value="Vincular Docente" url="vincular_docente.xhtml"
+				icon="ui-icon-transfer-e-w" />
+			<p:submenu label="Ver Secciones" icon="ui-icon-document">
+				<p:submenu label="Sección" icon="ui-icon-contact">
+					<p:menuitem value="Datos Personales" url="S_DatosPersonales.xhtml" />
+					<p:menuitem value="Escolaridad" url="S_Escolaridad.xhtml" />
+					<p:menuitem value="Experiencia Laboral" url="S_ExperienciaLaboral.xhtml" />
+					<p:menuitem value="Ponencias Impartidas" url="S_Ponencias.xhtml" />
+					<p:menuitem value="Asistencia a Cursos" url="S_AsistenciaCursos.xhtml" />
+					<p:menuitem value="Comisiones" url="S_Comisiones.xhtml" />
+					<p:menuitem value="Publicaciones" url="S_Publicaciones.xhtml" />
+					<p:menuitem value="Miembro de Organización" url="S_Miembro.xhtml" />
+					<p:menuitem value="Asesoría de Tesis" url="S_Tesis.xhtml" />
+					<p:menuitem value="Sinodal" url="S_Sinodal.xhtml" />
+				</p:submenu>
+			</p:submenu>	
+			<p:menuitem value="Cambiar Contraseña" url="contrasenia.xhtml"
+				icon="ui-icon-locked" />
+			<p:menuitem value="Ver Curriculum Vitae" url="ver_cv.xhtml"
+				icon="ui-icon-document" />
 
 			<f:facet name="options">
 				<p:commandButton value="Cerrar Sesión" icon="ui-icon-closethick"
@@ -25,8 +49,8 @@
 		<center>
 
 
-			<p:dataTable var="datos" value="#{Docentes.listadocenLic}" emptyMessage="No Hay Registros"
-			filteredValue="#{Docentes.filtros}"
+			<p:dataTable var="datos" value="#{Docentes.listadocenLic}"
+				emptyMessage="No Hay Registros" filteredValue="#{Docentes.filtros}"
 				style="font-size:11px;">
 
 
@@ -49,12 +73,14 @@
 					<h:outputText value="#{datos.nombre} #{datos.ap} #{datos.am}" />
 				</p:column>
 
-				<p:column headerText="Descargar Curriculum Vitae" style="text-align:center;">
-					<h:commandButton value="Descargar ↓" icon="ui-icon-circle-arrow-s" action="#{Docentes.exportarPDF}" process="@this">
-					<f:setPropertyActionListener target="#{Docentes.docenteSeleccionado}"
-							value="#{datos}" />
+				<p:column headerText="Descargar Curriculum Vitae"
+					style="text-align:center;">
+					<h:commandButton value="Descargar ↓" icon="ui-icon-circle-arrow-s"
+						action="#{Docentes.exportarPDF}" process="@this">
+						<f:setPropertyActionListener
+							target="#{Docentes.docenteSeleccionado}" value="#{datos}" />
 					</h:commandButton>
-					
+
 				</p:column>
 
 			</p:dataTable>
