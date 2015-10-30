@@ -1,0 +1,92 @@
+DROP FUNCTION IF EXISTS sicva.insertar_bloque;
+CREATE FUNCTION sicva.`insertar_bloque`(Nb INT(11),
+                               Fei     DATE,
+                               Fef     DATE,
+                               Fe     DATE,
+                               Te     VARCHAR(2000),
+                               He     INT(11),
+                               Sa     VARCHAR(2000),
+                               Re     VARCHAR(2000),
+                               Es     VARCHAR(2000),
+                               Idpro    INT(11)) RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM bloques
+      WHERE idprograma_analitico= Idpro;
+
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+      INSERT INTO bloques(numero_bloque,fechaI,fechaF,fechaE,temas,horas_estimadas,situaciones_aprendizaje,recursos,
+      estrategias_evaluacion,idprograma_analitico)
+           VALUES (Nb,Fei,Fef,Fe,Te,He,Sa,Re,Es,Idpro);
+
+      RETURN 1;
+   END IF;
+END;
+
+
+
+
+DROP FUNCTION IF EXISTS sicva.actualizar_bloque;
+CREATE FUNCTION sicva.`actualizar_bloque`(Idac INT(11),
+                               Fei     DATE,
+                               Fef     DATE,
+                               Fe     DATE,
+                               Te     VARCHAR(2000),
+                               He     INT(11),
+                               Sa     VARCHAR(2000),
+                               Re     VARCHAR(2000),
+                               Es     VARCHAR(45)) RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM bloques
+    WHERE   fechaI=  Fei
+          AND fechaF= Fef
+          AND fechaE= Fe
+          AND temas =Te
+          AND horas_estimadas = He
+          AND situaciones_aprendizaje = Sa
+          AND recursos= Re
+          AND estrategias_evaluacion=Es;
+
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+      UPDATE bloques
+         SET                fechaI=  Fei,
+         fechaF= Fef,
+          fechaE= Fe,
+         temas =Te,
+         horas_estimadas = He,
+         situaciones_aprendizaje = Sa,
+        recursos= Re,
+       estrategias_evaluacion=Es
+
+       WHERE idbloque1 = Idac;
+
+
+
+      RETURN 1;
+   END IF;
+END;
+
+
+DROP FUNCTION IF EXISTS sicva.eliminar_bloque;
+CREATE FUNCTION sicva.`eliminar_bloque`(MiId int(11)) RETURNS int(11)
+BEGIN
+   DELETE FROM bloques
+         WHERE idbloque1 = MiId;
+
+   RETURN 1;
+END;

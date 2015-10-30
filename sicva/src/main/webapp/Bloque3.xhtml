@@ -1,0 +1,476 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+	<script type="text/javascript">
+		function mostrar() {
+			document.getElementById('oculto').style.display = 'block';
+			document.getElenentById('id="BtnMostrar').style.display = 'none'
+			document.getElenentById('id="BtnMostrar').disabled = false
+			document.getElenentById('id="BtnOcultar').disabled = true
+		}
+		function ocultar() {
+			document.getElementById('oculto').style.display = 'none';
+			document.getElenentById('id="BtnOcultar').disabled = false
+			document.getElenentById('id="BtnMostrar').disabled = true
+		}
+		PrimeFaces.locales['es'] = {
+				closeText : 'Cerrar',
+				prevText : 'Anterior',
+				nextText : 'Siguiente',
+				currentText : 'Inicio',
+				monthNames : [ 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+						'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre',
+						'Diciembre' ],
+				monthNamesShort : [ 'Lunes', 'Martes', 'Miércoles', 'Jueves',
+						'Viernes', 'Sábado' ],
+				dayNames : [ 'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves',
+						'Viernes', 'Sábado' ],
+				dayNamesShort : [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab' ],
+				dayNamesMin : [ 'D', 'L', 'M', 'Mie', 'J', 'V', 'S' ],
+				weekHeader : 'Semana',
+				firstDay : 1,
+				isRTL : false,
+				showMonthAfterYear : false,
+				yearSuffix : '',
+				timeOnlyTitle : 'Sólo hora',
+				timeText : 'Tempo',
+				hourText : 'Hora',
+				minuteText : 'Minuto',
+				secondText : 'Segundo',
+				currentText : 'Fecha actual',
+				ampm : false,
+				month : 'Mes',
+				week : 'Semana',
+				day : 'Día',
+				allDayText : 'Todo el día'
+			};
+		</script>
+	<f:metadata>
+		<f:viewAction action="#{Ubicaciones.init}" />
+	</f:metadata>
+</h:head>
+<h:body>
+	<h:form id="form">
+		<h:outputScript library="js" name="validaciones.js" />
+
+		<p:growl id="msj" showDetail="true" sticky="false" life="1000" />
+		<img src="images/logo-sicva.png" align="middle" width="80"
+			height="130" />
+		<br> </br>
+
+		<p:menubar>
+
+			<p:menuitem value="Inicio" url="Principal.xhtml" icon="ui-icon-home" />
+
+			<p:submenu label="Registro Curriculum Vitae" icon="ui-icon-document">
+				<p:submenu label="Sección" icon="ui-icon-contact">
+					<p:menuitem value="Datos Personales" url="DatosPersonales.xhtml" />
+					<p:menuitem value="Escolaridad" url="Escolaridad.xhtml" />
+					<p:menuitem value="Experiencia Laboral"
+						url="ExperienciaLaboral.xhtml" />
+					<p:menuitem value="Ponencias Impartidas" url="Ponencias.xhtml" />
+					<p:menuitem value="Asistencia a Cursos"
+						url="AsistenciaCursos.xhtml" />
+					<p:menuitem value="Comisiones" url="Comisiones.xhtml" />
+					<p:menuitem value="Publicaciones" url="Publicaciones.xhtml" />
+					<p:menuitem value="Miembro de Organización" url="Miembro.xhtml" />
+					<p:menuitem value="Asesoría de Tesis" url="Tesis.xhtml" />
+					<p:menuitem value="Sinodal" url="Sinodal.xhtml" />
+
+				</p:submenu>
+
+			</p:submenu>
+
+
+
+			<p:submenu label="Programa Analítico" icon="ui-icon-document">
+				<p:submenu label="Sección" icon="ui-icon-contact">
+				<p:menuitem  value="Programas Analíticos " url="Programa.xhtml"/>
+					<p:menuitem value="Datos Principales" url="DatosPrincipales.xhtml" />
+					<p:menuitem value="Ubicación Unidad" url="UnidadAprendizaje.xhtml" />
+					<p:menuitem value="Propositos de la Unidad"
+						url="PropositosUnidad.xhtml" />
+					<p:menuitem value="Primer Bloque" url="Bloque.xhtml" />
+					<p:menuitem value="Segundo Bloque" url="Bloque2.xhtml" />
+					<p:menuitem value="Tercer Bloque" url="Bloque3.xhtml" />
+					<p:menuitem value="Criterios Para Evaluación"
+						url="CriteriosEvaluacion.xhtml" />
+					<p:menuitem value="Referencias" url="Referencias.xhtml" />
+
+
+				</p:submenu>
+
+			</p:submenu>
+					<p:menuitem value="Anterior" url="Bloque2.xhtml"
+				icon="ui-icon-arrowreturnthick-1-w" />
+			<p:menuitem value="Siguiente" url="CriteriosEvaluacion.xhtml"
+				icon="ui-icon-arrowreturnthick-1-e" />
+
+			<f:facet name="options">
+				<p:commandButton value="Cerrar Sesión" icon="ui-icon-closethick"
+					action="#{ControladorLogin.cerrarSesion}" />
+			</f:facet>
+
+		</p:menubar>
+
+
+		<br />
+	</h:form>
+
+
+
+
+
+
+
+	<!-- FORMULARIO -->
+	<h:form enctype="multipart/form-data" id="form1">
+		<p:panel id="basic"
+			header="Programa Analítico de la Unidad de Aprendizaje (Tercer Bloque)"
+			style="margin-bottom:20px">
+
+			<p:commandButton value="Agregar" onclick="PF('dlg').show();"
+				title="login" icon="ui-icon-pencil"
+				style="float:right; font-size:12px;">
+
+			</p:commandButton>
+			<br />
+			<br />
+
+		</p:panel>
+	</h:form>
+
+
+	<h:form>
+
+		<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+		<p:dialog header="Nuevo Tercer Bloque" widgetVar="dlg"
+			resizable="false">
+			<p:scrollPanel mode="native" style="height: 400px; width: 1200px;">
+				<p:panelGrid>
+					<p:row>
+						<p:column colspan="2">
+							<h:outputLabel value="* Fecha de:" style="font-weight:bold" />
+						</p:column>
+						<p:column colspan="2">
+							<p:calendar id="mask" value="#{Programa.bloqueDTO.fechai}"
+								locale="es" pattern="dd-MM-yyyy" mask="true" />
+						</p:column>
+						<p:column colspan="2">
+							<h:outputLabel value="* Fecha a:" style="font-weight:bold" />
+
+						</p:column>
+						<p:column colspan="2">
+							<p:calendar id="mask2" value="#{Programa.bloqueDTO.fechaf}"
+								locale="es" pattern="dd-MM-yyyy" mask="true" />
+						</p:column>
+
+						<p:column colspan="2">
+							<h:outputLabel value="* Fecha Primera Evaluación:"
+								style="font-weight:bold" />
+						</p:column>
+						<p:column colspan="2">
+							<p:calendar id="mask3" value="#{Programa.bloqueDTO.fechae}"
+								locale="es" pattern="dd-MM-yyyy" mask="true" />
+						</p:column>
+
+					</p:row>
+					<p:row>
+
+
+						<p:column colspan="12">
+							<h:outputLabel value="* Temas y Subtemas:"
+								style="font-weight:bold" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column colspan="12">
+							<p:editor rows="4" cols="150" value="#{Programa.bloqueDTO.temas}"
+								required="true" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column colspan="2">
+
+							<h:outputLabel value="* Horas Estimadas:"
+								style="font-weight:bold" />
+						</p:column>
+						<p:column colspan="2">
+							<p:inputText value="#{Programa.bloqueDTO.horasestimadas}"
+								onkeypress="return  numeros(event)" maxlength="24"
+								required="true" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="12">
+							<h:outputLabel value="* Situaciones de Aprendizaje:"
+								style="font-weight:bold" />
+
+
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column colspan="12">
+							<p:editor rows="4" cols="150"
+								value="#{Programa.bloqueDTO.siatuaciones}" required="true" />
+
+						</p:column>
+					</p:row>
+					
+
+					
+					<p:row>
+						<p:column colspan="12">
+							<h:outputLabel value="* Recursos Didácticos:"
+								style="font-weight:bold" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="12">
+							<p:editor rows="4" cols="150"
+								value="#{Programa.bloqueDTO.recursos}" required="true" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="12">
+							<h:outputLabel value="* Estrategias de Evaluación:"
+								style="font-weight:bold" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="12">
+							<p:editor rows="4" cols="150"
+								value="#{Programa.bloqueDTO.estrategias}" required="true" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+				<p:commandButton value="Guardar" ajax="false"
+					action="#{Programa.guardarbloque3}" icon="ui-icon-disk" />
+
+
+
+			</p:scrollPanel>
+		</p:dialog>
+	</h:form>
+
+	<script type="text/javascript">
+		function handleLoginRequest(xhr, status, args) {
+			if (args.validationFailed || !args.loggedIn) {
+				PF('dlg').jq.effect("shake", {
+					times : 5
+				}, 100);
+			} else {
+				PF('dlg').hide();
+				$('#loginLink').fadeOut();
+			}
+		}
+	</script>
+
+	<!-- TABLA -->
+	<h:form enctype="multipart/form-data" id="tabla">
+		<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
+		<p:panel id="basic"
+			header="Registro Segundo Bloque"
+			style="margin-bottom:20px">
+			<p:dataTable var="datos" value="#{Programa.listabloque3}" id="tb"
+				emptyMessage="No hay registros...">
+
+				<p:column headerText="Fecha de"
+					style="width:0px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.fechai}" />
+				</p:column>
+
+				<p:column headerText="Fecha a"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.fechaf}" />
+				</p:column>
+
+				<p:column headerText="Fecha Primera Evaluación"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.fechae}" />
+				</p:column>
+
+				<p:column headerText="Modificar"
+					style="width:5px;text-align: center;font-size:12px"
+					exportable="false">
+
+					<p:commandButton oncomplete="PF('d').show();"
+						update=":actualizar:d"
+						action="#{Programa.actualizarDemobloque(datos)}"
+						icon="ui-icon-pencil">
+
+					</p:commandButton>
+				</p:column>
+
+				<p:column headerText="Eliminar"
+					style="width:5px;text-align: center;font-size:12px"
+					exportable="false">
+					<p:commandButton update=" :tabla" icon="ui-icon-trash"
+						action="#{Programa.eliminarbloque}">
+						<f:setPropertyActionListener target="#{Programa.bloSeleccionada}"
+							value="#{datos}" />
+						<p:confirm header="Confirmación" message="¿Estas seguro?"
+							icon="ui-icon-alert" />
+
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+
+
+	<!-- ACTUALIZAR LICENCIATURA (Pantalla emergente)-->
+	<h:form enctype="multipart/form-data" id="actualizar">
+		<p:dialog header="Actualizar Tercer Bloque"
+			showEffect="explode" modal="true" hideEffect="explode" widgetVar="d"
+			id="d">
+			<!-- escrollpanel              -->
+			<p:scrollPanel mode="native" style="height: 400px; width: 1000px;">
+
+				<!-- escrollpanel              -->
+
+
+				<p:panelGrid>
+					<p:row>
+						<p:column colspan="2">
+
+							<h:outputLabel value="* Fecha de:" style="font-weight:bold" />
+						</p:column>
+						<p:column colspan="2">
+							<p:inputText value="#{Programa.bloSeleccionada.fechai}"
+								mask="9999/99/99" onkeypress="return numeros(event)"
+								required="true" />
+
+						</p:column>
+						<p:column colspan="2">
+							<h:outputLabel value="* Fecha a:" style="font-weight:bold" />
+						</p:column>
+						<p:column colspan="2">
+							<p:inputText value="#{Programa.bloSeleccionada.fechaf}"
+								mask="9999/99/99" onkeypress="return numeros(event)"
+								required="true" />
+						</p:column>
+						<p:column colspan="2">
+							<h:outputLabel value="* Fecha primera evaluación:"
+								style="font-weight:bold" />
+						</p:column>
+						<p:column colspan="2">
+							<p:inputText value="#{Programa.bloSeleccionada.fechae}"
+								mask="9999/99/99" onkeypress="return numeros(event)"
+								required="true" />
+						</p:column>
+					</p:row>
+
+
+
+					<p:row>
+						<p:column colspan="12">
+
+							<h:outputLabel value="* Temas y Subtemas:"
+								style="font-weight:bold" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column colspan="12">
+
+							<p:editor rows="4" cols="150"
+								value="#{Programa.bloSeleccionada.temas}" required="true" />
+
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column colspan="2">
+
+							<h:outputLabel value="* Horas Estimadas:"
+								style="font-weight:bold" />
+						</p:column>
+						<p:column colspan="2">
+							<p:inputText value="#{Programa.bloSeleccionada.horasestimadas}"
+								onkeypress="return  numeros(event)" maxlength="2000"
+								required="true" />
+						</p:column>
+						</p:row>
+						
+							<p:row>
+						<p:column colspan="12">
+							<h:outputLabel value="* Situaciones de aprendizaje:"
+								style="font-weight:bold" />
+									
+						</p:column>
+						</p:row>
+							<p:row>
+						<p:column colspan="12">
+							<p:editor rows="4" cols="150"
+								value="#{Programa.bloSeleccionada.siatuaciones}" required="true" />
+</p:column>
+						</p:row>
+
+	<p:row>
+						<p:column colspan="12">
+							<h:outputLabel value="* Recursos Didácticos:"
+								style="font-weight:bold" />
+								</p:column>
+						</p:row>
+						<p:row>
+						<p:column colspan="12">
+							<p:editor rows="4" cols="150"
+								value="#{Programa.bloSeleccionada.recursos}" required="true" />
+		</p:column>
+						</p:row>
+<p:row>
+						<p:column colspan="12">
+							<h:outputLabel value="* Estrategias de Evaluación:"
+								style="font-weight:bold" />
+								</p:column>
+						</p:row>
+						<p:row>
+						<p:column colspan="12">
+							<p:editor rows="4" cols="150"
+								value="#{Programa.bloSeleccionada.estrategias}" required="true" />
+												</p:column>
+						</p:row>
+							
+					<p:row>
+						<p:column colspan="12">
+								<p:commandButton value="Guardar" icon="ui-icon-disk"
+									ajax="false" update="msj,@form"
+									action="#{Programa.actualizarbloque}" />
+							
+											</p:column>
+						</p:row>
+							</p:panelGrid>
+
+							<!-- cierro escrollpanel -->
+			</p:scrollPanel>
+
+		</p:dialog>
+	</h:form>
+
+
+
+	<!-- ELIMINAR LICENCIATURA (Pantalla emergente)-->
+	<h:form enctype="multipart/form-data" id="eliminar">
+		<p:confirmDialog global="true" showEffect="explode" modal="true"
+			hideEffect="explode">
+
+			<p:commandButton value="Si" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="No" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+
+
+	</h:form>
+</h:body>
+</html>
