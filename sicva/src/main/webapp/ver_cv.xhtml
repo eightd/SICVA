@@ -57,17 +57,19 @@
 				<f:facet name="header">
 					<p:outputPanel>
 
+						<h:outputText value="Buscar Docente:  " />
+						<p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()"
+							style="width:150px" placeholder="Ingrese Nombre" />
 						<p:spacer width="40"></p:spacer>
 						<p:spacer width="40"></p:spacer>
 						<p:spacer width="40"></p:spacer>
 						<p:spacer width="40"></p:spacer>
-						
+						<p:commandButton value="Descargar Todo"
+							icon="ui-icon-circle-arrow-s" />
 
 					</p:outputPanel>
 				</f:facet>
-					<p:column headerText="Nombre"
-					style="width:800px;text-align: center;font-size:12px"
-					filterBy="#{datos.nombre}" filterMatchMode="contains">
+				<p:column headerText="Nombre" width="500">
 					<h:outputText value="#{datos.nombre} #{datos.ap} #{datos.am}" />
 				</p:column>
 
