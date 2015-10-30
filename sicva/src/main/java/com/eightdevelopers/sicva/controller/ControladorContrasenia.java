@@ -8,7 +8,12 @@ import javax.faces.context.FacesContext;
 
 import com.eightdevelopers.sicva.dao.ContraseniaDAO;
 import com.eightdevelopers.sicva.dto.ContraseniaDTO;
-
+/**
+ * Clase que permite realizar el cambio de contraseña
+ * 
+ * @author Efrén Méndez Aguilar
+ *
+ */
 @ManagedBean(name = "controlador")
 @RequestScoped
 @SessionScoped

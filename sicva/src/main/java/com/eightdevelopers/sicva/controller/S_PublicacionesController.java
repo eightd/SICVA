@@ -69,6 +69,10 @@ public class S_PublicacionesController implements Serializable {
 	public void ActualizarEvidencia() {
 		String valor = (obtenerValorSesion("id"));
 		id_session = Integer.parseInt(valor);
+		String tipo =  licSeleccionada.getEvidencia().getContentType();
+		String formato[]=tipo.split("/");
+		System.out.println(" ........... " + formato[1]);
+		if(formato[1].equals("jpeg")||formato[1].equals("png")||formato[1].equals("jpg")){
 		S_PublicacionesDAO s_publicaciones = new S_PublicacionesDAO();
 		String resultado = s_publicaciones.ActualizarEvidencia(licSeleccionada, id_session);
 		if (resultado != "") {
@@ -77,6 +81,10 @@ public class S_PublicacionesController implements Serializable {
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Fallo al actualizar"));
+		}
+		}else{
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Formato de imagen no válido"));
 		}
 		inicializar();
 

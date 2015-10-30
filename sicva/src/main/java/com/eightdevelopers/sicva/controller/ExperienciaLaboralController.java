@@ -61,6 +61,10 @@ public class ExperienciaLaboralController implements Serializable {
 		id_session = Integer.parseInt(valor);
 		experienciaDTO.setIdmodif(id_session);
 		experienciaDTO.setIdusuario(id_session);
+		String tipo = experienciaDTO.getEvidencia().getContentType();
+		String formato[]=tipo.split("/");
+		System.out.println(" ........... " + formato[1]);
+		if(formato[1].equals("jpeg")||formato[1].equals("png")||formato[1].equals("jpg")||formato[1].equals("octet-stream")){
 		ExperienciaLaboralDAO asistenciacursosDAO = new ExperienciaLaboralDAO();
 		String resultado = asistenciacursosDAO.guardarDato(experienciaDTO);
 		if (resultado != "") {
@@ -70,6 +74,11 @@ public class ExperienciaLaboralController implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada", "Fallo al guardar"));
 		}
+		}else{
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Formato de imagen no válido"));
+		}
+		
 		inicializar();
 	}
 
@@ -93,6 +102,10 @@ public class ExperienciaLaboralController implements Serializable {
 	public void ActualizarEvidencia() {
 		String valor = (obtenerValorSesion("id"));
 		id_session = Integer.parseInt(valor);
+		String tipo =  licSeleccionada.getEvidencia().getContentType();
+		String formato[]=tipo.split("/");
+		System.out.println(" ........... " + formato[1]);
+		if(formato[1].equals("jpeg")||formato[1].equals("png")||formato[1].equals("jpg")){
 		ExperienciaLaboralDAO experiencia = new ExperienciaLaboralDAO();
 		String resultado = experiencia.ActualizarEvidencia(licSeleccionada, id_session);
 		if (resultado != "") {
@@ -101,6 +114,10 @@ public class ExperienciaLaboralController implements Serializable {
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Fallo al actualizar"));
+		}
+		}else{
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Formato de imagen no válido"));
 		}
 		inicializar();
 	}

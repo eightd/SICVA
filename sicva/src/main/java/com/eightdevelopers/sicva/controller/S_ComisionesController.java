@@ -9,7 +9,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import java.util.List;
 
-
 import com.eightdevelopers.sicva.dao.S_ComisionesDAO;
 import com.eightdevelopers.sicva.dto.ComisionesDTO;
 
@@ -24,7 +23,7 @@ import com.eightdevelopers.sicva.dto.ComisionesDTO;
 @ManagedBean(name = "S_Comisiones")
 @SessionScoped
 public class S_ComisionesController implements Serializable {
-	
+
 	private static final long serialVersionUID = -2715913227853027610L;
 
 	private ComisionesDTO comisionesDTO;
@@ -42,9 +41,9 @@ public class S_ComisionesController implements Serializable {
 	}
 
 	public S_ComisionesController() {
-		
+
 	}
-	
+
 	@PostConstruct
 	public void init() {
 		inicializar();
@@ -66,7 +65,7 @@ public class S_ComisionesController implements Serializable {
 		String valor = (obtenerValorSesion("id"));
 		id_session = Integer.parseInt(valor);
 		S_ComisionesDAO comisionessDAO = new S_ComisionesDAO();
-		String resultado = comisionessDAO.ActualizarComision(licSeleccionada,id_session);
+		String resultado = comisionessDAO.ActualizarComision(licSeleccionada, id_session);
 		if (resultado != "") {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Acción exitosa ", resultado));
@@ -79,20 +78,28 @@ public class S_ComisionesController implements Serializable {
 		inicializar();
 	}
 
-	public void ActualizarEvidencia(){
+	public void ActualizarEvidencia() {
 		String valor = (obtenerValorSesion("id"));
 		id_session = Integer.parseInt(valor);
-		S_ComisionesDAO comisionessDAO = new S_ComisionesDAO();
-		String resultado = comisionessDAO.ActualizarEvidencia(licSeleccionada, id_session);   
-		if (resultado != "") {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Acción exitosa ", resultado));
+		String tipo = licSeleccionada.getEvidencia().getContentType();
+		String formato[] = tipo.split("/");
+		System.out.println(" ........... " + formato[1]);
+		if (formato[1].equals("jpeg") || formato[1].equals("png") || formato[1].equals("jpg")) {
+			S_ComisionesDAO comisionessDAO = new S_ComisionesDAO();
+			String resultado = comisionessDAO.ActualizarEvidencia(licSeleccionada, id_session);
+			if (resultado != "") {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "Acción exitosa ", resultado));
+			} else {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Fallo al actualizar"));
+			}
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Fallo al actualizar"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Formato de imagen no válido"));
 		}
 		inicializar();
-		
+
 	}
 
 	public void eliminar() {
@@ -107,7 +114,6 @@ public class S_ComisionesController implements Serializable {
 		}
 		inicializar();
 	}
-	
 
 	public String obtenerValorSesion(String clave) {
 		try {
@@ -118,8 +124,6 @@ public class S_ComisionesController implements Serializable {
 			return "";
 		}
 	}
-
-	
 
 	public ComisionesDTO getComisionesDTO() {
 		return comisionesDTO;

@@ -6,7 +6,12 @@ import java.sql.ResultSet;
 import com.eightdevelopers.sicva.db.ConexionBD;
 import com.eightdevelopers.sicva.db.SQLQueries;
 import com.eightdevelopers.sicva.dto.ContraseniaDTO;
-
+/**
+ * Clase que permite hacer realizar el cambio de contraseña a base de datos
+ * 
+ * @author Efrén Méndez Aguilar
+ *
+ */
 public class ContraseniaDAO {
 
 	public boolean verifica(ContraseniaDTO objeto, String id) {

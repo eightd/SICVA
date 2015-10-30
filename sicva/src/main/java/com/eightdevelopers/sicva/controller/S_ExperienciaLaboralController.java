@@ -71,6 +71,10 @@ public class S_ExperienciaLaboralController implements Serializable {
 	public void ActualizarEvidencia() {
 		String valor = (obtenerValorSesion("id"));
 		idUsuMod = Integer.parseInt(valor);
+		String tipo =  licSeleccionada.getEvidencia().getContentType();
+		String formato[]=tipo.split("/");
+		System.out.println(" ........... " + formato[1]);
+		if(formato[1].equals("jpeg")||formato[1].equals("png")||formato[1].equals("jpg")){
 		S_ExperienciaLaboralDAO s_escolaridad = new S_ExperienciaLaboralDAO();
 		String resultado = s_escolaridad.ActualizarEvidencia(licSeleccionada, idUsuMod);
 		if (resultado != "") {
@@ -79,6 +83,10 @@ public class S_ExperienciaLaboralController implements Serializable {
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Fallo al actualizar"));
+		}
+		}else{
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Formato de imagen no válido"));
 		}
 		inicializar();
 	}

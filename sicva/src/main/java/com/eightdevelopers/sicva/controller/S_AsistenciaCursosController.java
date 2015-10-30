@@ -71,6 +71,10 @@ public class S_AsistenciaCursosController implements Serializable {
 	public void ActualizarEvidencia() {
 		String valor = (obtenerValorSesion("id"));
 		idUsuMod = Integer.parseInt(valor);
+		String tipo =  licSeleccionada.getEvidencia().getContentType();
+		String formato[]=tipo.split("/");
+		System.out.println(" ........... " + formato[1]);
+		if(formato[1].equals("jpeg")||formato[1].equals("png")||formato[1].equals("jpg")){
 		S_AsistenciaCursosDAO asistencia= new S_AsistenciaCursosDAO();
 		String resultado = asistencia.ActualizarEvidencia(licSeleccionada, idUsuMod);
 		if (resultado != "") {
@@ -79,6 +83,10 @@ public class S_AsistenciaCursosController implements Serializable {
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Fallo al actualizar"));
+		}
+		}else{
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Formato de imagen no válido"));
 		}
 		inicializar();
 	}

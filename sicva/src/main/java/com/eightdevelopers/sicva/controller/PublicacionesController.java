@@ -57,6 +57,11 @@ public class PublicacionesController implements Serializable {
 		id_session=Integer.parseInt(valor);
 		publicacionesDTO.setIdmodif(id_session);
 		publicacionesDTO.setIdusuario(id_session);
+		String tipo = publicacionesDTO.getEvidencia().getContentType();
+		String formato[]=tipo.split("/");
+		System.out.println(" ........... " + formato[1]);
+		if(formato[1].equals("jpeg")||formato[1].equals("png")||formato[1].equals("jpg")||formato[1].equals("octet-stream")){
+
 		PublicacionesDAO asistenciacursosDAO = new PublicacionesDAO();
 		String resultado = asistenciacursosDAO.guardarDato(publicacionesDTO);
 
@@ -67,6 +72,10 @@ public class PublicacionesController implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Fallo al guardar"));
 		}
+	}else{
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Formato de imagen no válido"));
+	}
 		inicializar();
 	}
 
@@ -91,6 +100,10 @@ public class PublicacionesController implements Serializable {
 	public void ActualizarEvidencia(){
 		String valor = (obtenerValorSesion("id"));
 		id_session = Integer.parseInt(valor);
+		String tipo =  licSeleccionada.getEvidencia().getContentType();
+		String formato[]=tipo.split("/");
+		System.out.println(" ........... " + formato[1]);
+		if(formato[1].equals("jpeg")||formato[1].equals("png")||formato[1].equals("jpg")){
 		PublicacionesDAO asistenciacursosDao = new PublicacionesDAO();
 		String resultado = asistenciacursosDao.ActualizarEvidencia(licSeleccionada, id_session);   
 		if (resultado != "") {
@@ -99,6 +112,10 @@ public class PublicacionesController implements Serializable {
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Fallo al actualizar"));
+		}
+		}else{
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Formato de imagen no válido"));
 		}
 		inicializar();
 		

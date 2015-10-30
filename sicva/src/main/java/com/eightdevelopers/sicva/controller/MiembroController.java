@@ -60,6 +60,11 @@ public class MiembroController implements Serializable {
 		id_session = Integer.parseInt(valor);
 		miembroDTO.setIdmodif(id_session);
 		miembroDTO.setIdusuario(id_session);
+		String tipo = miembroDTO.getEvidencia().getContentType();
+		String formato[]=tipo.split("/");
+		System.out.println(" ........... " + formato[1]);
+		if(formato[1].equals("jpeg")||formato[1].equals("png")||formato[1].equals("jpg")||formato[1].equals("octet-stream")){
+
 		MiembroDAO asistenciacursosDAO = new MiembroDAO();
 		String resultado = "";
 		resultado = asistenciacursosDAO.guardarDato(miembroDTO);
@@ -71,6 +76,10 @@ public class MiembroController implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Fallo al guardar"));
 
+		}
+		}else{
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Formato de imagen no válido"));
 		}
 		inicializar();
 	}
@@ -93,6 +102,10 @@ public class MiembroController implements Serializable {
 	public void ActualizarEvidencia() {
 		String valor = (obtenerValorSesion("id"));
 		id_session = Integer.parseInt(valor);
+		String tipo =  licSeleccionada.getEvidencia().getContentType();
+		String formato[]=tipo.split("/");
+		System.out.println(" ........... " + formato[1]);
+		if(formato[1].equals("jpeg")||formato[1].equals("png")||formato[1].equals("jpg")){
 		MiembroDAO escolaridad = new MiembroDAO();
 		String resultado = escolaridad.ActualizarEvidencia(licSeleccionada, id_session);
 		if (resultado != "") {
@@ -102,6 +115,10 @@ public class MiembroController implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Fallo al actualizar"));
 		}
+	}else{
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Formato de imagen no válido"));
+	}
 		inicializar();
 
 	}

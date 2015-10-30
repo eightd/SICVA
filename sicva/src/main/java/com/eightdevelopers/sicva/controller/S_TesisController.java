@@ -66,14 +66,22 @@ public class S_TesisController implements Serializable {
 	public void ActualizarEvidencia() {
 		String valor = (obtenerValorSesion("id"));
 		id_session = Integer.parseInt(valor);
-		S_TesisDAO tesis = new S_TesisDAO();
-		String resultado = tesis.ActualizarEvidencia(licSeleccionada, id_session);
-		if (resultado != "") {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Acción exitosa ", resultado));
+		String tipo = licSeleccionada.getEvidencia().getContentType();
+		String formato[] = tipo.split("/");
+		System.out.println(" ........... " + formato[1]);
+		if (formato[1].equals("jpeg") || formato[1].equals("png") || formato[1].equals("jpg")) {
+			S_TesisDAO tesis = new S_TesisDAO();
+			String resultado = tesis.ActualizarEvidencia(licSeleccionada, id_session);
+			if (resultado != "") {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "Acción exitosa ", resultado));
+			} else {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Fallo al actualizar"));
+			}
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Fallo al actualizar"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Formato de imagen no válido"));
 		}
 		inicializar();
 	}

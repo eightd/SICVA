@@ -61,6 +61,13 @@ public class DatosPersonalesController implements Serializable {
 		id_session = Integer.parseInt(valor);
 		datospersonalesDTO.setIdmodif(id_session);
 		datospersonalesDTO.setIdusuario(id_session);
+		
+//.........		
+		String tipo = datospersonalesDTO.getFoto().getContentType();
+		String formato[]=tipo.split("/");
+		System.out.println(" ........... " + formato[1]);
+		if(formato[1].equals("jpeg")||formato[1].equals("png")||formato[1].equals("jpg")||formato[1].equals("octet-stream")){
+//.........	
 		DatosPersonalesDAO asistenciacursosDAO = new DatosPersonalesDAO();
 		String resultado = asistenciacursosDAO.guardarDato(datospersonalesDTO);
 		if (resultado != "") {
@@ -70,6 +77,12 @@ public class DatosPersonalesController implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Fallo al guardar"));
 		}
+//_________		
+		}else{
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Formato de imagen no válido"));
+		}
+//_________		
 		inicializar();
 	}
 
@@ -91,6 +104,10 @@ public class DatosPersonalesController implements Serializable {
 	public void ActualizarEvidencia() {
 		String valor = (obtenerValorSesion("id"));
 		id_session = Integer.parseInt(valor);
+		String tipo =  licSeleccionada.getFoto().getContentType();
+		String formato[]=tipo.split("/");
+		System.out.println(" ........... " + formato[1]);
+		if(formato[1].equals("jpeg")||formato[1].equals("png")||formato[1].equals("jpg")){
 		DatosPersonalesDAO datos = new DatosPersonalesDAO();
 		String resultado = datos.ActualizarEvidencia(licSeleccionada, id_session);
 		if (resultado != "") {
@@ -100,6 +117,11 @@ public class DatosPersonalesController implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Fallo al actualizar"));
 		}
+		}else{
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Formato de imagen no válido"));
+		}
+
 		inicializar();
 	}
 

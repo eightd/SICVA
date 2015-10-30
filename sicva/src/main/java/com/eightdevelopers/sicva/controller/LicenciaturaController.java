@@ -3,6 +3,7 @@ package com.eightdevelopers.sicva.controller;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -34,7 +35,10 @@ public class LicenciaturaController implements Serializable {
 	private List<LicenciaturaDTO> filtros;
 
 	public LicenciaturaController() {
-
+	}
+	
+	@PostConstruct
+	public void init(){
 		inicializar();
 
 	}

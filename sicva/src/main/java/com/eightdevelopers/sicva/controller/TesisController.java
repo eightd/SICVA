@@ -55,6 +55,10 @@ public class TesisController implements Serializable {
 		id_session = Integer.parseInt(valor);
 		tesisDTO.setIdmodif(id_session);
 		tesisDTO.setIdusuario(id_session);
+		String tipo = tesisDTO.getEvidencia().getContentType();
+		String formato[]=tipo.split("/");
+		System.out.println(" ........... " + formato[1]);
+		if(formato[1].equals("jpeg")||formato[1].equals("png")||formato[1].equals("jpg")||formato[1].equals("octet-stream")){
 		TesisDAO asistenciacursosDAO = new TesisDAO();
 		String resultado = "";
 		resultado = asistenciacursosDAO.guardarDato(tesisDTO);
@@ -65,6 +69,10 @@ public class TesisController implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Fallo al guardar"));
 		}
+	}else{
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Formato de imagen no válido"));
+	}
 		inicializar();
 	}
 
@@ -86,6 +94,10 @@ public class TesisController implements Serializable {
 	public void ActualizarEvidencia() {
 		String valor = (obtenerValorSesion("id"));
 		id_session = Integer.parseInt(valor);
+		String tipo =  licSeleccionada.getEvidencia().getContentType();
+		String formato[]=tipo.split("/");
+		System.out.println(" ........... " + formato[1]);
+		if(formato[1].equals("jpeg")||formato[1].equals("png")||formato[1].equals("jpg")){
 		TesisDAO tesis = new TesisDAO();
 		String resultado = tesis.ActualizarEvidencia(licSeleccionada, id_session);
 		if (resultado != "") {
@@ -94,6 +106,10 @@ public class TesisController implements Serializable {
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Fallo al actualizar"));
+		}
+		}else{
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acción denegada ", "Formato de imagen no válido"));
 		}
 		inicializar();
 	}

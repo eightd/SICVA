@@ -1,5 +1,10 @@
 package com.eightdevelopers.sicva.dto;
-
+/**
+ * Clase que permite alojar los datos para el cambio de contraseña
+ * 
+ * @author Efrén Méndez Aguilar
+ *
+ */
 public class ContraseniaDTO {
 	private String pass;
 	private String passNuevo;
