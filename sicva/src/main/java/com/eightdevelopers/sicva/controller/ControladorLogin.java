@@ -117,6 +117,23 @@ public class ControladorLogin implements Serializable {
 		}
 
 	}
+	/**
+	 * Verifica que si hay sesion activa
+	 * @return true or false
+	 */
+	public boolean verificarSesion() {
+		boolean estado;
+
+		if (FacesContext.getCurrentInstance().getExternalContext()
+				.getSessionMap().get("id") == null) {
+			redireccionar("index.xhtml");
+			estado = false;
+		} else {
+			estado = true;
+		}
+
+		return estado;
+	}
 
 	public void cerrarSesion() {
 		try {
