@@ -1,0 +1,353 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+	<script type="text/javascript">
+		function mostrar() {
+			document.getElementById('oculto').style.display = 'block';
+			document.getElenentById('id="BtnMostrar').style.display = 'none'
+			document.getElenentById('id="BtnMostrar').disabled = false
+			document.getElenentById('id="BtnOcultar').disabled = true
+		}
+		function ocultar() {
+			document.getElementById('oculto').style.display = 'none';
+			document.getElenentById('id="BtnOcultar').disabled = false
+			document.getElenentById('id="BtnMostrar').disabled = true
+		}
+	</script>
+	<f:metadata>
+		<f:viewAction action="#{Ubicaciones.init}" />
+	</f:metadata>
+</h:head>
+<h:body>
+	<h:form id="form">
+		<h:outputScript library="js" name="validaciones.js" />
+
+		<p:growl id="msj" showDetail="true" sticky="false" life="1000" />
+		<img src="images/logo-sicva.png" align="middle" width="80"
+			height="130" />
+		<br> </br>
+
+		<p:menubar>
+
+			<p:menuitem value="Inicio" url="Principal.xhtml" icon="ui-icon-home" />
+
+			<p:submenu label="Registro Curriculum Vitae" icon="ui-icon-document">
+				<p:submenu label="Sección" icon="ui-icon-contact">
+					<p:menuitem value="Datos Personales" url="DatosPersonales.xhtml" />
+					<p:menuitem value="Escolaridad" url="Escolaridad.xhtml" />
+					<p:menuitem value="Experiencia Laboral"
+						url="ExperienciaLaboral.xhtml" />
+					<p:menuitem value="Ponencias Impartidas" url="Ponencias.xhtml" />
+					<p:menuitem value="Asistencia a Cursos"
+						url="AsistenciaCursos.xhtml" />
+					<p:menuitem value="Comisiones" url="Comisiones.xhtml" />
+					<p:menuitem value="Publicaciones" url="Publicaciones.xhtml" />
+					<p:menuitem value="Miembro de Organización" url="Miembro.xhtml" />
+					<p:menuitem value="Asesoría de Tesis" url="Tesis.xhtml" />
+					<p:menuitem value="Sinodal" url="Sinodal.xhtml" />
+
+				</p:submenu>
+
+			</p:submenu>
+
+
+
+	<p:submenu label="Programa Analítico" icon="ui-icon-document">
+				<p:submenu label="Sección" icon="ui-icon-contact">
+					 <p:menuitem  value="Programas Analíticos " url="Programa.xhtml"/>
+					<p:menuitem value="Datos Principales" url="DatosPrincipales.xhtml" />
+					<p:menuitem value="Ubicación Unidad" url="UnidadAprendizaje.xhtml" />
+					<p:menuitem value="Propositos de la Unidad"
+						url="PropositosUnidad.xhtml" />
+					<p:menuitem value="Primer Bloque" url="Bloque.xhtml" />
+					<p:menuitem value="Segundo Bloque"
+						url="Bloque2.xhtml" />
+					<p:menuitem value="Tercer Bloque" url="Bloque3.xhtml" />
+					<p:menuitem value="Criterios Para Evaluación" url="CriteriosEvaluacion.xhtml" />
+					<p:menuitem value="Referencias" url="Referencias.xhtml" />
+					
+
+				</p:submenu>
+
+			</p:submenu>
+			<p:menuitem value="Anterior" url="DatosPrincipales.xhtml"
+				icon="ui-icon-arrowreturnthick-1-w" />
+			<p:menuitem value="Siguiente" url="PropositosUnidad.xhtml"
+				icon="ui-icon-arrowreturnthick-1-e" />
+
+			<f:facet name="options">
+				<p:commandButton value="Cerrar Sesión" icon="ui-icon-closethick"
+					action="#{ControladorLogin.cerrarSesion}" />
+			</f:facet>
+
+		</p:menubar>
+
+
+		<br />
+	</h:form>
+
+
+
+
+
+
+
+<!-- FORMULARIO -->
+	<h:form enctype="multipart/form-data" id="form1">
+		<p:panel id="basic" header="Programa Analítico de la Unidad de Aprendizaje(Ubicación)" style="margin-bottom:20px">
+
+		    <p:commandButton value="Agregar" onclick="PF('dlg').show();" title="login"  icon="ui-icon-pencil" style="float:right; font-size:12px;">
+   
+    </p:commandButton>
+    <br />
+			<br />
+		
+ 	    </p:panel>
+			</h:form>
+ 
+	
+<h:form>            
+
+    <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+ 
+    <p:dialog header="Nueva Ubicación de la Unidad de Aprendizaje" widgetVar="dlg" resizable="false">
+    <p:scrollPanel  mode="native" style="height: 400px; width: 1000px;">
+    <p:panelGrid>
+    
+   
+
+
+							<p:row>
+<p:column colspan="2">
+				<h:outputLabel value="* Campo Formativo"  style="font-weight:bold"/>
+				</p:column>
+				</p:row>
+							
+							<p:row>
+<p:column colspan="2">	
+					<p:editor rows="4" cols="210"
+					value="#{Programa.ubicacionesDTO.campo}"
+					 required="true" />
+
+		</p:column>
+		</p:row>
+			
+									<p:row>
+<p:column colspan="2">
+				<h:outputLabel value="* Problema Eje" style="font-weight:bold" />
+					
+				</p:column>
+				</p:row>
+										<p:row>
+<p:column colspan="2">
+				<p:editor rows="4" cols="150"
+					value="#{Programa.ubicacionesDTO.problema}"
+					 required="true" />
+	</p:column>
+	</p:row>
+							<p:row>
+<p:column colspan="2">
+				<h:outputLabel value="* Competencias Especificas del Campo Formativo"  style="font-weight:bold"/>
+				</p:column>
+				</p:row>
+										<p:row>
+<p:column colspan="2">
+
+				<p:editor rows="4" cols="150"
+					value="#{Programa.ubicacionesDTO.competencias}"
+					required="true" />
+</p:column>
+</p:row>						<p:row>
+<p:column colspan="2">
+
+				<h:outputLabel value="* Propósito (contribución al perfil de egreso)" style="font-weight:bold"/>
+				</p:column>
+				</p:row>
+										<p:row>
+<p:column colspan="2">
+				<p:editor rows="4" cols="150"
+					value="#{Programa.ubicacionesDTO.proposito}"
+				 required="true" />
+				</p:column>
+				</p:row>
+
+           
+           </p:panelGrid>
+           
+		<p:commandButton value="Guardar" icon="ui-icon-disk" ajax="false"
+					update="msj,@form" action="#{Programa.guardarunidad}" />
+
+
+
+        
+        	</p:scrollPanel>
+    </p:dialog>
+</h:form>
+ 
+<script type="text/javascript">
+    function handleLoginRequest(xhr, status, args) {
+        if(args.validationFailed || !args.loggedIn) {
+            PF('dlg').jq.effect("shake", {times:5}, 100);
+        }
+        else {
+            PF('dlg').hide();
+            $('#loginLink').fadeOut();
+        }
+    }
+</script>
+
+	<!-- TABLA -->
+	<h:form enctype="multipart/form-data" id="tabla">
+		<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
+		<p:panel id="basic" header="Registro de la Ubicación de la Unidad de Aprendizaje"
+			style="margin-bottom:20px">
+			<p:dataTable var="datos" value="#{Programa.listaunidad}" id="tb"
+				emptyMessage="No hay registros...">
+
+
+
+
+				<p:column headerText="Campo Formativo"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.campo}" escape="false" />
+				</p:column>
+
+
+				<p:column headerText="Problema Eje"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.problema}"  escape="false"/>
+				</p:column>
+
+				<p:column headerText="Competencias"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.competencias}" escape="false"/>
+				</p:column>
+
+
+
+
+				<p:column headerText="Propósito"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.proposito}" escape="false" />
+				</p:column>
+
+			
+
+
+				
+
+				<p:column headerText="Modificar"
+					style="width:5px;text-align: center;font-size:12px"
+					exportable="false">
+					<p:commandButton oncomplete="PF('d').show();"
+						update=":actualizar:d"
+						action="#{Programa.actualizarDemounidad(datos)}"
+						icon="ui-icon-pencil">
+					</p:commandButton>
+				</p:column>
+
+
+				<p:column headerText="Eliminar"
+					style="width:5px;text-align: center;font-size:12px"
+					exportable="false">
+					<p:commandButton update=" :tabla" icon="ui-icon-trash"
+						action="#{Programa.eliminarunidad}">
+						<f:setPropertyActionListener
+							target="#{Programa.licSeleccionada}" value="#{datos}" />
+						<p:confirm header="Confirmación" message="¿Estas seguro?"
+							icon="ui-icon-alert" />
+
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+
+
+	<!-- ACTUALIZAR LICENCIATURA (Pantalla emergente)-->
+	<h:form enctype="multipart/form-data" id="actualizar">
+		<p:dialog  header="Actualizar Ubicación de la Unidad de Aprendizaje" showEffect="explode"
+			modal="true" hideEffect="explode" widgetVar="d" id="d">
+<!-- escrollpanel              -->
+<p:scrollPanel  mode="native" style="height: 400px; width: 800px;">
+
+<!-- escrollpanel              -->
+
+
+			<h:panelGrid>
+
+
+
+				
+							<p:row>
+<p:column colspan="2">
+
+				<h:outputLabel value="* Campo Formativo" style="font-weight:bold" />
+						</p:column>
+				</p:row>
+							
+							<p:row>
+<p:column colspan="2">
+				<p:editor rows="4" cols="150"
+					value="#{Programa.licSeleccionada.campo}"
+					 required="true"  />
+		</p:column>
+				</p:row>
+				<p:row>
+<p:column colspan="2">
+				<h:outputLabel value="* Problema Eje" style="font-weight:bold" />
+								</p:column>
+				</p:row>
+							
+							<p:row>
+<p:column colspan="2">
+
+				<p:editor rows="4" cols="150"
+					value="#{Programa.licSeleccionada.problema}"
+					required="true" />
+</p:column>
+				</p:row>
+				<h:outputLabel value="* Competencias Especificas del Campo Formativo"  style="font-weight:bold"/>
+				<p:editor rows="4" cols="150"
+					value="#{Programa.licSeleccionada.competencias}"
+					 required="true" />
+
+
+				<h:outputLabel value="* Propósito(contribución al perfil de egresos)"  style="font-weight:bold"/>
+				<p:editor rows="4" cols="150"
+					value="#{Programa.licSeleccionada.proposito}"
+					 required="true" />
+
+<h:outputLabel />
+			
+			</h:panelGrid>
+						<p:commandButton value="Guardar"  icon="ui-icon-disk" ajax="false"
+					update="msj,@form" action="#{Programa.actualizarunidad}"  />
+<!-- cierro escrollpanel -->
+	</p:scrollPanel>
+			
+		</p:dialog>
+	</h:form>
+
+
+
+	<!-- ELIMINAR LICENCIATURA (Pantalla emergente)-->
+	<h:form enctype="multipart/form-data" id="eliminar">
+		<p:confirmDialog global="true" showEffect="explode" modal="true"
+			hideEffect="explode">
+
+			<p:commandButton value="Si" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="No" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+
+
+	</h:form>
+</h:body>
+</html>

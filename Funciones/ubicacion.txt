@@ -1,0 +1,75 @@
+DROP FUNCTION IF EXISTS sicva.insertar_ubicacion;
+CREATE FUNCTION sicva.`insertar_ubicacion`(Micampo VARCHAR(2000),
+                                            Miproblema VARCHAR(2000),
+                                             Micompetencia VARCHAR(2000),
+                                              Miproposito VARCHAR(2000),
+                                               MiIdprograma INT(11)) RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM ubicacion_unidad
+    WHERE     idprograma_analitico= MiIdprograma ;
+          
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+      INSERT INTO ubicacion_unidad(campo_formativo,
+                             problema_eje, competencias,proposito,idprograma_analitico)
+           VALUES (Micampo,Miproblema, Micompetencia,Miproposito,MiIdprograma);
+
+      RETURN 1;
+   END IF;
+END;
+
+
+DROP FUNCTION IF EXISTS sicva.actualizar_ubicacion;
+CREATE FUNCTION sicva.`actualizar_ubicacion`(MiId               int(11),
+                                 MiCampo            VARCHAR(2000),
+                                 Miproblema           VARCHAR(2000),
+                                 Micompetencia      VARCHAR(2000),
+                                 Miproposito            VARCHAR(2000)) RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM ubicacion_unidad
+    WHERE     campo_formativo = MiCampo
+          AND problema_eje = Miproblema
+          AND competencias =Micompetencia 
+          AND proposito = Miproposito;
+         
+
+
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+      UPDATE ubicacion_unidad
+         SET campo_formativo = MiCampo,
+         problema_eje = Miproblema,
+           competencias =Micompetencia,
+           proposito = Miproposito
+         
+       WHERE idubicacion_unidad = MiId;
+
+
+
+      RETURN 1;
+   END IF;
+END;
+
+
+DROP FUNCTION IF EXISTS sicva.eliminar_ubicacion;
+CREATE FUNCTION sicva.`eliminar_ubicacion`(MiId int(11)) RETURNS int(11)
+BEGIN
+   DELETE FROM ubicacion_unidad
+         WHERE idubicacion_unidad = MiId;
+
+   RETURN 1;
+END;
