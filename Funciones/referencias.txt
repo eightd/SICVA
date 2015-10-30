@@ -1,0 +1,62 @@
+DROP FUNCTION IF EXISTS sicva.insertar_bibliografias;
+CREATE FUNCTION sicva.`insertar_bibliografias`(
+Mibibliografia VARCHAR(500), 
+Mireferencia VARCHAR(500) ,MiId   INT(11)) RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM bibliografias
+    WHERE      idprograma_analitico = MiId;
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+      INSERT INTO bibliografias ( bibliografia, referencia,idprograma_analitico)
+           VALUES (Mibibliografia,Mireferencia,MiId);
+
+      RETURN 1;
+   END IF;
+END;
+
+
+
+DROP FUNCTION IF EXISTS sicva.actualizar_bibliografias;
+CREATE FUNCTION sicva.`actualizar_bibliografias`(MiId               int(11),
+
+                               Mibibliografia VARCHAR(500),
+                               Mireferencia     VARCHAR(500)) RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM bibliografias
+    WHERE     bibliografia = Mibibliografia
+          AND referencia = Mireferencia;
+
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+     UPDATE bibliografias
+         SET   bibliografia = Mibibliografia,
+         referencia = Mireferencia
+
+      WHERE idbibliografias= MiId;
+
+      RETURN 1;
+   END IF;
+END;
+
+DROP FUNCTION IF EXISTS sicva.eliminar_bibliografias;
+CREATE FUNCTION sicva.`eliminar_bibliografias`(MiId int(11)) RETURNS int(11)
+BEGIN
+   DELETE FROM bibliografias
+         WHERE idbibliografias= MiId;
+
+   RETURN 1;
+END;

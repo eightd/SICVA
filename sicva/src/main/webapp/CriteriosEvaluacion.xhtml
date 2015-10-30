@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+	<script type="text/javascript">
+		function mostrar() {
+			document.getElementById('oculto').style.display = 'block';
+			document.getElenentById('id="BtnMostrar').style.display = 'none'
+			document.getElenentById('id="BtnMostrar').disabled = false
+			document.getElenentById('id="BtnOcultar').disabled = true
+		}
+		function ocultar() {
+			document.getElementById('oculto').style.display = 'none';
+			document.getElenentById('id="BtnOcultar').disabled = false
+			document.getElenentById('id="BtnMostrar').disabled = true
+		}
+	</script>
+
+</h:head>
+<h:body>
+	<h:form id="form">
+		<h:outputScript library="js" name="validaciones.js" />
+
+		<p:growl id="msj" showDetail="true" sticky="false" life="1000" />
+		<img src="images/logo-sicva.png" align="middle" width="80"
+			height="130" />
+		<br> </br>
+
+		<p:menubar>
+
+			<p:menuitem value="Inicio" url="Principal.xhtml" icon="ui-icon-home" />
+
+			<p:submenu label="Registro Curriculum Vitae" icon="ui-icon-document">
+				<p:submenu label="Sección" icon="ui-icon-contact">
+					<p:menuitem value="Datos Personales" url="DatosPersonales.xhtml" />
+					<p:menuitem value="Escolaridad" url="Escolaridad.xhtml" />
+					<p:menuitem value="Experiencia Laboral"
+						url="ExperienciaLaboral.xhtml" />
+					<p:menuitem value="Ponencias Impartidas" url="Ponencias.xhtml" />
+					<p:menuitem value="Asistencia a Cursos"
+						url="AsistenciaCursos.xhtml" />
+					<p:menuitem value="Comisiones" url="Comisiones.xhtml" />
+					<p:menuitem value="Publicaciones" url="Publicaciones.xhtml" />
+					<p:menuitem value="Miembro de Organización" url="Miembro.xhtml" />
+					<p:menuitem value="Asesoría de Tesis" url="Tesis.xhtml" />
+					<p:menuitem value="Sinodal" url="Sinodal.xhtml" />
+
+				</p:submenu>
+
+			</p:submenu>
+
+
+
+			<p:submenu label="Programa Analítico" icon="ui-icon-document">
+				<p:submenu label="Sección" icon="ui-icon-contact">
+			
+				<p:menuitem  value="Programas Analíticos " url="Programa.xhtml"/>
+					<p:menuitem value="Datos Principales" url="DatosPrincipales.xhtml" />
+					<p:menuitem value="Ubicación Unidad" url="UnidadAprendizaje.xhtml" />
+					<p:menuitem value="Propositos de la Unidad"
+						url="PropositosUnidad.xhtml" />
+					<p:menuitem value="Primer Bloque" url="Bloque.xhtml" />
+					<p:menuitem value="Segundo Bloque" url="Bloque2.xhtml" />
+					<p:menuitem value="Tercer Bloque" url="Bloque3.xhtml" />
+					<p:menuitem value="Criterios Para Evaluación"
+						url="CriteriosEvaluacion.xhtml" />
+					<p:menuitem value="Referencias" url="Referencias.xhtml" />
+
+
+				</p:submenu>
+
+			</p:submenu>
+
+			<p:menuitem value="Anterior" url="Bloque3.xhtml"
+				icon="ui-icon-arrowreturnthick-1-w" />
+			<p:menuitem value="Siguiente" url="Referencias.xhtml"
+				icon="ui-icon-arrowreturnthick-1-e" />
+
+			<f:facet name="options">
+				<p:commandButton value="Cerrar Sesión" icon="ui-icon-closethick"
+					action="#{ControladorLogin.cerrarSesion}" />
+			</f:facet>
+
+		</p:menubar>
+
+
+		<br />
+	</h:form>
+
+
+
+
+
+
+
+	<!-- FORMULARIO -->
+	<h:form enctype="multipart/form-data" id="form1">
+		<p:panel id="basic"
+			header="Programa Analítico de la Unidad de Aprendizaje(Criterios para la evaluación Final)"
+			style="margin-bottom:20px">
+
+			<p:commandButton value="Agregar" onclick="PF('dlg').show();"
+				title="login" icon="ui-icon-pencil"
+				style="float:right; font-size:12px;">
+
+			</p:commandButton>
+			<br />
+			<br />
+
+		</p:panel>
+	</h:form>
+
+
+	<h:form>
+
+		<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+		<p:dialog header="Nuevo Criterio para la Evaluación Final"
+			widgetVar="dlg" resizable="false">
+			<p:panelGrid>
+
+							<p:row>
+<p:column colspan="2">
+				<h:outputLabel value="* Criterios" style="font-weight:bold" />
+				</p:column>
+				</p:row>
+									<p:row>
+<p:column colspan="2">
+				<p:editor rows="6" cols="80"
+					value="#{Programa.criteriosDTO.descripcioncriterio}"
+					onkeypress="return  numYletras(event)" maxlength="500"
+					required="true" />
+
+	</p:column>
+				</p:row>
+						</p:panelGrid>
+						
+				<p:commandButton value="Guardar" ajax="false"
+					action="#{Programa.guardarcriterios}" icon="ui-icon-disk" />
+
+
+
+
+	
+
+
+		</p:dialog>
+	</h:form>
+
+
+
+	<!-- TABLA -->
+	<h:form enctype="multipart/form-data" id="tabla">
+		<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
+		<p:panel id="basic"
+			header="Registro de Criterios de la Evaluación Final"
+			style="margin-bottom:20px">
+			<p:dataTable var="datos" value="#{Programa.listacriterios}" id="tb"
+				emptyMessage="No hay registros...">
+
+
+
+
+				<p:column headerText="Criterios"
+					style="width:32px;text-align: center;font-size:12px">
+					<h:outputText value="#{datos.descripcioncriterio}" escape="false" />
+				</p:column>
+
+
+
+
+				<p:column headerText="Modificar"
+					style="width:5px;text-align: center;font-size:12px"
+					exportable="false">
+
+					<p:commandButton oncomplete="PF('d').show();"
+						update=":actualizar:d"
+						action="#{Programa.actualizarDemocriterios(datos)}"
+						icon="ui-icon-pencil">
+
+					</p:commandButton>
+				</p:column>
+
+				<p:column headerText="Eliminar"
+					style="width:5px;text-align: center;font-size:12px"
+					exportable="false">
+					<p:commandButton update=" :tabla" icon="ui-icon-trash"
+						action="#{Programa.eliminarcriterios}">
+						<f:setPropertyActionListener
+							target="#{Programa.criteriosSeleccionada}" value="#{datos}" />
+						<p:confirm header="Confirmación" message="¿Estas seguro?"
+							icon="ui-icon-alert" />
+
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+
+
+	<!-- ACTUALIZAR LICENCIATURA (Pantalla emergente)-->
+	<h:form enctype="multipart/form-data" id="actualizar">
+
+		<p:dialog header="Actualizar Criterios para la Evaluación Final"
+			showEffect="explode" modal="true" hideEffect="explode" widgetVar="d"
+			id="d">
+
+
+			<!-- escrollpanel              -->
+			<p:scrollPanel mode="native" style="height: 350px; width: 600px;">
+
+				<!-- escrollpanel              -->
+
+
+				<p:panelGrid >
+
+	<p:row>
+<p:column colspan="2">
+
+
+
+					<h:outputLabel value="* Criterios" style="font-weight:bold" />
+					</p:column>
+					</p:row>
+						<p:row>
+<p:column colspan="2">
+					<p:editor rows="6" cols="80"
+						value="#{Programa.criteriosSeleccionada.descripcioncriterio}"
+						onkeypress="return  numYletras(event)" maxlength="500"
+						required="true" />
+</p:column>
+</p:row>
+			</p:panelGrid>
+
+
+					<p:commandButton value="Guardar" icon="ui-icon-disk" ajax="false"
+						update="msj,@form"  action="#{Programa.actualizarcriterios}" />
+	
+
+				<!-- cierro escrollpanel -->
+			</p:scrollPanel>
+
+
+		</p:dialog>
+	</h:form>
+
+
+
+	<!-- ELIMINAR LICENCIATURA (Pantalla emergente)-->
+	<h:form enctype="multipart/form-data" id="eliminar">
+		<p:confirmDialog global="true" showEffect="explode" modal="true"
+			hideEffect="explode">
+
+			<p:commandButton value="Si" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="No" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+
+	</h:form>
+</h:body>
+</html>

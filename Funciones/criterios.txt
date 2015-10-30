@@ -1,0 +1,63 @@
+DROP FUNCTION IF EXISTS sicva.insertar_criterios;
+CREATE FUNCTION sicva.`insertar_criterios`(Midescripcion VARCHAR(2000),   
+                                                                     MiIdprograma INT(11)) RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM criterios_finales
+    WHERE     idprograma_analitico= MiIdprograma;
+
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+      INSERT INTO criterios_finales(descripcion, idprograma_analitico
+                          )
+           VALUES (Midescripcion,
+                  MiIdprograma);
+
+      RETURN 1;
+   END IF;
+END;
+
+
+
+
+DROP FUNCTION IF EXISTS sicva.actualizar_criterios;
+CREATE FUNCTION sicva.`actualizar_criterios`(MiId               int(11),
+                               Midescripcion     VARCHAR(2000)) RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM criterios_finales
+    WHERE     descripcion = Midescripcion;
+
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+     UPDATE criterios_finales
+         SET descripcion = Midescripcion
+               
+      WHERE idcriterios_finales= MiId;
+
+      RETURN 1;
+   END IF;
+END;
+
+
+DROP FUNCTION IF EXISTS sicva.eliminar_criterios;
+CREATE FUNCTION sicva.`eliminar_criterios`(MiId int(11)) RETURNS int(11)
+BEGIN
+   DELETE FROM criterios_finales
+         WHERE idcriterios_finales= MiId;
+
+   RETURN 1;
+END;
+
