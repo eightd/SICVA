@@ -30,6 +30,16 @@ public class DatosPersonalesDTO implements Serializable {
 	private String tel;
 	private String email;
 	private String facebook;
+	private Integer idGrado;
+	
+	public Integer getIdGrado() {
+		return idGrado;
+	}
+
+	public void setIdGrado(Integer idGrado) {
+		this.idGrado = idGrado;
+	}
+
 	// se cambia el tipo para la foto de StreamedContent a UploadedFile
 	private UploadedFile foto;
 	private Integer idmodif;
@@ -37,7 +47,7 @@ public class DatosPersonalesDTO implements Serializable {
 	private Integer idestadocivil;
 	private Integer idusuario;
 	private String nombreodif;
-private String fechamodif;
+	private String fechamodif;
 	private String existencia;
 	// tipos de datos para uso exclusivo de una secretaria
 	private String name;

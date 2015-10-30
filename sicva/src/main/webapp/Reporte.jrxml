@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2015-10-23T18:38:58 -->
+<!-- 2015-10-29T18:18:34 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6d70af09-d233-4628-a1c2-e3905ad90234">
-	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value="Z3JhZG9zICwyNTUsMTMwLDFhY2FkMGE4LTZmOTQtNGRmYS04YmNjLTdkYmMyNGQxYjM1YTtkYXRv&#xA;c19wZXJzb25hbGVzICwxNSw1OSwzYmM0NDYyZS0yMzBiLTRjODktODQ4ZC00MDFjYTZkZWMxMDU7&#xA;ZXN0YWRvc19jaXZpbGVzICwyNTUsMTUsY2E5N2E5NTItYTNhZS00ZjEyLWJhYjMtY2UyM2QzNzIy&#xA;Zjg0Ow=="/>
 	<style name="Table_TH" mode="Opaque" backcolor="#CCD2D9">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -686,9 +686,16 @@ where sinodales.usuarios_id_usuarios= $P{id}]]>
 	</subDataset>
 	<parameter name="id" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select *,estados_civiles.descripcion from datos_personales
-inner join estados_civiles on datos_personales.estados_civiles_id_estados_civiles= estados_civiles.id_estados_civiles
-where datos_personales.usuarios_id_usuarios= $P{id}]]>
+		<![CDATA[SELECT *,
+	estados_civiles.descripcion,
+	grados.descripcion AS gr
+FROM datos_personales
+	inner join estados_civiles ON 
+	 datos_personales.estados_civiles_id_estados_civiles = estados_civiles.id_estados_civiles 
+	inner join grados ON 
+	 datos_personales.grados_id_grado = grados.id_grado 
+WHERE 
+	 datos_personales.usuarios_id_usuarios = $P{id}]]>
 	</queryString>
 	<field name="nombre" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -745,6 +752,7 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="COLUMN_20" class="java.lang.String"/>
+	<field name="gr" class="java.lang.String"/>
 	<group name="nombre">
 		<groupExpression><![CDATA[$F{nombre}]]></groupExpression>
 	</group>
@@ -811,6 +819,34 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 				<reportElement x="0" y="0" width="560" height="703" uuid="744143c8-3b22-4e8c-b240-277af28ec61c"/>
 				<imageExpression><![CDATA["images/rep.png"]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement x="80" y="490" width="59" height="30" uuid="e3099a5b-e3f0-4a1f-a873-0207d9ae6e78"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="490" width="93" height="30" uuid="a110ce67-9076-4c1e-b5c3-b4a36a800bbe"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="233" y="490" width="88" height="30" uuid="7a6872a3-ac29-4b27-8b79-981a6a628cfc"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{apellido_paterno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="321" y="490" width="89" height="30" uuid="e1fa7c2f-6cb8-4065-8d6d-18f708ee748e"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{apellido_materno}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<detail>
@@ -1009,11 +1045,11 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:column width="110" uuid="d9f81119-211d-4ea1-b356-a59b7ed89027">
+					<jr:column width="90" uuid="d9f81119-211d-4ea1-b356-a59b7ed89027">
 						<jr:tableHeader style="Table_TH" height="30"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
-								<reportElement x="0" y="0" width="110" height="30" uuid="8c7915e3-78ce-4adb-915c-a01615eddf94"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="8c7915e3-78ce-4adb-915c-a01615eddf94"/>
 								<textElement textAlignment="Center">
 									<font fontName="Calibri" size="12" isBold="true"/>
 								</textElement>
@@ -1022,16 +1058,19 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="110" height="30" uuid="390467cd-4657-427f-bf21-719b5de94b61"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="390467cd-4657-427f-bf21-719b5de94b61"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="130" uuid="5b510a7e-00cf-4330-b1cc-97acde6b01d8">
+					<jr:column width="170" uuid="5b510a7e-00cf-4330-b1cc-97acde6b01d8">
 						<jr:tableHeader style="Table_TH" height="30"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
-								<reportElement x="0" y="0" width="130" height="30" uuid="0ff0334e-0a2e-4b24-a2a3-678df87435a0"/>
+								<reportElement x="0" y="0" width="170" height="30" uuid="0ff0334e-0a2e-4b24-a2a3-678df87435a0"/>
 								<textElement textAlignment="Center">
 									<font fontName="Calibri" size="12" isBold="true"/>
 								</textElement>
@@ -1040,16 +1079,19 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="130" height="30" uuid="60ce3a04-1ef7-4636-97e9-a07712562656"/>
+								<reportElement x="0" y="0" width="170" height="30" uuid="60ce3a04-1ef7-4636-97e9-a07712562656"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{institucion}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="100" uuid="43d3df77-b525-4503-ac05-bdceffe9fbf3">
+					<jr:column width="70" uuid="43d3df77-b525-4503-ac05-bdceffe9fbf3">
 						<jr:tableHeader style="Table_TH" height="30"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
-								<reportElement x="0" y="0" width="100" height="30" uuid="146c4875-0474-44d4-83f6-b3d862d89fab"/>
+								<reportElement x="0" y="0" width="70" height="30" uuid="146c4875-0474-44d4-83f6-b3d862d89fab"/>
 								<textElement textAlignment="Center">
 									<font fontName="Calibri" size="12" isBold="true"/>
 								</textElement>
@@ -1058,16 +1100,19 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="100" height="30" uuid="18a6b65b-a3a4-440c-925a-a0ee3dd2645f"/>
+								<reportElement x="0" y="0" width="70" height="30" uuid="18a6b65b-a3a4-440c-925a-a0ee3dd2645f"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{Periodo}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="100" uuid="46b336d5-0bfb-4bc9-a297-b668596029a7">
+					<jr:column width="150" uuid="46b336d5-0bfb-4bc9-a297-b668596029a7">
 						<jr:tableHeader style="Table_TH" height="30"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
-								<reportElement x="0" y="0" width="100" height="30" uuid="062dcac2-2f3a-4a46-b46e-8ba47411201c"/>
+								<reportElement x="0" y="0" width="150" height="30" uuid="062dcac2-2f3a-4a46-b46e-8ba47411201c"/>
 								<textElement textAlignment="Center">
 									<font fontName="Calibri" size="12" isBold="true"/>
 								</textElement>
@@ -1076,16 +1121,19 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="100" height="30" uuid="850681bf-cc22-4e0b-b408-c5317f664608"/>
+								<reportElement x="0" y="0" width="150" height="30" uuid="850681bf-cc22-4e0b-b408-c5317f664608"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{Lugar}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="120" uuid="11134b9d-d51e-40c0-9ed7-8d5af861304e">
+					<jr:column width="80" uuid="11134b9d-d51e-40c0-9ed7-8d5af861304e">
 						<jr:tableHeader style="Table_TH" height="30"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
-								<reportElement x="0" y="0" width="120" height="30" uuid="14d66ed7-9a0e-4d77-8097-d2092e0db636"/>
+								<reportElement x="0" y="0" width="80" height="30" uuid="14d66ed7-9a0e-4d77-8097-d2092e0db636"/>
 								<textElement textAlignment="Center">
 									<font fontName="Calibri" size="12" isBold="true"/>
 								</textElement>
@@ -1094,7 +1142,10 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="120" height="30" uuid="1335dce2-551a-4e73-9f64-3c5efa55f894"/>
+								<reportElement x="0" y="0" width="80" height="30" uuid="1335dce2-551a-4e73-9f64-3c5efa55f894"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{documento_obtenido}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1138,6 +1189,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 1_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="30" uuid="60a71900-ea82-46d4-9311-d5032ac4f798"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{Periodo}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1156,6 +1210,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 1_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="130" height="30" uuid="db8694fe-d826-4fe3-aa54-c88c018ef99b"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{Intitucion_empresa}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1174,6 +1231,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 1_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="110" height="30" uuid="01ad7d9b-e43f-4599-b27b-74c6f8626127"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{dpto_facultad}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1192,6 +1252,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 1_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="110" height="30" uuid="1ae38afb-eaac-488a-82c6-ca4d7cd18e89"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{Lugar}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1210,6 +1273,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 1_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="120" height="30" uuid="4e1ead07-1ded-4324-8306-a5be6125cd68"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{Puesto}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1253,6 +1319,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 2_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="120" height="30" uuid="66f905b7-b450-4ec6-af85-f544fd41f777"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{periodo}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1271,6 +1340,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 2_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="130" height="30" uuid="a712e856-a0a2-4a71-a284-aec0cf88417c"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{curso}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1289,6 +1361,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 2_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="150" height="30" uuid="58113bc1-8fee-469e-8c03-f4279c4faaf5"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{institucion}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1307,6 +1382,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 2_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="120" height="30" uuid="7a1f7c43-b3f6-4b78-b599-ba06663a5a2f"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{lugar}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1325,6 +1403,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 2_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="40" height="30" uuid="a10e29dd-1303-422d-a89f-e94478098bf4"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{horas}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1371,6 +1452,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 4_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="120" height="30" uuid="7595dba2-a9be-43ef-9122-6e3c0aaca201"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{periodo}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1389,6 +1473,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 4_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="110" height="30" uuid="24b36f4a-66bd-411e-88b5-70197b03adc1"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{curso}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1407,6 +1494,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 4_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="150" height="30" uuid="d542b07f-f673-4615-bb8d-332f25c4a01a"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{institucion}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1425,6 +1515,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 4_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="140" height="30" uuid="c1a727d0-3df4-42a4-ad64-b837773beba2"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{lugar}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1443,6 +1536,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 4_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="40" height="30" uuid="44b5a86d-1c3b-4ccb-9fd0-3cc25de1753b"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{horas}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1486,6 +1582,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 5_TD" height="30">
 							<textField pattern="d &apos;de &apos;MMMM &apos;del &apos; yyyy">
 								<reportElement x="0" y="0" width="100" height="30" uuid="229bc9e6-30c0-47e4-a0a8-ef857e6461c1"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1504,6 +1603,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 5_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="100" height="30" uuid="a66875ed-e741-45f5-b4af-07eb44dd7bc3"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{evento}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1522,6 +1624,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 5_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="140" height="30" uuid="4fac8830-12b8-4436-ad39-1a7ec7b69a99"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{institucion}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1540,6 +1645,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 5_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="110" height="30" uuid="1bb7e4c2-2761-471e-86a5-ef309ade86c0"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{lugar}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1558,6 +1666,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 5_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="110" height="30" uuid="f6aee3b4-eaac-431d-a3e7-d06963f8bd0b"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{participacion}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1601,6 +1712,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 6_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="160" height="30" uuid="d95c9040-e171-431b-8823-21cfee8295e5"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{periodo}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1619,6 +1733,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 6_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="190" height="30" uuid="37cef541-bbe7-4ef1-9e63-25d47a35ba28"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{publicacion}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1637,6 +1754,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 6_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="210" height="30" uuid="9adf6955-cb3f-4ce7-87c8-822c60a837d6"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{institucion}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1680,6 +1800,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 7_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="160" height="30" uuid="79a92b56-0218-4130-99f6-d45d990ce1b9"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{periodo}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1698,6 +1821,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 7_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="200" height="30" uuid="8f9ab991-efec-47a3-9523-ebeec744dca8"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{organizacion}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1716,6 +1842,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 7_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="200" height="30" uuid="fc636d74-9187-4e9a-be92-93de9f2fa14b"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{nombramiento}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1759,6 +1888,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 8_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="130" height="30" uuid="afaa4269-fbd3-474d-9f13-9974b5cb1266"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{proyecto}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1777,6 +1909,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 8_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="140" height="30" uuid="2b09ec9c-3594-4eca-ab4d-15dd847722e1"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1795,6 +1930,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 8_TD" height="30">
 							<textField pattern="d &apos;de &apos;MMMM &apos;del &apos; yyyy">
 								<reportElement x="0" y="0" width="140" height="30" uuid="29ad0089-d7a3-4a91-a625-b935beaae418"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{fecha_de_titulacion}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1813,6 +1951,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 8_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="150" height="30" uuid="0880b0a0-5f11-4ea1-9500-a0b826945acd"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{alumno}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1858,6 +1999,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 11_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="110" height="30" uuid="2a23af76-e0e8-4d23-895d-8a26fef70cdb"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{proyecto}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1876,6 +2020,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 11_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="110" height="30" uuid="a8db2ff9-485f-4110-a6fb-ba1e829293ee"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1894,6 +2041,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 11_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="100" height="30" uuid="4dda94b6-75ab-407b-85b4-b1cadbe46711"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{COLUMN_3}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1912,6 +2062,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 11_TD" height="30">
 							<textField pattern="d &apos;de &apos;MMMM &apos;del &apos; yyyy">
 								<reportElement x="0" y="0" width="130" height="30" uuid="4851720a-d393-40af-8fa7-3d55be303d30"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{fecha_de_titulacion}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1930,6 +2083,9 @@ where datos_personales.usuarios_id_usuarios= $P{id}]]>
 						<jr:detailCell style="Table 11_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="110" height="30" uuid="147c6045-5cd7-4bf3-8389-8a265cbcc667"/>
+								<textElement>
+									<font fontName="Calibri" size="8"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{alumnos}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>

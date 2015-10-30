@@ -12,6 +12,7 @@ import com.eightdevelopers.sicva.db.ConexionBD;
 import com.eightdevelopers.sicva.db.SQLQueries;
 import com.eightdevelopers.sicva.dto.CarreraDTO;
 import com.eightdevelopers.sicva.dto.EstadoCivilDTO;
+import com.eightdevelopers.sicva.dto.GradoDTO;
 import com.eightdevelopers.sicva.dto.LicDTO;
 import com.eightdevelopers.sicva.dto.NivelDTO;
 
@@ -81,6 +82,39 @@ public class CarreraDAO {
 			return listaEstadoDTO;
 		} catch (Exception ex) {
 			System.out.println("CarreraDAO.retrieveAlmacen:" + ex.getMessage());
+			return null;
+		}
+	}
+	public List<GradoDTO> Grado() {
+
+		try {
+			ConexionBD conexionBD = new ConexionBD();
+			SQLQueries sqlQueries = null;
+
+			List<GradoDTO> listaGradoDTO = new ArrayList<GradoDTO>();
+			ResultSet rs = null;
+
+			GradoDTO filaGradoDTO = null;
+			String query = "";
+			conexionBD.abrir();
+			Connection conn = conexionBD.getConexion();
+			sqlQueries = new SQLQueries(conn);
+
+			query = "SELECT * from grados";
+			rs = sqlQueries.consulta(query);
+			while (rs.next()) {
+
+				filaGradoDTO = new GradoDTO();
+				filaGradoDTO.setId(rs.getInt(1));
+				filaGradoDTO.setDescripcion(rs.getString(2));
+
+				listaGradoDTO.add(filaGradoDTO);
+
+			}
+			conexionBD.cerrar();
+			return listaGradoDTO;
+		} catch (Exception ex) {
+			System.out.println("CarreraDAO.retrieveGrado:" + ex.getMessage());
 			return null;
 		}
 	}

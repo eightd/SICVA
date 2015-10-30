@@ -7,6 +7,7 @@ import javax.faces.bean.SessionScoped;
 import com.eightdevelopers.sicva.dao.CarreraDAO;
 import com.eightdevelopers.sicva.dto.CarreraDTO;
 import com.eightdevelopers.sicva.dto.EstadoCivilDTO;
+import com.eightdevelopers.sicva.dto.GradoDTO;
 import com.eightdevelopers.sicva.dto.LicDTO;
 import com.eightdevelopers.sicva.dto.NivelDTO;
 
@@ -22,6 +23,7 @@ public class CarreraControlador implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<CarreraDTO> listaCarrera;
 	private List<EstadoCivilDTO> listaEstadoCivil;
+	private List<GradoDTO> listaGrado;
 	private List<NivelDTO>	listaNivel;
 	private List<LicDTO>	listaLic;
 
@@ -38,6 +40,7 @@ public class CarreraControlador implements Serializable {
 		listaCarrera = carreraDAO.retrieveAlmacen();
 		listaEstadoCivil= carreraDAO.estadoCivil();
 		listaLic= carreraDAO.lic();
+		listaGrado= carreraDAO.Grado();
 		setListaNivel(carreraDAO.nivel());
 	}
 
@@ -51,6 +54,14 @@ public class CarreraControlador implements Serializable {
 
 	public List<EstadoCivilDTO> getListaEstadoCivil() {
 		return listaEstadoCivil;
+	}
+
+	public List<GradoDTO> getListaGrado() {
+		return listaGrado;
+	}
+
+	public void setListaGrado(List<GradoDTO> listaGrado) {
+		this.listaGrado = listaGrado;
 	}
 
 	public void setListaEstadoCivil(List<EstadoCivilDTO> listaEstadoCivil) {

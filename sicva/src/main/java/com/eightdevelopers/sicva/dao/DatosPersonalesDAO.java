@@ -37,7 +37,7 @@ public class DatosPersonalesDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call insertar_datospersonales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)} ";
+				String sql = "{ ? = call insertar_datospersonales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
@@ -72,7 +72,7 @@ public class DatosPersonalesDAO {
 				callableStatement.setString(16,Fecha);
 				callableStatement.setInt(17, asistenciacursosDTO.getIdestadocivil());
 				callableStatement.setInt(18, asistenciacursosDTO.getIdusuario());
-
+				callableStatement.setInt(19, asistenciacursosDTO.getIdGrado());
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
 				connection.close();
@@ -143,6 +143,7 @@ public class DatosPersonalesDAO {
 				asistenciacursosDTO.setIdusuario(rs.getInt("usuarios_id_usuarios"));
 				asistenciacursosDTO.setNombreodif(rs.getString("nombre_modi"));
 				asistenciacursosDTO.setExistencia(rs.getString("exitencia"));
+				asistenciacursosDTO.setIdGrado(rs.getInt("grados_id_grado"));
 
 				listado.add(asistenciacursosDTO);
 				found = true;
@@ -204,7 +205,7 @@ public class DatosPersonalesDAO {
 				conexionBD.abrir();
 				Connection connection = conexionBD.getConexion();
 
-				String sql = "{ ? = call actualizar_datospersonales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)} ";
+				String sql = "{ ? = call actualizar_datospersonales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)} ";
 
 				CallableStatement callableStatement = connection.prepareCall(sql);
 				callableStatement.registerOutParameter(1, Types.INTEGER);
@@ -229,6 +230,7 @@ public class DatosPersonalesDAO {
 				callableStatement.setString(16,Fecha);
 				callableStatement.setInt(17, asistenciacursosDTO.getIdestadocivil());
 				callableStatement.setInt(18, asistenciacursosDTO.getIdusuario());
+				callableStatement.setInt(19, asistenciacursosDTO.getIdGrado());
 				callableStatement.execute();
 				Integer num = callableStatement.getInt(1);
 				connection.close();

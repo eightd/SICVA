@@ -9,6 +9,8 @@
 	</f:metadata>
 </h:head>
 <h:body>
+	<p:outputLabel
+		rendered="#{ControladorLogin.verificarSesion() eq false}" />
 	<h:form id="form">
 		<h:outputScript library="js" name="validaciones.js" />
 		<p:growl id="msj" showDetail="true" sticky="false" life="1000" />
@@ -158,7 +160,8 @@
 
 					<h:outputLabel value="* Fecha de Nacimiento" />
 					<p:inputText
-						value="#{S_DatosPersonales.licSeleccionada.fechanacimiento}" maxlength="11" />
+						value="#{S_DatosPersonales.licSeleccionada.fechanacimiento}"
+						maxlength="11" />
 
 
 
@@ -211,7 +214,14 @@
 						<f:selectItems value="#{CarreraControlador.listaEstadoCivil}"
 							var="s" itemValue="#{s.id}" itemLabel="#{s.descripcion}"></f:selectItems>
 					</p:selectOneMenu>
-
+					<h:outputLabel value="* Grado Académico" />
+					<p:selectOneMenu
+						value="#{S_DatosPersonales.licSeleccionada.idGrado}"
+						style="width:210px">
+						<f:selectItem itemValue=" " itemLabel="- Seleccionar -"></f:selectItem>
+						<f:selectItems value="#{CarreraControlador.listaGrado}" var="s"
+							itemValue="#{s.id}" itemLabel="#{s.descripcion}"></f:selectItems>
+					</p:selectOneMenu>
 					<p:commandButton value="Guardar" icon="ui-icon-disk" ajax="false"
 						update="msj,@form" action="#{S_DatosPersonales.actualizar}" />
 				</h:panelGrid>
