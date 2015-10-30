@@ -1,5 +1,3 @@
-
-
 ------------------------------------------------------------------
 
 --  FUNCTION insertar_miembro
@@ -13,6 +11,7 @@ FUNCTION `insertar_miembro`(MiPeriodo         VARCHAR(45),
                             MiNombramiento    VARCHAR(45),
                             MiEvidencia       LONGBLOB,
                             IdModifica        INT(11),
+                            MiFechaModi       VARCHAR(45),
                             IdLicenciatura    INT(11),
                             MiIdUsuario       INT(11))
    RETURNS int(11)
@@ -26,7 +25,8 @@ BEGIN
           AND organizacion = MiOrganizacion
           AND nombramiento = MiNombramiento
           AND id_lic_inscrita = IdLicenciatura
-          AND usuarios_id_usuarios = MiIdUsuario;
+          AND usuarios_id_usuarios = MiIdUsuario
+          AND fecha_modificacion=MiFechaModi;
 
 
    IF (contador > 0)
@@ -38,6 +38,7 @@ BEGIN
                                              nombramiento,
                                              evidencia,
                                              id_usuario_modificacion,
+                                             fecha_modificacion,
                                              id_lic_inscrita,
                                              usuarios_id_usuarios)
            VALUES (UPPER(MiPeriodo),
@@ -45,11 +46,78 @@ BEGIN
                    UPPER(MiNombramiento),
                    MiEvidencia,
                    IdModifica,
+                   MiFechaModi,
                    IdLicenciatura,
                    MiIdUsuario);
 
       RETURN 1;
    END IF;
+END;
+
+------------------------------------------------------------------
+------------------------------------------------------------------
+
+--  FUNCTION actualizar_miembro
+
+------------------------------------------------------------------
+
+CREATE FUNCTION sicva.`actualizar_miembro`(MiId              int(11),
+                              MiPeriodo         VARCHAR(45),
+                              MiOrganizacion    VARCHAR(80),
+                              MiNombramiento    VARCHAR(45),
+                              IdModifica        INT(11),
+                              MiFechaModi       VARCHAR(45),
+                              IdLicenciatura    INT(11),
+                              MiIdUsuario       INT(11)) RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM miembros_de_organizaciones
+          WHERE     periodo = MiPeriodo
+          AND organizacion = MiOrganizacion
+          AND nombramiento = MiNombramiento
+          AND id_lic_inscrita = IdLicenciatura
+          AND usuarios_id_usuarios = MiIdUsuario
+          AND fecha_modificacion=MiFechaModi;
+
+
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+      UPDATE miembros_de_organizaciones
+         SET periodo = UPPER(MiPeriodo),
+             organizacion = UPPER(MiOrganizacion),
+             nombramiento = UPPER(MiNombramiento),
+             id_usuario_modificacion = IdModifica,
+             fecha_modificacion=MiFechaModi,
+             id_lic_inscrita = IdLicenciatura,
+             usuarios_id_usuarios = MiIdUsuario
+       WHERE id_miembro = MiId;
+
+
+
+      RETURN 1;
+   END IF;
+END;
+
+------------------------------------------------------------------
+--  FUNCTION actualizar_evidencia_miembro
+------------------------------------------------------------------
+
+CREATE DEFINER = `root` @`localhost`
+FUNCTION `actualizar_evidencia_miembro`(MiId int(11), IdModifica INT(11), MiFechaModi VARCHAR(45), MiEvidencia LONGBLOB)
+   RETURNS int(11)
+BEGIN
+      UPDATE miembros_de_organizaciones
+      SET evidencia = MiEvidencia,
+      id_usuario_modificacion = IdModifica,
+      fecha_modificacion= MiFechaModi
+      WHERE id_miembro= MiId;
+      RETURN 1;
 END;
 
 
@@ -75,63 +143,3 @@ END
 
 ;
 
-------------------------------------------------------------------
-
---  FUNCTION actualizar_miembro
-
-------------------------------------------------------------------
-
-CREATE FUNCTION sicva.`actualizar_miembro`(MiId              int(11),
-                              MiPeriodo         VARCHAR(45),
-                              MiOrganizacion    VARCHAR(80),
-                              MiNombramiento    VARCHAR(45),
-                              IdModifica        INT(11),
-                              IdLicenciatura    INT(11),
-                              MiIdUsuario       INT(11)) RETURNS int(11)
-BEGIN
-   DECLARE contador   INT;
-
-   SELECT COUNT(*)
-     INTO contador
-     FROM miembros_de_organizaciones
-          WHERE     periodo = MiPeriodo
-          AND organizacion = MiOrganizacion
-          AND nombramiento = MiNombramiento
-          AND id_lic_inscrita = IdLicenciatura
-          AND usuarios_id_usuarios = MiIdUsuario;
-
-
-
-   IF (contador > 0)
-   THEN
-      RETURN 0;
-   ELSE
-      UPDATE miembros_de_organizaciones
-         SET periodo = UPPER(MiPeriodo),
-             organizacion = UPPER(MiOrganizacion),
-             nombramiento = UPPER(MiNombramiento),
-             id_usuario_modificacion = IdModifica,
-             id_lic_inscrita = IdLicenciatura,
-             usuarios_id_usuarios = MiIdUsuario
-       WHERE id_miembro = MiId;
-
-
-
-      RETURN 1;
-   END IF;
-END;
-
-------------------------------------------------------------------
---  FUNCTION actualizar_evidencia_miembro
-------------------------------------------------------------------
-
-CREATE DEFINER = `root` @`localhost`
-FUNCTION `actualizar_evidencia_miembro`(MiId int(11), IdModifica INT(11), MiEvidencia LONGBLOB)
-   RETURNS int(11)
-BEGIN
-      UPDATE miembros_de_organizaciones
-      SET evidencia = MiEvidencia,
-      id_usuario_modificacion = IdModifica
-      WHERE id_miembro= MiId;
-      RETURN 1;
-END;

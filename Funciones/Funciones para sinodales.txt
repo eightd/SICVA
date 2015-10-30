@@ -12,6 +12,7 @@ FUNCTION `insertar_sinodal`(MiProyecto        VARCHAR(150),
                             MiAlumno          VARCHAR(200),
                             MiEvidencia       LONGBLOB,
                             IdModifica        INT(11),
+                            MiFechaModi       VARCHAR(45),
                             IdLicenciatura    INT(11),
                             IdOpc             INT(11),
                             MiIdUsuario       INT(11),
@@ -29,7 +30,8 @@ BEGIN
           AND id_lic_inscrita = IdLicenciatura
           AND opciones_de_titulacion_id_opciones_de_titulacion = IdOpc
           AND usuarios_id_usuarios = MiIdUsuario
-          AND niveles_educativos_id_nivel_educativo = MiNivel;
+          AND niveles_educativos_id_nivel_educativo = MiNivel
+          AND fecha_modificacion=MifechaModi;
 
 
    IF (contador > 0)
@@ -41,6 +43,7 @@ BEGIN
                             alumnos,
                             evidencia,
                             id_usuario_modificacion,
+                            fecha_modificacion,
                             id_lic_inscrita,
                             opciones_de_titulacion_id_opciones_de_titulacion,
                             usuarios_id_usuarios,
@@ -50,6 +53,7 @@ BEGIN
                    UPPER(MiAlumno),
                    MiEvidencia,
                    IdModifica,
+                   MiFechaModi,
                    IdLicenciatura,
                    IdOpc,
                    MiIdUsuario,
@@ -57,6 +61,80 @@ BEGIN
 
       RETURN 1;
    END IF;
+END;
+
+
+
+
+------------------------------------------------------------------
+
+--  FUNCTION actualizar_sinodal
+
+------------------------------------------------------------------
+
+CREATE FUNCTION sicva.`actualizar_sinodal`(MiId              int(11),
+                              MiProyecto        VARCHAR(150),
+                              MiFechaTit        DATE,
+                              MiAlumno          VARCHAR(200),
+                              IdModifica        INT(11),
+                              MiFechaModi       VARCHAR(45),
+                              IdLicenciatura    INT(11),
+                              IdOpc             INT(11),
+                              MiIdUsuario       INT(11),
+                              MiNivel           INT(11)) RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM sinodales
+    WHERE     proyecto = MiProyecto
+          AND fecha_de_titulacion = MiFechaTit
+          AND alumnos = MiAlumno
+          AND id_lic_inscrita = IdLicenciatura
+          AND opciones_de_titulacion_id_opciones_de_titulacion = IdOpc
+          AND usuarios_id_usuarios = MiIdUsuario
+          AND niveles_educativos_id_nivel_educativo = MiNivel
+          AND fecha_modificacion=MiFechaModi;
+
+
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+      UPDATE sinodales
+         SET proyecto = UPPER(MiProyecto),
+             fecha_de_titulacion = UPPER(MiFechaTit),
+             alumnos = UPPER(MiAlumno),
+             id_usuario_modificacion = IdModifica,
+             fecha_modificacion=MiFechaModi,
+             id_lic_inscrita = IdLicenciatura,
+             opciones_de_titulacion_id_opciones_de_titulacion = IdOpc,
+             usuarios_id_usuarios = MiIdUsuario,
+             niveles_educativos_id_nivel_educativo = MiNivel
+       WHERE id_sinodal = MiId;
+
+
+
+      RETURN 1;
+   END IF;
+END;
+
+------------------------------------------------------------------
+--  FUNCTION actualizar_evidencia_sinodal
+------------------------------------------------------------------
+
+CREATE DEFINER = `root` @`localhost`
+FUNCTION `actualizar_evidencia_sinodal`(MiId int(11), IdModifica INT(11), MiFechaModi VARCHAR(45), MiEvidencia LONGBLOB)
+   RETURNS int(11)
+BEGIN
+      UPDATE sinodales
+      SET evidencia = MiEvidencia,
+      id_usuario_modificacion = IdModifica,
+      fecha_modificacion=MiFechaModi
+      WHERE id_sinodal= MiId;
+      RETURN 1;
 END;
 
 
@@ -81,70 +159,3 @@ BEGIN
 END;
 
 
-
-------------------------------------------------------------------
-
---  FUNCTION actualizar_sinodal
-
-------------------------------------------------------------------
-
-CREATE FUNCTION sicva.`actualizar_sinodal`(MiId              int(11),
-                              MiProyecto        VARCHAR(150),
-                              MiFechaTit        DATE,
-                              MiAlumno          VARCHAR(200),
-                              IdModifica        INT(11),
-                              IdLicenciatura    INT(11),
-                              IdOpc             INT(11),
-                              MiIdUsuario       INT(11),
-                              MiNivel           INT(11)) RETURNS int(11)
-BEGIN
-   DECLARE contador   INT;
-
-   SELECT COUNT(*)
-     INTO contador
-     FROM sinodales
-    WHERE     proyecto = MiProyecto
-          AND fecha_de_titulacion = MiFechaTit
-          AND alumnos = MiAlumno
-          AND id_lic_inscrita = IdLicenciatura
-          AND opciones_de_titulacion_id_opciones_de_titulacion = IdOpc
-          AND usuarios_id_usuarios = MiIdUsuario
-          AND niveles_educativos_id_nivel_educativo = MiNivel;
-
-
-
-   IF (contador > 0)
-   THEN
-      RETURN 0;
-   ELSE
-      UPDATE sinodales
-         SET proyecto = UPPER(MiProyecto),
-             fecha_de_titulacion = UPPER(MiFechaTit),
-             alumnos = UPPER(MiAlumno),
-             id_usuario_modificacion = IdModifica,
-             id_lic_inscrita = IdLicenciatura,
-             opciones_de_titulacion_id_opciones_de_titulacion = IdOpc,
-             usuarios_id_usuarios = MiIdUsuario,
-             niveles_educativos_id_nivel_educativo = MiNivel
-       WHERE id_sinodal = MiId;
-
-
-
-      RETURN 1;
-   END IF;
-END;
-
-------------------------------------------------------------------
---  FUNCTION actualizar_evidencia_sinodal
-------------------------------------------------------------------
-
-CREATE DEFINER = `root` @`localhost`
-FUNCTION `actualizar_evidencia_sinodal`(MiId int(11), IdModifica INT(11), MiEvidencia LONGBLOB)
-   RETURNS int(11)
-BEGIN
-      UPDATE sinodales
-      SET evidencia = MiEvidencia,
-      id_usuario_modificacion = IdModifica
-      WHERE id_sinodal= MiId;
-      RETURN 1;
-END;

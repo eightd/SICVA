@@ -11,6 +11,7 @@ FUNCTION `insertar_tesis`(MiProyecto        VARCHAR(150),
                           MiAlumno          VARCHAR(200),
                           MiEvidencia       LONGBLOB,
                           IdModifica        INT(11),
+                          MiFechaModi       VARCHAR(45),
                           IdLicenciatura    INT(11),
                           MiIdUsuario       INT(11),
                           MiNivel           INT(11))
@@ -26,7 +27,8 @@ BEGIN
           AND alumno = MiAlumno
           AND id_lic_inscrita = IdLicenciatura
           AND usuarios_id_usuarios = MiIdUsuario
-          AND niveles_educativos_id_nivel_educativo = MiNivel;
+          AND niveles_educativos_id_nivel_educativo = MiNivel
+          AND fecha_modificacion=MiFechaModi;
 
 
    IF (contador > 0)
@@ -38,6 +40,7 @@ BEGIN
                                      alumno,
                                      evidencia,
                                      id_usuario_modificacion,
+                                     fecha_modificacion,
                                      id_lic_inscrita,
                                      usuarios_id_usuarios,
                                      niveles_educativos_id_nivel_educativo)
@@ -46,6 +49,7 @@ BEGIN
                    UPPER(MiAlumno),
                    MiEvidencia,
                    IdModifica,
+                   MiFechaModi,
                    IdLicenciatura,
                    MiIdUsuario,
                    MiNivel);
@@ -54,6 +58,75 @@ BEGIN
    END IF;
 END;
 
+
+------------------------------------------------------------------
+
+--  FUNCTION actualizar_tesis
+
+------------------------------------------------------------------
+
+
+CREATE FUNCTION sicva.`actualizar_tesis`(MiId              int(11),
+                            MiProyecto        VARCHAR(150),
+                            MiFechaTit        DATE,
+                            MiAlumno          VARCHAR(200),
+                            IdModifica        INT(11),
+                            MiFechaModi       VARCHAR(45),
+                            IdLicenciatura    INT(11),
+                            MiIdUsuario       INT(11),
+                            MiNivel           int(11)) RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM asesorias_de_tesis
+    WHERE     proyecto = MiProyecto
+          AND fecha_de_titulacion = MiFechaTit
+          AND alumno = MiAlumno
+          AND id_lic_inscrita = IdLicenciatura
+          AND usuarios_id_usuarios = MiIdUsuario
+          AND niveles_educativos_id_nivel_educativo = MiNivel
+          AND fecha_modificacion=MiFechaModi;
+
+
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+      UPDATE asesorias_de_tesis
+         SET proyecto = UPPER(MiProyecto),
+             fecha_de_titulacion = UPPER(MiFechaTit),
+             alumno = UPPER(MiAlumno),
+             id_usuario_modificacion = IdModifica,
+             fecha_modificacion=MiFechaModi,
+             id_lic_inscrita = IdLicenciatura,
+             usuarios_id_usuarios = MiIdUsuario,
+             niveles_educativos_id_nivel_educativo = MiNivel
+       WHERE id_asesorias_tesis = MiId;
+
+
+
+      RETURN 1;
+   END IF;
+END;
+
+------------------------------------------------------------------
+--  FUNCTION actualizar_evidencia_tesis
+------------------------------------------------------------------
+
+CREATE DEFINER = `root` @`localhost`
+FUNCTION `actualizar_evidencia_tesis`(MiId int(11), IdModifica INT(11), MiFechaModi VARCHAR(45), MiEvidencia LONGBLOB)
+   RETURNS int(11)
+BEGIN
+      UPDATE asesorias_de_tesis
+      SET evidencia = MiEvidencia,
+      id_usuario_modificacion = IdModifica,
+      fecha_modificacion=MiFechaModi
+      WHERE id_asesorias_tesis= MiId;
+      RETURN 1;
+END;
 
 
 
@@ -77,67 +150,4 @@ END
 
 ;
 
-------------------------------------------------------------------
 
---  FUNCTION actualizar_tesis
-
-------------------------------------------------------------------
-
-
-CREATE FUNCTION sicva.`actualizar_tesis`(MiId              int(11),
-                            MiProyecto        VARCHAR(150),
-                            MiFechaTit        DATE,
-                            MiAlumno          VARCHAR(200),
-                            IdModifica        INT(11),
-                            IdLicenciatura    INT(11),
-                            MiIdUsuario       INT(11),
-                            MiNivel           int(11)) RETURNS int(11)
-BEGIN
-   DECLARE contador   INT;
-
-   SELECT COUNT(*)
-     INTO contador
-     FROM asesorias_de_tesis
-    WHERE     proyecto = MiProyecto
-          AND fecha_de_titulacion = MiFechaTit
-          AND alumno = MiAlumno
-          AND id_lic_inscrita = IdLicenciatura
-          AND usuarios_id_usuarios = MiIdUsuario
-          AND niveles_educativos_id_nivel_educativo = MiNivel;
-
-
-
-   IF (contador > 0)
-   THEN
-      RETURN 0;
-   ELSE
-      UPDATE asesorias_de_tesis
-         SET proyecto = UPPER(MiProyecto),
-             fecha_de_titulacion = UPPER(MiFechaTit),
-             alumno = UPPER(MiAlumno),
-             id_usuario_modificacion = IdModifica,
-             id_lic_inscrita = IdLicenciatura,
-             usuarios_id_usuarios = MiIdUsuario,
-             niveles_educativos_id_nivel_educativo = MiNivel
-       WHERE id_asesorias_tesis = MiId;
-
-
-
-      RETURN 1;
-   END IF;
-END;
-
-------------------------------------------------------------------
---  FUNCTION actualizar_evidencia_tesis
-------------------------------------------------------------------
-
-CREATE DEFINER = `root` @`localhost`
-FUNCTION `actualizar_evidencia_tesis`(MiId int(11), IdModifica INT(11), MiEvidencia LONGBLOB)
-   RETURNS int(11)
-BEGIN
-      UPDATE asesorias_de_tesis
-      SET evidencia = MiEvidencia,
-      id_usuario_modificacion = IdModifica
-      WHERE id_asesorias_tesis= MiId;
-      RETURN 1;
-END;
