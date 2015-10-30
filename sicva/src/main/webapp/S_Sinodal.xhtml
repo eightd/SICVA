@@ -9,6 +9,8 @@
 	</f:metadata>
 </h:head>
 <h:body>
+	<p:outputLabel
+		rendered="#{ControladorLogin.verificarSesion() eq false}" />
 	<h:form id="form">
 		<h:outputScript library="js" name="validaciones.js" />
 		<p:growl id="msj" showDetail="true" sticky="false" life="1000" />
@@ -50,7 +52,8 @@
 	<!-- TABLA -->
 	<h:form enctype="multipart/form-data" id="tabla">
 		<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
-		<p:panel id="basic" header="Participación como Sinodales de Coordinadores y Docentes de Licenciatura"
+		<p:panel id="basic"
+			header="Participación como Sinodales de Coordinadores y Docentes de Licenciatura"
 			style="margin-bottom:20px">
 			<p:dataTable var="datos" value="#{S_Sinodal.lista}" id="tb"
 				emptyMessage="No hay registros..."
@@ -81,7 +84,7 @@
 					style="width:32px;text-align: center;font-size:12px">
 					<h:outputText value="#{datos.alumno}" />
 				</p:column>
-				
+
 				<p:column headerText="Rol"
 					style="width:32px;text-align: center;font-size:12px"
 					filterBy="#{datos.rol}" filterMatchMode="contains">
@@ -104,8 +107,8 @@
 				<p:column headerText="Modificar Evidencia"
 					style="width:5px;text-align: center;font-size:12px">
 					<p:commandButton oncomplete="PF('dlgEvi').show();"
-						update=":UpdEvi:dlgEvi" action="#{S_Sinodal.actualizarDemo(datos)}"
-						icon="ui-icon-pencil">
+						update=":UpdEvi:dlgEvi"
+						action="#{S_Sinodal.actualizarDemo(datos)}" icon="ui-icon-pencil">
 					</p:commandButton>
 				</p:column>
 
@@ -118,7 +121,7 @@
 						<p:confirm header="Confirmación" message="¿Estas seguro?"
 							icon="ui-icon-alert" />
 					</p:commandButton>
-					
+
 				</p:column>
 			</p:dataTable>
 		</p:panel>
@@ -135,9 +138,12 @@
 				<h:outputLabel value="Última modificación" />
 				<h:outputLabel value="#{S_Sinodal.licSeleccionada.nombreodif}" />
 
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{S_Sinodal.licSeleccionada.fechamodif}" />
+
 				<h:outputLabel value="* Proyecto" />
 				<p:inputText value="#{S_Sinodal.licSeleccionada.proyecto}"
-					onkeypress="return  numYletras(event)" maxlength="80"
+					onkeypress="return  numYletras(event)" maxlength="150"
 					required="true" />
 
 				<h:outputLabel value="* Nivel" />
@@ -150,7 +156,7 @@
 
 				<h:outputLabel value="* Fecha de Titulación" />
 				<p:inputMask value="#{S_Sinodal.licSeleccionada.fechatitulacion}"
-					mask="9999/99/99"  onkeypress="return numeros(event)"
+					mask="9999/99/99" onkeypress="return numeros(event)"
 					required="true" />
 
 				<h:outputLabel value="* Alumno" />
@@ -180,6 +186,9 @@
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel value="Última modificación" />
 				<h:outputLabel value="#{S_Sinodal.licSeleccionada.nombreodif}" />
+
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{S_Sinodal.licSeleccionada.fechamodif}" />
 
 				<h:outputLabel value="Evidencia"></h:outputLabel>
 				<p:fileUpload value="#{S_Sinodal.licSeleccionada.evidencia}"

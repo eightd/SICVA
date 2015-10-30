@@ -9,6 +9,8 @@
 	</f:metadata>
 </h:head>
 <h:body>
+	<p:outputLabel
+		rendered="#{ControladorLogin.verificarSesion() eq false}" />
 	<h:form id="form">
 		<h:outputScript library="js" name="validaciones.js" />
 
@@ -53,7 +55,7 @@
 
 	<!-- TABLA -->
 	<h:form enctype="multipart/form-data" id="tabla">
-		<p:growl id="messages" showDetail="true"  sticky="false" life="1000"/>
+		<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
 		<p:panel id="basic"
 			header="Comisiones de Coordinadores y Docentes de Licenciatura"
 			style="margin-bottom:20px">
@@ -91,7 +93,7 @@
 					style="width:32px;text-align: center;font-size:12px">
 					<h:outputText value="#{datos.participacion}" />
 				</p:column>
-				
+
 				<p:column headerText="Rol"
 					style="width:32px;text-align: center;font-size:12px"
 					filterBy="#{datos.rol}" filterMatchMode="contains">
@@ -150,6 +152,9 @@
 				<h:outputLabel value="Última modificación" />
 				<h:outputLabel value="#{S_Comisiones.licSeleccionada.nombreodif}" />
 
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{S_Comisiones.licSeleccionada.fechamodif}" />
+
 				<h:outputLabel value="* Fecha" />
 				<p:inputMask value="#{S_Comisiones.licSeleccionada.fecha}"
 					mask="9999/99/99 - 9999/99/99" onkeypress="return numeros(event)"
@@ -189,6 +194,9 @@
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel value="Última modificación" />
 				<h:outputLabel value="#{S_Comisiones.licSeleccionada.nombreodif}" />
+
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{S_Comisiones.licSeleccionada.fechamodif}" />
 
 				<h:outputLabel value="Evidencia"></h:outputLabel>
 				<p:fileUpload value="#{S_Comisiones.licSeleccionada.evidencia}"

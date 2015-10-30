@@ -17,12 +17,14 @@
 			document.getElenentById('id="BtnMostrar').disabled = true
 		}
 	</script>
-	
+
 	<f:metadata>
 		<f:viewAction action="#{Miembro.init}" />
 	</f:metadata>
 </h:head>
 <h:body>
+	<p:outputLabel
+		rendered="#{ControladorLogin.verificarSesion() eq false}" />
 	<h:form id="form">
 		<h:outputScript library="js" name="validaciones.js" />
 
@@ -86,7 +88,7 @@
 			<div id='oculto' style='display: none;'>
 				<center>
 
-					<p:growl id="messages" showDetail="true" sticky="false" life="1000"/>
+					<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
 					<h:outputLabel value="NUEVO MIEMBRO DE ORGANIZACIÓN" />
 					<br /> <br />
 					<p:panelGrid columns="2" cellpadding="5"
@@ -107,14 +109,12 @@
 
 						<h:outputLabel value="* Organización" />
 						<p:inputText value="#{Miembro.miembroDTO.organizacion}"
-							onkeypress="return  soloLetras(event)" maxlength="50"
+							onkeypress="return  soloLetras(event)" maxlength="80"
 							required="true" />
-
-
 
 						<h:outputLabel value="* Nombramiento" />
 						<p:inputText value="#{Miembro.miembroDTO.nombramiento}"
-							onkeypress="return  soloLetras(event)" maxlength="50"
+							onkeypress="return  soloLetras(event)" maxlength="45"
 							required="true" />
 
 						<h:outputLabel value="Imagen"></h:outputLabel>
@@ -133,7 +133,7 @@
 	</h:form>
 	<!-- TABLA -->
 	<h:form enctype="multipart/form-data" id="tabla">
-		<p:growl id="messages" showDetail="true" sticky="false" life="1000"/>
+		<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
 		<p:panel id="basic" header="Registros de Miembro de Organización"
 			style="margin-bottom:20px">
 			<p:dataTable var="datos" value="#{Miembro.lista}" id="tb"
@@ -165,7 +165,7 @@
 				</p:column>
 
 				<p:column headerText="Evidencia"
-					style="width:32px;text-align: center;font-size:12px">
+					style="width:5px;text-align: center;font-size:12px">
 					<h:outputText value="#{datos.existencia}" />
 				</p:column>
 
@@ -217,6 +217,9 @@
 				<h:outputLabel value="Última modificación" />
 				<h:outputLabel value="#{Miembro.licSeleccionada.nombreodif}" />
 
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{Miembro.licSeleccionada.fechamodif}" />
+
 				<h:outputLabel value="* Licenciatura Inscrita" />
 				<p:selectOneMenu value="#{Miembro.licSeleccionada.idlic}"
 					style="width:210px">
@@ -232,12 +235,12 @@
 
 				<h:outputLabel value="* Organización" />
 				<p:inputText value="#{Miembro.licSeleccionada.organizacion}"
-					onkeypress="return  soloLetras(event)" maxlength="50"
+					onkeypress="return  soloLetras(event)" maxlength="80"
 					required="true" />
 
 				<h:outputLabel value="* Nombramiento" />
 				<p:inputText value="#{Miembro.licSeleccionada.nombramiento}"
-					onkeypress="return  soloLetras(event)" maxlength="50"
+					onkeypress="return  soloLetras(event)" maxlength="45"
 					required="true" />
 
 
@@ -255,6 +258,9 @@
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel value="Última modificación" />
 				<h:outputLabel value="#{Miembro.licSeleccionada.nombreodif}" />
+
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{Miembro.licSeleccionada.fechamodif}" />
 
 				<h:outputLabel value="Evidencia"></h:outputLabel>
 				<p:fileUpload value="#{Miembro.licSeleccionada.evidencia}"

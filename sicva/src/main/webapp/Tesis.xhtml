@@ -58,6 +58,8 @@
 
 </h:head>
 <h:body>
+	<p:outputLabel
+		rendered="#{ControladorLogin.verificarSesion() eq false}" />
 	<h:form id="form">
 		<h:outputScript library="js" name="validaciones.js" />
 
@@ -119,7 +121,7 @@
 			<div id='oculto' style='display: none;'>
 				<center>
 
-					<p:growl id="messages" showDetail="true" sticky="false" life="1000"/>
+					<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
 					<h:outputLabel value="NUEVA ASESORÍA DE TESIS" />
 					<br /> <br />
 					<p:panelGrid columns="2" cellpadding="5"
@@ -135,7 +137,7 @@
 
 						<h:outputLabel value="* Proyecto" />
 						<p:inputText value="#{Tesis.tesisDTO.proyecto}"
-							onkeypress="return  numYletras(event)" maxlength="80"
+							onkeypress="return  numYletras(event)" maxlength="150"
 							required="true" />
 
 						<h:outputLabel value="* Nivel" />
@@ -171,7 +173,7 @@
 	</h:form>
 	<!-- TABLA -->
 	<h:form enctype="multipart/form-data" id="tabla">
-		<p:growl id="messages" showDetail="true" sticky="false" life="1000"/>
+		<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
 		<p:panel id="basic" header="Registros de Asesoría de Tesis"
 			style="margin-bottom:20px">
 			<p:dataTable var="datos" value="#{Tesis.lista}" id="tb"
@@ -208,7 +210,7 @@
 				</p:column>
 
 				<p:column headerText="Evidencia"
-					style="width:32px;text-align: center;font-size:12px">
+					style="width:5px;text-align: center;font-size:12px">
 					<h:outputText value="#{datos.existencia}" />
 				</p:column>
 
@@ -259,6 +261,9 @@
 				<h:outputLabel value="Última modificación" />
 				<h:outputLabel value="#{Tesis.licSeleccionada.nombreodif}" />
 
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{Tesis.licSeleccionada.fechamodif}" />
+
 				<h:outputLabel value="* Licenciatura Inscrita" />
 				<p:selectOneMenu value="#{Tesis.licSeleccionada.idlic}"
 					style="width:210px">
@@ -269,7 +274,7 @@
 
 				<h:outputLabel value="* Proyecto" />
 				<p:inputText value="#{Tesis.licSeleccionada.proyecto}"
-					onkeypress="return  numYletras(event)" maxlength="80"
+					onkeypress="return  numYletras(event)" maxlength="150"
 					required="true" />
 
 				<h:outputLabel value="* Nivel" />
@@ -306,6 +311,9 @@
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel value="Última modificación" />
 				<h:outputLabel value="#{Tesis.licSeleccionada.nombreodif}" />
+
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{Tesis.licSeleccionada.fechamodif}" />
 
 				<h:outputLabel value="Evidencia"></h:outputLabel>
 				<p:fileUpload value="#{Tesis.licSeleccionada.evidencia}"

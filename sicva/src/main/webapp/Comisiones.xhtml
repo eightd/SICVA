@@ -4,25 +4,27 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-<script type="text/javascript">
-	function mostrar() {
-		document.getElementById('oculto').style.display = 'block';
-		document.getElenentById('id="BtnMostrar').style.display = 'none'
-		document.getElenentById('id="BtnMostrar').disabled = false
-		document.getElenentById('id="BtnOcultar').disabled = true
-	}
-	function ocultar() {
-		document.getElementById('oculto').style.display = 'none';
-		document.getElenentById('id="BtnOcultar').disabled = false
-		document.getElenentById('id="BtnMostrar').disabled = true
-	}
-</script>
+	<script type="text/javascript">
+		function mostrar() {
+			document.getElementById('oculto').style.display = 'block';
+			document.getElenentById('id="BtnMostrar').style.display = 'none'
+			document.getElenentById('id="BtnMostrar').disabled = false
+			document.getElenentById('id="BtnOcultar').disabled = true
+		}
+		function ocultar() {
+			document.getElementById('oculto').style.display = 'none';
+			document.getElenentById('id="BtnOcultar').disabled = false
+			document.getElenentById('id="BtnMostrar').disabled = true
+		}
+	</script>
 
-<f:metadata>
+	<f:metadata>
 		<f:viewAction action="#{Comisiones.init}" />
 	</f:metadata>
 </h:head>
 <h:body>
+	<p:outputLabel
+		rendered="#{ControladorLogin.verificarSesion() eq false}" />
 	<h:form id="form">
 		<h:outputScript library="js" name="validaciones.js" />
 
@@ -83,7 +85,7 @@
 			<div id='oculto' style='display: none;'>
 				<center>
 
-					<p:growl id="messages" showDetail="true"  sticky="false" life="1000" />
+					<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
 					<h:outputLabel value="NUEVA COMISION" />
 					<br /> <br />
 					<p:panelGrid columns="2" cellpadding="5"
@@ -142,7 +144,7 @@
 	</h:form>
 	<!-- TABLA -->
 	<h:form enctype="multipart/form-data" id="tabla">
-		<p:growl id="messages" showDetail="true" sticky="false" life="1000"/>
+		<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
 		<p:panel id="basic" header="Registros de Comisiones"
 			style="margin-bottom:20px">
 			<p:dataTable var="datos" value="#{Comisiones.lista}" id="tb"
@@ -183,9 +185,9 @@
 					style="width:32px;text-align: center;font-size:12px">
 					<h:outputText value="#{datos.participacion}" />
 				</p:column>
-				
+
 				<p:column headerText="Evidencia"
-					style="width:32px;text-align: center;font-size:12px">
+					style="width:5px;text-align: center;font-size:12px">
 					<h:outputText value="#{datos.existencia}" />
 				</p:column>
 
@@ -197,13 +199,12 @@
 						action="#{Comisiones.actualizarDemo(datos)}" icon="ui-icon-pencil">
 					</p:commandButton>
 				</p:column>
-				
+
 				<p:column headerText="Modificar Evidencia"
 					style="width:5px;text-align: center;font-size:12px">
 					<p:commandButton oncomplete="PF('dlgEvi').show();"
 						update=":UpdEvi:dlgEvi"
-						action="#{Comisiones.actualizarDemo(datos)}"
-						icon="ui-icon-pencil">
+						action="#{Comisiones.actualizarDemo(datos)}" icon="ui-icon-pencil">
 					</p:commandButton>
 				</p:column>
 
@@ -231,10 +232,13 @@
 			modal="true" hideEffect="explode" widgetVar="d" id="d">
 
 			<h:panelGrid columns="2" cellpadding="5" id="panGriPru">
-			
-			<h:outputLabel value="Última modificación" />
+
+				<h:outputLabel value="Última modificación" />
 				<h:outputLabel value="#{Comisiones.licSeleccionada.nombreodif}" />
-                  
+
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{Comisiones.licSeleccionada.fechamodif}" />
+
 				<h:outputLabel value="* Licenciatura Inscrita" />
 				<p:selectOneMenu value="#{Comisiones.licSeleccionada.idlic}"
 					style="width:210px">
@@ -273,7 +277,7 @@
 			</h:panelGrid>
 		</p:dialog>
 	</h:form>
-	
+
 	<!-- ACTUALIZAR EVIDENCIA (Pantalla emergente)-->
 	<h:form enctype="multipart/form-data" id="UpdEvi">
 		<p:dialog header="Actualizar Evidencia" showEffect="explode"
@@ -282,6 +286,9 @@
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel value="Última modificación" />
 				<h:outputLabel value="#{Comisiones.licSeleccionada.nombreodif}" />
+
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{Comisiones.licSeleccionada.fechamodif}" />
 
 				<h:outputLabel value="Evidencia"></h:outputLabel>
 				<p:fileUpload value="#{Comisiones.licSeleccionada.evidencia}"

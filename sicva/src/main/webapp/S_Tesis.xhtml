@@ -44,6 +44,8 @@
 
 </h:head>
 <h:body>
+	<p:outputLabel
+		rendered="#{ControladorLogin.verificarSesion() eq false}" />
 	<h:form id="form">
 		<h:outputScript library="js" name="validaciones.js" />
 
@@ -83,11 +85,12 @@
 		</p:menubar>
 		<br />
 	</h:form>
-	
+
 	<!-- TABLA -->
 	<h:form enctype="multipart/form-data" id="tabla">
-		<p:growl id="messages" showDetail="true"  sticky="false" life="1000"/>
-		<p:panel id="basic" header="Asesorías de Tesis de Coordinadores y Docentes de la Carrera"
+		<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
+		<p:panel id="basic"
+			header="Asesorías de Tesis de Coordinadores y Docentes de la Carrera"
 			style="margin-bottom:20px">
 			<p:dataTable var="datos" value="#{S_Tesis.lista}" id="tb"
 				emptyMessage="No hay registros..."
@@ -168,9 +171,12 @@
 				<h:outputLabel value="Última modificación" />
 				<h:outputLabel value="#{S_Tesis.licSeleccionada.nombreodif}" />
 
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{S_Tesis.licSeleccionada.fechamodif}" />
+
 				<h:outputLabel value="* Proyecto" />
 				<p:inputText value="#{S_Tesis.licSeleccionada.proyecto}"
-					onkeypress="return  numYletras(event)" maxlength="80"
+					onkeypress="return  numYletras(event)" maxlength="150"
 					required="true" />
 
 				<h:outputLabel value="* Nivel" />
@@ -205,6 +211,9 @@
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel value="Última modificación" />
 				<h:outputLabel value="#{S_Tesis.licSeleccionada.nombreodif}" />
+
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{S_Tesis.licSeleccionada.fechamodif}" />
 
 				<h:outputLabel value="Evidencia"></h:outputLabel>
 				<p:fileUpload value="#{S_Tesis.licSeleccionada.evidencia}"

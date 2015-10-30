@@ -9,6 +9,8 @@
 	</f:metadata>
 </h:head>
 <h:body>
+	<p:outputLabel
+		rendered="#{ControladorLogin.verificarSesion() eq false}" />
 	<h:form id="form">
 		<h:outputScript library="js" name="validaciones.js" />
 		<p:growl id="msj" showDetail="true" sticky="false" life="1000" />
@@ -51,8 +53,9 @@
 
 	<!-- TABLA -->
 	<h:form enctype="multipart/form-data" id="tabla">
-		<p:growl id="messages" showDetail="true"  sticky="false" life="1000"/>
-		<p:panel id="basic" header="Miembro de Organización de Coordinadores y Docentes de Licenciatura"
+		<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
+		<p:panel id="basic"
+			header="Miembro de Organización de Coordinadores y Docentes de Licenciatura"
 			style="margin-bottom:20px">
 			<p:dataTable var="datos" value="#{S_Miembro.lista}" id="tb"
 				emptyMessage="No hay registros..."
@@ -83,7 +86,7 @@
 					style="width:32px;text-align: center;font-size:12px">
 					<h:outputText value="#{datos.nombramiento}" />
 				</p:column>
-				
+
 				<p:column headerText="Rol"
 					style="width:32px;text-align: center;font-size:12px"
 					filterBy="#{datos.rol}" filterMatchMode="contains">
@@ -107,8 +110,8 @@
 				<p:column headerText="Modificar Evidencia"
 					style="width:5px;text-align: center;font-size:12px">
 					<p:commandButton oncomplete="PF('dlgEvi').show();"
-						update=":UpdEvi:dlgEvi" action="#{S_Miembro.actualizarDemo(datos)}"
-						icon="ui-icon-pencil">
+						update=":UpdEvi:dlgEvi"
+						action="#{S_Miembro.actualizarDemo(datos)}" icon="ui-icon-pencil">
 					</p:commandButton>
 				</p:column>
 
@@ -140,6 +143,9 @@
 				<h:outputLabel value="Última modificación" />
 				<h:outputLabel value="#{S_Miembro.licSeleccionada.nombreodif}" />
 
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{S_Miembro.licSeleccionada.fechamodif}" />
+
 				<h:outputLabel value="* Periodo" />
 				<p:inputMask value="#{S_Miembro.licSeleccionada.periodo}"
 					mask="9999/99/99 - 9999/99/99" onkeypress="return numeros(event)"
@@ -152,7 +158,7 @@
 
 				<h:outputLabel value="* Nombramiento" />
 				<p:inputText value="#{S_Miembro.licSeleccionada.nombramiento}"
-					onkeypress="return  soloLetras(event)" maxlength="50"
+					onkeypress="return  soloLetras(event)" maxlength="45"
 					required="true" />
 
 
@@ -170,6 +176,9 @@
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel value="Última modificación" />
 				<h:outputLabel value="#{S_Miembro.licSeleccionada.nombreodif}" />
+
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{S_Miembro.licSeleccionada.fechamodif}" />
 
 				<h:outputLabel value="Evidencia"></h:outputLabel>
 				<p:fileUpload value="#{S_Miembro.licSeleccionada.evidencia}"

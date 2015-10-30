@@ -9,6 +9,8 @@
 	</f:metadata>
 </h:head>
 <h:body>
+	<p:outputLabel
+		rendered="#{ControladorLogin.verificarSesion() eq false}" />
 	<h:form id="form">
 		<h:outputScript library="js" name="validaciones.js" />
 		<p:growl id="msj" showDetail="true" sticky="false" life="1000" />
@@ -48,11 +50,12 @@
 
 		<br />
 	</h:form>
-	
+
 	<!-- TABLA -->
 	<h:form enctype="multipart/form-data" id="tabla">
-		<p:growl id="messages" showDetail="true"  sticky="false" life="1000"/>
-		<p:panel id="basic" header="Publicaciones de Coordinadores y Docentes de Licenciatura"
+		<p:growl id="messages" showDetail="true" sticky="false" life="1000" />
+		<p:panel id="basic"
+			header="Publicaciones de Coordinadores y Docentes de Licenciatura"
 			style="margin-bottom:20px">
 			<p:dataTable var="datos" value="#{S_Publicaciones.lista}" id="tb"
 				emptyMessage="No hay registros..."
@@ -78,10 +81,10 @@
 					style="width:32px;text-align: center;font-size:12px">
 					<h:outputText value="#{datos.institucion}" />
 				</p:column>
-				
+
 				<p:column headerText="Rol"
 					style="width:32px;text-align: center;font-size:12px"
-							filterBy="#{datos.rol}" filterMatchMode="contains">
+					filterBy="#{datos.rol}" filterMatchMode="contains">
 					<h:outputText value="#{datos.rol}" />
 				</p:column>
 
@@ -136,14 +139,17 @@
 				<h:outputLabel value="Última modificación" />
 				<h:outputLabel value="#{S_Publicaciones.licSeleccionada.nombreodif}" />
 
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{S_Publicaciones.licSeleccionada.fechamodif}" />
+
 				<h:outputLabel value="* Periodo" />
 				<p:inputMask value="#{S_Publicaciones.licSeleccionada.periodo}"
-					mask="9999/99" onkeypress="return  numeros(event)" maxlength="80"
+					mask="9999/99" onkeypress="return  numeros(event)" maxlength="45"
 					required="true" />
 
 				<h:outputLabel value="* Publicación" />
 				<p:inputText value="#{S_Publicaciones.licSeleccionada.publicacion}"
-					onkeypress="return  numYletras(event)" maxlength="80"
+					onkeypress="return  numYletras(event)" maxlength="150"
 					required="true" />
 
 				<h:outputLabel value="* Institución" />
@@ -156,7 +162,7 @@
 			</h:panelGrid>
 		</p:dialog>
 	</h:form>
-	
+
 	<!-- ACTUALIZAR EVIDENCIA (Pantalla emergente)-->
 	<h:form enctype="multipart/form-data" id="UpdEvi">
 		<p:dialog header="Actualizar Evidencia" showEffect="explode"
@@ -165,6 +171,9 @@
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel value="Última modificación" />
 				<h:outputLabel value="#{S_Publicaciones.licSeleccionada.nombreodif}" />
+
+				<h:outputLabel value="Fecha Modificación" />
+				<h:outputLabel value="#{S_Publicaciones.licSeleccionada.fechamodif}" />
 
 				<h:outputLabel value="Evidencia"></h:outputLabel>
 				<p:fileUpload value="#{S_Publicaciones.licSeleccionada.evidencia}"
