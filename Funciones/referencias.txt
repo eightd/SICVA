@@ -1,7 +1,7 @@
 DROP FUNCTION IF EXISTS sicva.insertar_bibliografias;
 CREATE FUNCTION sicva.`insertar_bibliografias`(
-Mibibliografia VARCHAR(500), 
-Mireferencia VARCHAR(500) ,MiId   INT(11)) RETURNS int(11)
+Mibibliografia VARCHAR(8000), 
+Mireferencia VARCHAR(8000) ,MiId   INT(11)) RETURNS int(11)
 BEGIN
    DECLARE contador   INT;
 
@@ -26,8 +26,8 @@ END;
 DROP FUNCTION IF EXISTS sicva.actualizar_bibliografias;
 CREATE FUNCTION sicva.`actualizar_bibliografias`(MiId               int(11),
 
-                               Mibibliografia VARCHAR(500),
-                               Mireferencia     VARCHAR(500)) RETURNS int(11)
+                               Mibibliografia VARCHAR(8000),
+                               Mireferencia     VARCHAR(8000)) RETURNS int(11)
 BEGIN
    DECLARE contador   INT;
 

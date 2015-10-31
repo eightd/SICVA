@@ -1,5 +1,5 @@
 DROP FUNCTION IF EXISTS sicva.insertar_criterios;
-CREATE FUNCTION sicva.`insertar_criterios`(Midescripcion VARCHAR(2000),   
+CREATE FUNCTION sicva.`insertar_criterios`(Midescripcion VARCHAR(8000),   
                                                                      MiIdprograma INT(11)) RETURNS int(11)
 BEGIN
    DECLARE contador   INT;
@@ -28,7 +28,7 @@ END;
 
 DROP FUNCTION IF EXISTS sicva.actualizar_criterios;
 CREATE FUNCTION sicva.`actualizar_criterios`(MiId               int(11),
-                               Midescripcion     VARCHAR(2000)) RETURNS int(11)
+                               Midescripcion     VARCHAR(8000)) RETURNS int(11)
 BEGIN
    DECLARE contador   INT;
 

@@ -1,6 +1,6 @@
 DROP FUNCTION IF EXISTS sicva.insertar_propositos_especificos;
-CREATE FUNCTION sicva.`insertar_propositos_especificos`(Miadeclarativo VARCHAR(2000),Miaprocedimental VARCHAR(2000), 
-Miavaloral VARCHAR(2000) , MiId   INT(11)) RETURNS int(11)
+CREATE FUNCTION sicva.`insertar_propositos_especificos`(Miadeclarativo VARCHAR(8000),Miaprocedimental VARCHAR(8000), 
+Miavaloral VARCHAR(8000) , MiId   INT(11)) RETURNS int(11)
 BEGIN
    DECLARE contador   INT;
 
@@ -27,9 +27,9 @@ END;
 DROP FUNCTION IF EXISTS sicva.actualizar_propositos_especificos;
 CREATE FUNCTION sicva.`actualizar_propositos_especificos`(MiId               int(11),
 
-                               Miadeclarativo VARCHAR(2000),
-                               Miaprocedimental     VARCHAR(2000),
-                               Miavaloral     VARCHAR(2000)) RETURNS int(11)
+                               Miadeclarativo VARCHAR(8000),
+                               Miaprocedimental     VARCHAR(8000),
+                               Miavaloral     VARCHAR(8000)) RETURNS int(11)
 BEGIN
    DECLARE contador   INT;
 

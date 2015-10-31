@@ -1,0 +1,114 @@
+DROP FUNCTION IF EXISTS sicva.insertar_dprincipales;
+CREATE FUNCTION sicva.`insertar_dprincipales`(Mnivel VARCHAR(45),
+                               Cu VARCHAR(45),
+                               Se VARCHAR(45),
+                               FechaE     DATE,
+                               FechaA     DATE,
+                               Ht     INT(11),
+                               Hp     INT(11),
+                               Hi      INT(11),
+                               Th     INT(11),
+                               Cd     INT(11),
+                               Idvi    INT(11)
+                              ) RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM datos_principales
+      WHERE   
+          idprograma_analitico= Idvi;
+
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+      INSERT INTO datos_principales( nivel_educativo, clave_unidad, 
+          seriacion,
+          fecha_elaboracion,
+          fecha_actualizacion,
+          horas_teoricas,
+          horas_practicas,
+          horas_independientes,
+          total_horas,
+          creditos,
+          idprograma_analitico)
+           VALUES ( Mnivel, Cu, Se, FechaE,
+           FechaA, Ht, Hp, Hi, Th,Cd,Idvi);
+
+      RETURN 1;
+   END IF;
+END;
+
+
+
+
+
+
+DROP FUNCTION IF EXISTS sicva.actualizar_dprincipales;
+CREATE FUNCTION sicva.`actualizar_dprincipales`(Idac INT(11),Mnivel VARCHAR(45),
+                               Cu VARCHAR(45),
+                               Se VARCHAR(45),
+                               FechaE     DATE,
+                               FechaA     DATE,
+                               Ht     INT(11),
+                               Hp     INT(11),
+                               Hi      INT(11),
+                               Th     INT(11),
+                               Cd     INT(11)) RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM datos_principales
+    WHERE    nivel_educativo = Mnivel
+          AND clave_unidad = Cu 
+          AND seriacion = Se
+          AND fecha_elaboracion =  FechaE 
+          AND fecha_actualizacion = FechaA
+          AND horas_teoricas = Ht
+          AND horas_practicas = Hp
+          AND horas_independientes = Hi
+          AND total_horas= Th
+          AND creditos= Cd;
+
+
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+      UPDATE datos_principales
+         SET nivel_educativo = Mnivel,
+         clave_unidad = Cu,
+         seriacion = Se,
+          fecha_elaboracion =  FechaE, 
+         fecha_actualizacion = FechaA,
+           horas_teoricas = Ht,
+          horas_practicas = Hp,
+           horas_independientes = Hi,
+      total_horas= Th,
+       creditos= Cd
+
+       WHERE iddatos_principales = Idac;
+
+
+
+      RETURN 1;
+   END IF;
+END;
+
+
+
+DROP FUNCTION IF EXISTS sicva.eliminar_dprincipales;
+CREATE FUNCTION sicva.`eliminar_dprincipales`(MiId int(11)) RETURNS int(11)
+BEGIN
+   DELETE FROM datos_principales
+         WHERE iddatos_principales = MiId;
+
+   RETURN 1;
+END;
+

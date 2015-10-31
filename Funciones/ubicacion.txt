@@ -1,8 +1,8 @@
 DROP FUNCTION IF EXISTS sicva.insertar_ubicacion;
-CREATE FUNCTION sicva.`insertar_ubicacion`(Micampo VARCHAR(2000),
-                                            Miproblema VARCHAR(2000),
-                                             Micompetencia VARCHAR(2000),
-                                              Miproposito VARCHAR(2000),
+CREATE FUNCTION sicva.`insertar_ubicacion`(Micampo VARCHAR(8000),
+                                            Miproblema VARCHAR(8000),
+                                             Micompetencia VARCHAR(8000),
+                                              Miproposito VARCHAR(8000),
                                                MiIdprograma INT(11)) RETURNS int(11)
 BEGIN
    DECLARE contador   INT;
@@ -28,10 +28,10 @@ END;
 
 DROP FUNCTION IF EXISTS sicva.actualizar_ubicacion;
 CREATE FUNCTION sicva.`actualizar_ubicacion`(MiId               int(11),
-                                 MiCampo            VARCHAR(2000),
-                                 Miproblema           VARCHAR(2000),
-                                 Micompetencia      VARCHAR(2000),
-                                 Miproposito            VARCHAR(2000)) RETURNS int(11)
+                                 MiCampo            VARCHAR(8000),
+                                 Miproblema           VARCHAR(8000),
+                                 Micompetencia      VARCHAR(8000),
+                                 Miproposito            VARCHAR(8000)) RETURNS int(11)
 BEGIN
    DECLARE contador   INT;
 

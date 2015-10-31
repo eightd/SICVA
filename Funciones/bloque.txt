@@ -3,11 +3,11 @@ CREATE FUNCTION sicva.`insertar_bloque`(Nb INT(11),
                                Fei     DATE,
                                Fef     DATE,
                                Fe     DATE,
-                               Te     VARCHAR(2000),
+                               Te     VARCHAR(8000),
                                He     INT(11),
-                               Sa     VARCHAR(2000),
-                               Re     VARCHAR(2000),
-                               Es     VARCHAR(2000),
+                               Sa     VARCHAR(8000),
+                               Re     VARCHAR(8000),
+                               Es     VARCHAR(8000),
                                Idpro    INT(11)) RETURNS int(11)
 BEGIN
    DECLARE contador   INT;
@@ -38,11 +38,11 @@ CREATE FUNCTION sicva.`actualizar_bloque`(Idac INT(11),
                                Fei     DATE,
                                Fef     DATE,
                                Fe     DATE,
-                               Te     VARCHAR(2000),
+                               Te     VARCHAR(8000),
                                He     INT(11),
-                               Sa     VARCHAR(2000),
-                               Re     VARCHAR(2000),
-                               Es     VARCHAR(45)) RETURNS int(11)
+                               Sa     VARCHAR(8000),
+                               Re     VARCHAR(8000),
+                               Es     VARCHAR(8000)) RETURNS int(11)
 BEGIN
    DECLARE contador   INT;
 

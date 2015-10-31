@@ -1,0 +1,22 @@
+DROP FUNCTION IF EXISTS sicva.insertar_programa;
+CREATE FUNCTION sicva.`insertar_programa`(Pidusu INT(11),Pidvi INT(11)) RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM programa_analitico
+    WHERE     id_usuario = Pidusu
+          AND id_vinculacion_materia = Pidvi;
+
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+      INSERT INTO programa_analitico(id_usuario,id_vinculacion_materia)
+           VALUES (Pidusu,Pidvi);
+
+      RETURN 1;
+   END IF;
+END;
