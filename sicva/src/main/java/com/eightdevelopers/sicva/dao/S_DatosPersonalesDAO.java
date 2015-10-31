@@ -1,5 +1,6 @@
 package com.eightdevelopers.sicva.dao;
 
+import java.io.InputStream;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +11,9 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.context.FacesContext;
+
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import com.eightdevelopers.sicva.db.ConexionBD;
 import com.eightdevelopers.sicva.dto.DatosPersonalesDTO;
@@ -28,6 +32,7 @@ public class S_DatosPersonalesDAO {
 
 	// LISTAR
 	public List<DatosPersonalesDTO> ListarDatosPersonales() {
+		 StreamedContent imagen=null;
 		System.out.println("Listando S_datosPersonales");
 		String licSesion = (obtenerValorSesion("lic"));
 		int lic_session = Integer.parseInt(licSesion);
@@ -73,6 +78,13 @@ public class S_DatosPersonalesDAO {
 				datospersonalesDTO.setExistencia(rs.getString("existencia"));
 				datospersonalesDTO.setName(rs.getString("name"));
 				datospersonalesDTO.setNombreodif(rs.getString("nombre_modi"));
+				datospersonalesDTO.setIdGrado(rs.getInt("grados_id_grado"));
+				System.out.println("aqui"+rs.getInt("grados_id_grado"));
+				InputStream img = rs.getBinaryStream("foto");
+				imagen = new DefaultStreamedContent(img, "image/jpg");
+				
+				datospersonalesDTO.setImagen(imagen);
+
 				listado.add(datospersonalesDTO);
 				found = true;
 			}
@@ -126,7 +138,7 @@ public class S_DatosPersonalesDAO {
 					conexionBD.abrir();
 					Connection connection = conexionBD.getConexion();
 
-					String sql = "{ ? = call actualizar_datospersonales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)} ";
+					String sql = "{ ? = call actualizar_datospersonales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)} ";
 
 					CallableStatement callableStatement = connection.prepareCall(sql);
 					callableStatement.registerOutParameter(1, Types.INTEGER);
@@ -151,6 +163,7 @@ public class S_DatosPersonalesDAO {
 					callableStatement.setString(16,Fecha);
 					callableStatement.setInt(17, datospersonalesDTO.getIdestadocivil());
 					callableStatement.setInt(18, datospersonalesDTO.getIdusuario());
+					callableStatement.setInt(19, datospersonalesDTO.getIdGrado());
 					callableStatement.execute();
 					Integer num = callableStatement.getInt(1);
 					connection.close();

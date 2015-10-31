@@ -207,7 +207,21 @@
 						action="#{Comisiones.actualizarDemo(datos)}" icon="ui-icon-pencil">
 					</p:commandButton>
 				</p:column>
+                
+                <p:column headerText="Descargar"
+					style="width:8px;text-align: center;font-size:12px"
+					exportable="false">
 
+					<p:commandButton icon="ui-icon-arrowthickstop-1-s" 
+						actionListener="#{Descargar.Comisiones}" ajax="false" disabled="#{datos.existencia=='NO'}">
+						
+						
+						<f:attribute name="idComisiones" value="#{datos.idusuario}" />
+						<f:attribute name="idNum" value="#{datos.id}" />
+						<p:fileDownload value="#{Descargar.file}" />
+					</p:commandButton>
+				</p:column>
+                
 				<p:column headerText="Eliminar"
 					style="width:5px;text-align: center;font-size:12px"
 					exportable="false">

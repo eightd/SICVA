@@ -1,5 +1,6 @@
 package com.eightdevelopers.sicva.dao;
 
+import java.io.InputStream;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +15,10 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.faces.context.FacesContext;
+
+import org.primefaces.context.RequestContext;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import com.eightdevelopers.sicva.db.ConexionBD;
 import com.eightdevelopers.sicva.dto.DatosPersonalesDTO;
@@ -102,7 +107,7 @@ public class DatosPersonalesDAO {
 	 * @return
 	 */
 	public List<DatosPersonalesDTO> listarasistenciacursos() {
-
+	 StreamedContent imagen=null;
 		try {
 			String valor = obtenerValorSesion("id");
 			int id_session;
@@ -144,7 +149,11 @@ public class DatosPersonalesDAO {
 				asistenciacursosDTO.setNombreodif(rs.getString("nombre_modi"));
 				asistenciacursosDTO.setExistencia(rs.getString("exitencia"));
 				asistenciacursosDTO.setIdGrado(rs.getInt("grados_id_grado"));
-
+				InputStream img = rs.getBinaryStream("foto");
+				
+				imagen = new DefaultStreamedContent(img, "image/jpg");
+			    asistenciacursosDTO.setImagen(imagen);
+			  
 				listado.add(asistenciacursosDTO);
 				found = true;
 			}

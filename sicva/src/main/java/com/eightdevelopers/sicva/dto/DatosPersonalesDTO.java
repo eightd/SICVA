@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 @ManagedBean
@@ -30,16 +31,6 @@ public class DatosPersonalesDTO implements Serializable {
 	private String tel;
 	private String email;
 	private String facebook;
-	private Integer idGrado;
-	
-	public Integer getIdGrado() {
-		return idGrado;
-	}
-
-	public void setIdGrado(Integer idGrado) {
-		this.idGrado = idGrado;
-	}
-
 	// se cambia el tipo para la foto de StreamedContent a UploadedFile
 	private UploadedFile foto;
 	private Integer idmodif;
@@ -49,9 +40,21 @@ public class DatosPersonalesDTO implements Serializable {
 	private String nombreodif;
 	private String fechamodif;
 	private String existencia;
+	private Integer idGrado;
 	// tipos de datos para uso exclusivo de una secretaria
 	private String name;
 	private String rol;
+    
+	private StreamedContent imagen;
+	
+	
+	public StreamedContent getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(StreamedContent imagen) {
+		this.imagen = imagen;
+	}
 
 	public Integer getId() {
 		return id;
@@ -235,6 +238,14 @@ public class DatosPersonalesDTO implements Serializable {
 
 	public void setFechamodif(String fechamodif) {
 		this.fechamodif = fechamodif;
+	}
+
+	public Integer getIdGrado() {
+		return idGrado;
+	}
+
+	public void setIdGrado(Integer idGrado) {
+		this.idGrado = idGrado;
 	}
 
 }

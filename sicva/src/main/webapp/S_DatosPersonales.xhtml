@@ -86,15 +86,18 @@
 						update=":actualizar:d"
 						action="#{S_DatosPersonales.UpdateDatos(datos)}"
 						icon="ui-icon-pencil">
-					</p:commandButton>
+				
+			        </p:commandButton>
 				</p:column>
 
 				<p:column headerText="Modificar Foto"
 					style="width:5px;text-align: center;font-size:12px">
 					<p:commandButton oncomplete="PF('dlgEvi').show();"
 						update=":UpdEvi:dlgEvi"
-						action="#{S_DatosPersonales.UpdateDatos(datos)}"
+						action="#{S_DatosPersonales.UpdateDatos(datos)}" 
 						icon="ui-icon-pencil">
+				
+							
 					</p:commandButton>
 				</p:column>
 
@@ -236,6 +239,10 @@
 			modal="true" hideEffect="explode" widgetVar="dlgEvi" id="dlgEvi">
 
 			<h:panelGrid columns="2" cellpadding="5">
+			    <f:facet name="header">
+						<p:graphicImage  value="#{foto.imagen}" width="200" height="250" cache="false"/>
+				</f:facet>
+				
 				<h:outputLabel value="Última modificación" />
 				<h:outputLabel
 					value="#{S_DatosPersonales.licSeleccionada.nombreodif}" />
