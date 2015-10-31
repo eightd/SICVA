@@ -1,0 +1,66 @@
+DROP FUNCTION IF EXISTS sicva.insertar_propositos_especificos;
+CREATE FUNCTION sicva.`insertar_propositos_especificos`(Miadeclarativo VARCHAR(2000),Miaprocedimental VARCHAR(2000), 
+Miavaloral VARCHAR(2000) , MiId   INT(11)) RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM propositos_especificos
+    WHERE   
+          idprograma_analitico = MiId;
+
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+      INSERT INTO propositos_especificos(adeclarativo,
+                             aprocedimental,
+                             avaloral,idprograma_analitico)
+           VALUES (Miadeclarativo,Miaprocedimental,Miavaloral,MiId);
+
+      RETURN 1;
+   END IF;
+END;
+
+DROP FUNCTION IF EXISTS sicva.actualizar_propositos_especificos;
+CREATE FUNCTION sicva.`actualizar_propositos_especificos`(MiId               int(11),
+
+                               Miadeclarativo VARCHAR(2000),
+                               Miaprocedimental     VARCHAR(2000),
+                               Miavaloral     VARCHAR(2000)) RETURNS int(11)
+BEGIN
+   DECLARE contador   INT;
+
+   SELECT COUNT(*)
+     INTO contador
+     FROM propositos_especificos
+    WHERE     adeclarativo = Miadeclarativo
+          AND aprocedimental = Miaprocedimental 
+          AND avaloral = Miavaloral;
+
+
+   IF (contador > 0)
+   THEN
+      RETURN 0;
+   ELSE
+     UPDATE propositos_especificos
+         SET  adeclarativo = Miadeclarativo,
+         aprocedimental = Miaprocedimental,
+       avaloral = Miavaloral
+
+      WHERE idpropositos_especificos= MiId;
+
+      RETURN 1;
+   END IF;
+END;
+
+DROP FUNCTION IF EXISTS sicva.eliminar_propositos_especificos;
+CREATE FUNCTION sicva.`eliminar_propositos_especificos`(MiId int(11)) RETURNS int(11)
+BEGIN
+   DELETE FROM propositos_especificos
+         WHERE idpropositos_especificos= MiId;
+
+   RETURN 1;
+END;
